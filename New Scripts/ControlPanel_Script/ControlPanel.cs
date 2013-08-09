@@ -623,6 +623,8 @@ public class ControlPanel : MonoBehaviour {
 	public GUIStyle sty_SysInfo;
 	//蓝色光标
 	public GUIStyle sty_BlueCursor;
+	//定义恢复出厂设置窗口字体  添加 BY王广官
+	public GUIStyle sty_ResetWindow;
 	
 	//内容--定义布尔变量，控制System、Message的显示，姓名--刘旋，时间--2013-4-24
 	public bool SystemMenu=false;
@@ -1601,7 +1603,8 @@ public class ControlPanel : MonoBehaviour {
 			PlayerPrefs.SetInt("ModeSelect", 1);
 			mode_type = 1;
 		}
-		switch(mode_type)		{
+		switch(mode_type)
+		{
 		case 1:
 			t2d_ModeSelect = t2d_ModeSelectEDIT;
 			MenuDisplay = "编辑";

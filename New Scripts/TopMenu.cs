@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 public class TopMenu : MonoBehaviour {
 	
-	const int MenuNumber = 7;
+	const int MenuNumber = 8;
 	float btn_width = 100f;
 	float btn_height = 45f;
-	float btn_start_pos = 300f;
-	string[] btn_name = new string[] {"隐藏机床外壳", "视图控制", "轨迹线控制", "刀具控制", "机床速率控制", "毛坯控制", "退出程序"};
+	float btn_start_pos = 250f;  //300f改成250f    添加BY王广官
+	string[] btn_name = new string[] {"隐藏机床外壳", "视图控制", "轨迹线控制", "刀具控制", "机床速率控制", "毛坯控制","恢复出厂设置", "退出程序"};//添加恢复出厂设置功能 BY王广官
 	private string hide_skin = "隐藏机床外壳";
 	private string show_skin = "显示机床外壳";
 	private bool skin_on = true;
@@ -28,6 +28,7 @@ public class TopMenu : MonoBehaviour {
 	AutoToolChangeModule ToolChange_Script;
 	ControlPanel Main;
 	AutoMoveModule AutoMove_Script;
+	ProgramReset Reset_Script;
 	
 
 	// Use this for initialization
@@ -38,6 +39,8 @@ public class TopMenu : MonoBehaviour {
 		ToolChange_Script = GameObject.Find("ToolChange").GetComponent<AutoToolChangeModule>();
 		AutoMove_Script = GameObject.Find("AutoMove").GetComponent<AutoMoveModule>();
 		Main = gameObject.GetComponent<ControlPanel>();
+		gameObject.AddComponent ("ProgramReset");
+		Reset_Script = gameObject.GetComponent <ProgramReset>();
 		dynamic_height = -btn_height;
 		min_height = -btn_height;
 		max_height = 0;
@@ -84,6 +87,9 @@ public class TopMenu : MonoBehaviour {
 					AutoMove_Script.display_menu = true;
 				
 				if(i == 6)
+					Reset_Script.display_menu = true;
+					
+				if(i == 7)
 				{
 					PlayerPrefs.SetInt("RunningTimeH", Main.RunningTimeH);
 					PlayerPrefs.SetInt("RunningTimeM", Main.RunningTimeM);

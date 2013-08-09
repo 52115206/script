@@ -135,13 +135,12 @@ public class NCCodeFormat : MonoBehaviour {
 	/// <param name='file_name'>
 	/// NC 程序的程序名，O0010可以简写为O10
 	/// </param>
-	public List<string> AllCode (string file_name) 
+	public List<string> AllCode (string file_name, ref bool open_flag) 
 	{
-		
 		//Initialize the return value. 
 		List<string> all_code_list = new List<string>();
 		//Temporal code data. 
-		List<string> all_code_temp = CodeLoad(file_name);
+		List<string> all_code_temp = CodeLoad(file_name, ref open_flag);
 		//Temporal code segment data. 
 		List<string> temp_str_list = new List<string>();
 		//Format code segment.
@@ -303,7 +302,7 @@ public class NCCodeFormat : MonoBehaviour {
 	/// <param name='filename'>
 	/// NC程序的程序名
 	/// </param>
-	public List<string> CodeLoad (string filename)
+	public List<string> CodeLoad (string filename, ref bool open_flag)
 	{
 		List<string> original_code = new List<string>();
 		bool success_open = true;
@@ -364,19 +363,35 @@ public class NCCodeFormat : MonoBehaviour {
 							code_SR.Close();
 						}
 						else
+						{
 							Debug.LogError("Unexpected error! Program: " + temp_name + " disappears.  Error caused by Eric.");
+							success_open = false;
+						}
 					}//4 level
 					else
+					{
 						Debug.LogWarning("Can't find Program: " + temp_name + " in current working directory!  Warning caused by Eric.");
+						success_open = false;
+					}
 				}//3 level
 				else
+				{
 					Debug.LogError("格式错误! Error caused by Eric.");
+					success_open = false;
+				}
 			}//2 level
 			else
+			{
 				Debug.LogError("格式错误! Error caused by Eric.");
+				success_open = false;
+			}
 		}//1 level
 		else
+		{
+			success_open = false;
 			Debug.LogWarning("Can't find any file in current working directory. 	Warning caused by Eric.");
+		}
+		open_flag = success_open;
 		return original_code;
 	}
 	

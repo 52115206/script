@@ -69,6 +69,7 @@ public class EntranceScript : MonoBehaviour {
 
 	void Load(string filename)
 	{
+		bool open_flag = false;
 		test_str = "";
 		if(SourceCode != null)
 		{
@@ -76,7 +77,7 @@ public class EntranceScript : MonoBehaviour {
 			SourceCode = null;
 		}
 		SourceCode = new List<List<string>>();
-		List<string> temp_code_load = NCCodeFormat_Script.AllCode(filename);
+		List<string> temp_code_load = NCCodeFormat_Script.AllCode(filename, ref open_flag);
 		List<string> temp_code_add = new List<string>();
 		string temp_code_str = "";
 		for(int i = 0; i < temp_code_load.Count; i++)

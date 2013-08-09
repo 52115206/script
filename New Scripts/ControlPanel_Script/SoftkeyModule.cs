@@ -18,7 +18,7 @@ public class SoftkeyModule : MonoBehaviour {
 	bool presetAndZero=false; //
 	//位置界面功能完善---宋荣 ---03.09
 	//Improvement for the RPOG part by Eric---03.28
-	string document_path = "";
+	public string document_path = "";
 	bool file_open = false;
 	public bool EditList_display_switcher = false;
 	Dictionary<char,float> strlenmap;
@@ -1364,10 +1364,12 @@ public class SoftkeyModule : MonoBehaviour {
 						get_fileinfo = new FileInfo(fullname);
 						Main.FileDateList.Add(get_fileinfo.LastWriteTime.ToString("yyyy/MM/dd HH:mm:ss"));
 						fileSize = (int)(get_fileinfo.Length / 1024);
+//						Main.ProgUsedSpace+=fileSize;
 						if(fileSize * 1204 < get_fileinfo.Length)
 							fileSize++;
 						Main.FileSizeList.Add(fileSize);
 						Main.ProgUsedSpace += fileSize;
+//						Main.ProgUnusedSpace -= fileSize;
 					}
 				}
 				//Initialize some arquments for display
@@ -1417,7 +1419,15 @@ public class SoftkeyModule : MonoBehaviour {
 				}
 			}// 10 level
 			else
+			{
+				for(int j=0;j<8;j++)                 //添加代码（原先存在问题：最后一个代码文件Delete后列表刷新不了）       添加BY王广官
+				{
+					Main.CodeName[j] = "";
+				}
+				Array.Clear(Main.CodeSize, 0, Main.CodeSize.Length);
+				Array.Clear(Main.UpdateDate,0,Main.UpdateDate.Length);
 				Debug.LogWarning("Can't find any file in current working directory. 	Warning caused by Eric.");
+			}
 		}
 		else
 			Debug.LogError("The file directory doesn't exist. 	Error caused by Eric.");
@@ -1517,9 +1527,9 @@ public class SoftkeyModule : MonoBehaviour {
 	/// </summary>
 	public void O_Search() 
 	{
+		bool open_success = false;
 		string file_name = "";
 		int temp_reallistnum = Main.RealListNum;
-		bool open_success = false;
 		//无输入或者输入为"O"时
 		if(Main.InputText == "" || Main.InputText == "O")
 		{
@@ -1539,40 +1549,39 @@ public class SoftkeyModule : MonoBehaviour {
 		
 		//从文件加载NC代码
 		List<string> temp_code_list =new List<string>();
-		temp_code_list = NCCodeFormat_Script.AllCode(file_name);
-		if(temp_code_list.Count > 0)
+		temp_code_list = NCCodeFormat_Script.AllCode(file_name, ref open_success);
+		if(open_success)
 		{
-			if(temp_code_list[temp_code_list.Count-1] == "")
-				temp_code_list.RemoveAt(temp_code_list.Count - 1);
 			if(temp_code_list.Count > 0)
 			{
-				Main.CodeForAll.Clear();
-				Main.CodeForAll = new List<string>();
-				Main.CodeForAll = temp_code_list;
-				Main.RealCodeNum=1;
-				Main.HorizontalNum=1;
-				Main.VerticalNum=1;
-				Main.TotalCodeNum=Main.CodeForAll.Count;
-				Main.StartRow = 0;
-				Main.EndRow = SystemArguments.EditLineNumber;
-				Main.ProgEDITCusorH=0;
-				Main.ProgEDITCusorV=0;
-				Main.SelectStart = 0;
-				Main.SelectEnd = 0;
-				Main.TextSize=Main.sty_EDITTextField.CalcSize(new GUIContent(Main.EDITText.text));
-				open_success = true;
-				Main.ProgEDITList = false;
-				Main.ProgEDITProg = true;
-				Main.ProgEDITAt = true;
-				Main.at_position = Main.RealListNum%8;	
-				Main.at_page_number = (Main.RealListNum - 1)/8;
-				Main.beModifed = true;
-				calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
+				if(temp_code_list[temp_code_list.Count-1] == "")
+					temp_code_list.RemoveAt(temp_code_list.Count - 1);
 			}
+			Main.CodeForAll.Clear();
+			Main.CodeForAll = new List<string>();
+			Main.CodeForAll = temp_code_list;
+			Main.RealCodeNum=1;
+			Main.HorizontalNum=1;
+			Main.VerticalNum=1;
+			Main.TotalCodeNum=Main.CodeForAll.Count;
+			Main.StartRow = 0;
+			Main.EndRow = SystemArguments.EditLineNumber;
+			Main.ProgEDITCusorH=0;
+			Main.ProgEDITCusorV=0;
+			Main.SelectStart = 0;
+			Main.SelectEnd = 0;
+			Main.TextSize=Main.sty_EDITTextField.CalcSize(new GUIContent(Main.EDITText.text));
+			Main.ProgEDITList = false;
+			Main.ProgEDITProg = true;
+			Main.ProgEDITAt = true;
+			Main.at_position = Main.RealListNum%8;	
+			Main.at_page_number = (Main.RealListNum - 1)/8;
+			Main.beModifed = true;
+			calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
 		}
-		if(open_success == false)
+		else
 		{
-			Main.RealListNum = temp_reallistnum;	
+			Main.RealListNum = temp_reallistnum;
 		}
 		Main.InputText="";
 		Main .ProgEDITCusorPos = Main.corner_px + 23.5f;

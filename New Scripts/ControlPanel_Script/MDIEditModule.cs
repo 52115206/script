@@ -18,6 +18,9 @@ public class MDIEditModule : MonoBehaviour {
 	public float l_y=34;
 	public float left_x=57;
 	public float left_y=53;
+	
+	bool NewProg_flag = false;
+	
 	// Use this for initialization
 	void Awake()
 	{
@@ -41,13 +44,14 @@ public class MDIEditModule : MonoBehaviour {
 			{
 				if(Main.InputText != "")
 				{
-					char[] TempCharArray = Main.InputText.ToCharArray();
-					string TempStr = "";
-					for(int i = 0; i < TempCharArray.Length - 1; i++)
-					{
-						TempStr += TempCharArray[i];
-					}
-					Main.InputText = TempStr;
+					Main.InputText=Main.InputText.Remove(Main.InputText.Length-1,1);      //代替下面被注释掉的代码    BY王广官
+//					char[] TempCharArray = Main.InputText.ToCharArray();
+//					string TempStr = "";
+//					for(int i = 0; i < TempCharArray.Length - 1; i++)
+//					{
+//						TempStr += TempCharArray[i];
+//					}
+//					Main.InputText = TempStr;
 					Main.CursorText.text = Main.InputText;
 					Main.InputTextSize = Main.sty_InputTextField.CalcSize(new GUIContent(Main.CursorText.text));
 					Main.ProgEDITCusorPos = Main.corner_px + 23.5f + Main.InputTextSize.x;
@@ -82,6 +86,8 @@ public class MDIEditModule : MonoBehaviour {
 							{
 								AlterCode();	
 								Main.beModifed = true;
+								if (Main.ProgEDITProg)                      //tianjia BY WGG
+									ModifyProg();
 							}	
 						}
 					}
@@ -104,12 +110,15 @@ public class MDIEditModule : MonoBehaviour {
 					{
 						Main.ProgProtectWarn = false;
 						Main.WarnningClear();
-						if(Main.ProgEDIT|| Main.ProgMDI)
+						if(Main.ProgEDITProg|| Main.ProgMDI)
 						{
 							if(Main.InputText != "")
 							{
-								InsertCode();	
+								InsertCode();
 								Main.beModifed = true;
+								if (Main.ProgEDITProg && !NewProg_flag)        //tianjia By WGG
+									ModifyProg();
+								NewProg_flag = false;
 							}	
 						}
 					}
@@ -121,7 +130,7 @@ public class MDIEditModule : MonoBehaviour {
 		{
 			if(Main.ScreenPower)
 			{
-				if(Main.ProgMenu)
+				if(Main.ProgEDIT || Main.ProgMDI)
 				{
 					if(Main.ProgProtect)
 					{
@@ -132,21 +141,55 @@ public class MDIEditModule : MonoBehaviour {
 					{
 						Main.ProgProtectWarn = false;
 						Main.WarnningClear();
-						if(Main.ProgEDIT|| Main.ProgMDI)	
+						if(Main.ProgMDI)	
 						{
-							if(Main.ProgMDI)
-							{
-								if(Main.SelectStart == 0 || Main.SelectStart == 1)
+							if(Main.SelectStart == 0 || Main.SelectStart == 1)
 									return;
-							}
 							DeleteCode();	
 							Main.beModifed = true;
 						}
-					}
+						else if(Main.ProgEDIT)
+						{
+							if(Main.ProgEDITProg)
+							{
+								DeleteCode();	
+								Main.beModifed = true;
+								ModifyProg();                   //tianjia  BY WGG
+							}
+							else if(Main.ProgEDITList)
+							{
+								Regex Rex_input = new Regex(@"\bO[-]?\d{1,4}");
+								string temp_name = "";
+								int name_int = 0;
+								if(Main.InputText != "")
+								{	
+									if( Rex_input.Match(Main.InputText).Value.ToString() !="O-9999")
+									{
+										name_int = Convert.ToInt32(Main.InputText.Trim().Trim ('O',';','；'));
+										temp_name = "O"+Main.ToolNumFormat(name_int);
+										DeleteProgram(temp_name);
+									}
+									else if( Rex_input.Match(Main.InputText).Value.ToString() =="O-9999")
+									{
+										Directory.Delete(Softkey_Script.document_path,true );
+										Directory.CreateDirectory (Softkey_Script.document_path);
+										Softkey_Script.FileInfoInitialize ( );
+										Main.InputText = "";
+										Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
+									}
+									else 
+									{
+										Main.InputText = "";
+										Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
+									}
+								}
+							}
+						}
+					}	
 				}
 			}
 		}
-		
+			
 		if (GUI.Button(new Rect((l_x)/1000f*Main.width, (l_y+6*left_y)/1000f*Main.height, btn_width/1000f*Main.width, btn_height/1000f*Main.height), "", Main.PAGEu))             
 		{
 			if(Main.ScreenPower)
@@ -256,7 +299,7 @@ public class MDIEditModule : MonoBehaviour {
 	/// <summary>
 	/// 重新编写的AlterCode()，实现代码的替换 董帅 2013-4-2
 	/// </summary>
-	void AlterCode() 
+	void AlterCode()
 	{
 	   if(Main.SelectStart==0)
 			Main.isSelecFirst=true;
@@ -306,6 +349,7 @@ public class MDIEditModule : MonoBehaviour {
 				Main.CodeForAll.Clear();
 				Main.CodeForAll.Add(temp_name);
 				Main.CodeForAll.Add(";");
+//				Main.
 				Main.ProgramNum = name_num;
 				Main.Progname_Backup = Main.ProgramNum;
 				Main.ProgEDITCusorV=0;
@@ -314,6 +358,17 @@ public class MDIEditModule : MonoBehaviour {
 				Main.EndRow=SystemArguments.EditLineNumber;
 				Main.SelectStart=0;
 				Main.SelectEnd=0;
+				Main.TotalCodeNum = Main.CodeForAll.Count;
+				Softkey_Script.calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
+				EditProgRight();
+//				File.Create (Softkey_Script.document_path+temp_name+".txt");
+//				NewProg_flag = true;
+				FileStream Str_Creat = new FileStream(Softkey_Script .document_path+temp_name+".cnc",FileMode.Create,FileAccess.Write);
+				StreamWriter sw = new StreamWriter (Str_Creat);
+				sw.WriteLine(temp_name);
+				sw.Close ();
+				NewProg_flag = true;
+				Softkey_Script .FileInfoInitialize();
 			}
 			Main.InputText = "";
 			Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
@@ -324,6 +379,97 @@ public class MDIEditModule : MonoBehaviour {
 			Main.WarnningMessageCreate("程序名格式错误！");
 		}
 	}
+	
+	
+	//程序更改
+	void ModifyProg()
+	{
+		if (Main.CodeForAll.Count>0)
+		{
+			int j;
+			string temp_code = "";
+			string file_path = "";
+			string temp_name = "O" + Main.ToolNumFormat(Main.ProgramNum);
+			FileInfo exist_check = new FileInfo(Softkey_Script.document_path + temp_name + ".txt");
+			
+			if(exist_check.Exists)
+				file_path = Softkey_Script.document_path + temp_name + ".txt";
+			else
+			{
+				exist_check = new FileInfo(Softkey_Script.document_path + temp_name + ".cnc");
+				if(exist_check.Exists)
+					file_path = Softkey_Script.document_path + temp_name + ".cnc";
+				else
+				{
+					file_path = Softkey_Script.document_path + temp_name + ".nc";
+				}
+			}	
+			
+			FileStream Modify = new FileStream(file_path, FileMode.Create, FileAccess.Write);
+			StreamWriter sw = new StreamWriter(Modify);
+			
+			if(Main.CodeForAll[0]==";")
+				j = 1;
+			else 
+				j = 0;
+			
+			for(int i=j;i<Main.CodeForAll.Count;i++)
+			{
+				if(Main.CodeForAll[i]==";")
+				{
+					sw.WriteLine(temp_code);
+					temp_code = "";
+				}
+				else 
+				{
+					temp_code = temp_code + Main.CodeForAll[i];
+				}
+			}
+			sw.Close ();
+		}
+	}
+	
+	
+	
+	//<summary>
+	//列表显示下删除程序
+	//添加BY 王广官
+	//<summary>
+	void DeleteProgram(string temp_name)
+	{
+		string temp_path;
+		temp_path = Softkey_Script.document_path+"/"+temp_name;
+		
+		if(Main.FileNameList.IndexOf(temp_name)!= -1)
+		{		
+			if(File.Exists(temp_path+".txt"))
+			{
+				File.Delete (temp_path+".txt");
+			}
+			
+			else if(File.Exists(temp_path+".cnc"))
+			{
+				File.Delete (temp_path+".cnc");
+			}
+			
+			else if(File.Exists(temp_path+".nc"))
+			{
+				File.Delete (temp_path+".nc");
+			}
+			
+			Softkey_Script.FileInfoInitialize ( );
+			Main.InputText = "";
+			Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
+		}
+		
+		else
+		{
+			Main.InputText = "";
+			Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
+		}
+		
+	}
+	
 	
 	/// <summary>
 	/// 重新编写的InsertCode ()，实现代码的添加 陈晓威 2013-3-31
@@ -336,97 +482,192 @@ public class MDIEditModule : MonoBehaviour {
 			{
 				if(Main.ProgEDITProg)
 				{
-					if(Main.CodeForAll.Count == 0)
+					if(Main.InputText.StartsWith("O"))
 					{
-						if(Main.InputText.StartsWith("O"))
+						Regex name_Reg = new Regex(@"^O\d{1,4}$");
+						if(name_Reg.IsMatch(Main.InputText))
 						{
+							string temp_name = name_Reg.Match(Main.InputText).Value.Trim('O');
+							int NameNum = Convert.ToInt32(temp_name);
+							temp_name = "O" + Main.ToolNumFormat(NameNum);
+							string[] allname_list = Directory.GetFiles(Softkey_Script.document_path);
+							foreach(string filename in allname_list)
+							{
+								if(filename.IndexOf (temp_name) != -1)
+								{
+									Main.WarnningMessageCreate("程序已存在！");
+									Main.InputText = "";
+									Main.ProgEDITCusorPos = Main.corner_px + 23.5f;	
+									return;
+								}
+							}
+							
 							InsertNewProgram(Main.InputText.Trim('O'));
-							return;
+							Main.WarnningClear();
+							return;	
 						}
+//						else
+//						{
+//							Main.InputText = "";
+//							Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
+//							Main.WarnningMessageCreate("程序未登记，请先登记！");
+//						}
 						else
 						{
 							Main.InputText = "";
 							Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
 							Main.WarnningMessageCreate("程序未登记，请先登记！");
 						}
-						return;
 					}
-					else
+					else 
 					{
-						if(Main.InputText.StartsWith("O"))
+						if(Main.CodeForAll.Count == 0)
 						{
-							InsertNewProgram(Main.InputText.Trim('O'));
-							return;
+							Main.InputText = "";
+							Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
+							Main.WarnningMessageCreate("程序未登记，请先登记！");
 						}
+						
+							//待插入的字符串
+						int row_begin = 0;
+						int row_end;
+						int row_length;
+						int append_pos = 0;  //插入处的代码序号
+						int semicolon_flag = 0;  //程度的代码字符最后是否带有";"，0代表有，1代表没有
+						//Debug.Log("V:"+Main.ProgEDITCusorV);
+						//当程序只为"_"时，删除这个("_"为下划线为了显示光标)
+						if(Main.CodeForAll.Count == 1 && Main.CodeForAll[0] == ";")
+						{
+							Main.CodeForAll.RemoveAt(0);
+							Main.TotalCodeNum--;
+						}
+						int before_codenum = Main.CodeForAll.Count;  //记录未插入前的代码长度
+						List<string> appendlist = NCCodeFormat_Script.CodeFormat(Main.InputText);
+						//如果是插入;因为会被格式方法CodeFormat去除，这里直接补上;
+						if(Main.InputText.Trim() == ";") 
+							appendlist.Add(";");
+						//		Debug.Log("V" + Main.ProgEDITCusorV);
+						if(Main.CodeForAll.Count == 0 || Main.isSelecFirst)  //代码为空时或者从最开始被选中添加则pos=0,否则为selectstart+1
+							append_pos = 0;
+						else if(Main.ProgEDITCusorV >= 0 && Main.CodeForAll.Count != 0)
+							append_pos = Main.SelectStart + 1;
+						string editstr = Main.InputText;
+						//如果插入的代码最后没有;，则删除
+						if(editstr.Substring(editstr.Length - 1) != ";")
+						{
+							appendlist.RemoveAt(appendlist.Count - 1);  //因为格式方法CodeFormat会在代码段最后自动加上";"
+							semicolon_flag = 1;
+						}
+						//插入代码
+						foreach(string subappendstr in appendlist)
+						{
+							if(append_pos > Main.CodeForAll.Count - 1)
+								Main.CodeForAll.Add(subappendstr);
+							else
+								Main.CodeForAll.Insert(append_pos, subappendstr);
+							append_pos++;
+						}
+						Main.TotalCodeNum = Main.CodeForAll.Count;
+						//在只有;时候插入处理为在;前插入
+						if(before_codenum==0)
+						{
+							Main.CodeForAll.Add(";");
+							Main.TotalCodeNum=Main.CodeForAll.Count;
+						}
+						if(Main.CodeForAll[Main.CodeForAll.Count - 1] != ";")
+						{
+							Main.CodeForAll.Add(";");
+							Main.TotalCodeNum=Main.CodeForAll.Count;
+						}
+						Softkey_Script.calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
+						//EditProgRight();
+						//有分号
+						if(semicolon_flag == 0)
+						{
+							while(Main.CodeForAll[Main.SelectStart] != ";")
+								EditProgRight();
+						}
+						EditProgRight(); //光标往右前进一格
+						Main.InputText = "";
+						//插入完毕后光标移到最左边
+						Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
+					}
+//					else
+//					{
+//						if(Main.InputText.StartsWith("O"))
+//						{
+//							InsertNewProgram(Main.InputText.Trim('O'));
+//							return;
+//						}
 					}
 				}
 			}
 		}
 		
-		//待插入的字符串
-		int row_begin = 0;
-		int row_end;
-		int row_length;
-		int append_pos = 0;  //插入处的代码序号
-		int semicolon_flag = 0;  //程度的代码字符最后是否带有";"，0代表有，1代表没有
-		//Debug.Log("V:"+Main.ProgEDITCusorV);
-		//当程序只为"_"时，删除这个("_"为下划线为了显示光标)
-		if(Main.CodeForAll.Count == 1 && Main.CodeForAll[0] == ";")
-		{
-		    Main.CodeForAll.RemoveAt(0);
-		    Main.TotalCodeNum--;
-		}
-		int before_codenum = Main.CodeForAll.Count;  //记录未插入前的代码长度
-		List<string> appendlist = NCCodeFormat_Script.CodeFormat(Main.InputText);
-		//如果是插入;因为会被格式方法CodeFormat去除，这里直接补上;
-		if(Main.InputText.Trim() == ";") 
-			appendlist.Add(";");
-//		Debug.Log("V" + Main.ProgEDITCusorV);
-		if(Main.CodeForAll.Count == 0 || Main.isSelecFirst)  //代码为空时或者从最开始被选中添加则pos=0,否则为selectstart+1
-			append_pos = 0;
-		else if(Main.ProgEDITCusorV >= 0 && Main.CodeForAll.Count != 0)
-			append_pos = Main.SelectStart + 1;
-		string editstr = Main.InputText;
-		//如果插入的代码最后没有;，则删除
-		if(editstr.Substring(editstr.Length - 1) != ";")
-		{
-		    appendlist.RemoveAt(appendlist.Count - 1);  //因为格式方法CodeFormat会在代码段最后自动加上";"
-		    semicolon_flag = 1;
-		}
-		//插入代码
-		foreach(string subappendstr in appendlist)
-		{
-		    if(append_pos > Main.CodeForAll.Count - 1)
-		        Main.CodeForAll.Add(subappendstr);
-		    else
-		        Main.CodeForAll.Insert(append_pos, subappendstr);
-		    append_pos++;
-		}
-		Main.TotalCodeNum = Main.CodeForAll.Count;
-		//在只有;时候插入处理为在;前插入
-		if(before_codenum==0)
-		{
-			Main.CodeForAll.Add(";");
-			Main.TotalCodeNum=Main.CodeForAll.Count;
-		}
-		if(Main.CodeForAll[Main.CodeForAll.Count - 1] != ";")
-		{
-			Main.CodeForAll.Add(";");
-			Main.TotalCodeNum=Main.CodeForAll.Count;
-		}
-		Softkey_Script.calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
-		//EditProgRight();
-		//有分号
-		if(semicolon_flag == 0)
-		{
-			while(Main.CodeForAll[Main.SelectStart] != ";")
-				EditProgRight();
-		}
-		EditProgRight(); //光标往右前进一格
-		Main.InputText = "";
-		//插入完毕后光标移到最左边
-		Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
-	}
+//		//待插入的字符串
+//		int row_begin = 0;
+//		int row_end;
+//		int row_length;
+//		int append_pos = 0;  //插入处的代码序号
+//		int semicolon_flag = 0;  //程度的代码字符最后是否带有";"，0代表有，1代表没有
+//		//Debug.Log("V:"+Main.ProgEDITCusorV);
+//		//当程序只为"_"时，删除这个("_"为下划线为了显示光标)
+//		if(Main.CodeForAll.Count == 1 && Main.CodeForAll[0] == ";")
+//		{
+//		    Main.CodeForAll.RemoveAt(0);
+//		    Main.TotalCodeNum--;
+//		}
+//		int before_codenum = Main.CodeForAll.Count;  //记录未插入前的代码长度
+//		List<string> appendlist = NCCodeFormat_Script.CodeFormat(Main.InputText);
+//		//如果是插入;因为会被格式方法CodeFormat去除，这里直接补上;
+//		if(Main.InputText.Trim() == ";") 
+//			appendlist.Add(";");
+////		Debug.Log("V" + Main.ProgEDITCusorV);
+//		if(Main.CodeForAll.Count == 0 || Main.isSelecFirst)  //代码为空时或者从最开始被选中添加则pos=0,否则为selectstart+1
+//			append_pos = 0;
+//		else if(Main.ProgEDITCusorV >= 0 && Main.CodeForAll.Count != 0)
+//			append_pos = Main.SelectStart + 1;
+//		string editstr = Main.InputText;
+//		//如果插入的代码最后没有;，则删除
+//		if(editstr.Substring(editstr.Length - 1) != ";")
+//		{
+//		    appendlist.RemoveAt(appendlist.Count - 1);  //因为格式方法CodeFormat会在代码段最后自动加上";"
+//		    semicolon_flag = 1;
+//		}
+//		//插入代码
+//		foreach(string subappendstr in appendlist)
+//		{
+//		    if(append_pos > Main.CodeForAll.Count - 1)
+//		        Main.CodeForAll.Add(subappendstr);
+//		    else
+//		        Main.CodeForAll.Insert(append_pos, subappendstr);
+//		    append_pos++;
+//		}
+//		Main.TotalCodeNum = Main.CodeForAll.Count;
+//		//在只有;时候插入处理为在;前插入
+//		if(before_codenum==0)
+//		{
+//			Main.CodeForAll.Add(";");
+//			Main.TotalCodeNum=Main.CodeForAll.Count;
+//		}
+//		if(Main.CodeForAll[Main.CodeForAll.Count - 1] != ";")
+//		{
+//			Main.CodeForAll.Add(";");
+//			Main.TotalCodeNum=Main.CodeForAll.Count;
+//		}
+//		Softkey_Script.calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
+//		//EditProgRight();
+//		//有分号
+//		if(semicolon_flag == 0)
+//		{
+//			while(Main.CodeForAll[Main.SelectStart] != ";")
+//				EditProgRight();
+//		}
+//		EditProgRight(); //光标往右前进一格
+//		Main.InputText = "";
+//		//插入完毕后光标移到最左边
+//		Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
+//	}
 	
 	/// <summary>
 	/// 重新编写的DeleteCode ()，实现代码的删除 陈晓威 2013-4-1
@@ -848,6 +1089,8 @@ public class MDIEditModule : MonoBehaviour {
 		int row_begin = 0;  //这一行开始字符序号
 		int row_end = 0;  //下一行开始字符序号
 		int row_length = 0;  //这一行字符数
+//		Debug.Log(Main.SeparatePosStart.Count);
+//		Debug.Log(Main.ProgEDITCusorV);
 		row_begin = Main.SeparatePosStart[Main.ProgEDITCusorV];
 		row_end = Main.SeparatePosEnd[Main.ProgEDITCusorV];
 		row_length = row_end - row_begin;
@@ -1082,6 +1325,6 @@ public class MDIEditModule : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 }
