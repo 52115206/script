@@ -24,6 +24,7 @@ public class ProgramReset : MonoBehaviour {
 	#region define 
 	ControlPanel Main;
 	SoftkeyModule Softkey_Script;
+	MDIEditModule MDIEdit_Script;
 	
 	
 	//代码存放和备份文件夹名称
@@ -43,6 +44,7 @@ public class ProgramReset : MonoBehaviour {
 	{
 		Main = gameObject.GetComponent<ControlPanel>();
 		Softkey_Script = gameObject.GetComponent<SoftkeyModule>();
+		MDIEdit_Script = gameObject.GetComponent <MDIEditModule>();
 	}
 	
 	void Start () 
@@ -83,6 +85,21 @@ public class ProgramReset : MonoBehaviour {
 			sw.Write(strLine);
 			sw.Close ();	
 		}
+		Main.CodeForAll.Clear();
+		Main.ProgEDITAt = false;
+		Main.at_position = -1;
+		Main.ProgramNum = 0;
+		Main.RealListNum = 1;
+		Main.Progname_Backup = Main.ProgramNum;
+		Main.ProgEDITCusorV=0;
+		Main.ProgEDITCusorH=0;
+		Main.StartRow=0;
+		Main.EndRow=SystemArguments.EditLineNumber;
+		Main.SelectStart=0;
+		Main.SelectEnd=0;
+		Main.TotalCodeNum = Main.CodeForAll.Count;
+		Softkey_Script.calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
+//		MDIEdit_Script.EditProgRight();
 		Softkey_Script.FileInfoInitialize();
 		
 	}

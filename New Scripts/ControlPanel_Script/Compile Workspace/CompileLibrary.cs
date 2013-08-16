@@ -8,7 +8,7 @@ public enum ResultType {Success, CompileError, MacroError}
 public enum MotionType {DryRunning, Line, Circular02, Circular03, MachineCooSys, AutoReturnRP, BackFromRP, Pause}
 public enum ImmediateMotionType {ToolChanging = 'a', Pause, AutoReturnRP, BackFromRP, RadiusCompensationCancel, RadiusCompensationLeft, RadiusCompensationRight, 
 	LengthCompensationCancel, LengthCompensationPositive, LengthCompensationNegative, G52, G53, G54, G54_1, G55, G56, G57, G58, G59, G92, M00, M01, M02, M03, M04, 
-M05, M06, M07, M08, M09, M30, M98, M99}
+M05, M06, M07, M08, M09, M30, M98, M99, RotateSpeed}
 public enum CheckInformation {MetricSystem, BritishSystem, XYPlane, YZPlane, ZXPlane, RadiusCancel, RadiusLeft, RadiusRight, LengthCancel, LengthPositive, 
 LengthNegative, Scaling, ScalingCancel, FixedCycelCancel, AbsouteCoo, IncrementalCoo, G54, G54_1, G55, G56, G57, G58, G59}
 public enum RadiusCompensationEnum{G40 = 0, G41, G42}
@@ -420,7 +420,7 @@ public abstract class LexicalCheck
 		}
 		ModalState.Slash = current_modal.Slash;
 		ModalState.Feedrate = current_modal.Feedrate;
-		ModalState.RotateSpeed = current_modal.Feedrate;
+		ModalState.RotateSpeed = current_modal.RotateSpeed;
 		ModalState.SetCooZero(current_modal.CooZero);
 		ModalState.ReferencePoint = current_modal.ReferencePoint;
 		ModalState.referenceFlag[0] = current_modal.referenceFlag[0];
@@ -581,7 +581,7 @@ public abstract class LexicalCheck
 			//Todo: 程序跳转相关
 			break;
 		case "O":
-			if(index_number <= 0 || index_number > 9999)
+			if(index_number < 0 || index_number > 9999)
 			{
 				_errorMessage = "(Line:" + row_index + "): " + address_value + "地址后值为" + index_number + ", 超出规定范围(1~9999)";
 				return false;
@@ -595,6 +595,7 @@ public abstract class LexicalCheck
 			}
 			step_compile_data.s_value = (float)index_number;
 			ModalState.RotateSpeed = step_compile_data.s_value;
+			step_compile_data.ImmediateAdd((char)ImmediateMotionType.RotateSpeed);
 			break;
 		case "T":
 			if(index_number < 0 || index_number > 99999999)
@@ -1120,6 +1121,9 @@ public abstract class LexicalCheck
 							step_motion_data.RadiusState = (int)RadiusType.CuttingStart;
 							radiusDealFlag = true;
 							break;
+						case (char)ImmediateMotionType.RotateSpeed:
+							step_motion_data.Rotate_Speed = (int)ModalState.RotateSpeed;
+							break;
 						default:
 							break;
 						}
@@ -1621,7 +1625,8 @@ public abstract class CompileBase:LexicalCheck
 			//原始编译数据保存保存
 			for(int i = 0; i < motion_data.Count; i++)
 			{
-				original_motion_data.Add(motion_data[i]);
+				original_motion_data.Add(new MotionInfo());
+				original_motion_data[i].MotionDataCopy(motion_data[i]);
 			}
 			/**
 			  *半径补偿分成五种大的情况讨论
@@ -1633,15 +1638,31 @@ public abstract class CompileBase:LexicalCheck
 			  *(6)点重合；
 			  *(7)钝角用圆弧拿来补偿，相当于中间插入一段圆弧，需要重新调整数据结构；
 			  **/
-			/*
+//			/*
 			//实例化该计算补偿的工具类
 			CompensationCalculate CalFunction = new CompensationCalculate();
+			//长度补偿函数
+			Length_Compensation Length_Compensation = new Length_Compensation();
 			
 			//编译出来的信息暂时都存在motion_data的数据结构里，遍历一遍，补充半径补偿信息
 			MotionInfo motion_data1 = new MotionInfo();
 			MotionInfo motion_data2 = new MotionInfo();
 			int index1 = 0; //第一个数据结构的序号
 			int index2 = 0; //第二个数据结构的序号
+			
+			#region Modified Paramater By Eric
+			for(int i = 0; i < motion_data.Count; i++)
+			{
+				if(motion_data[i].LengthCompensationInfo == (int)LengthCompensationEnum.G43 || motion_data[i].LengthCompensationInfo == (int)LengthCompensationEnum.G44)
+				{//开始长度补偿
+					index1 = i;
+					motion_data1 = motion_data[index1];  
+					Length_Compensation.Length(ref motion_data1);
+					motion_data[index1] = motion_data1;  //把修改好的数据传回给原始的数据结构
+				}		
+			}
+			#endregion
+			
 			for(int i = 0; i < motion_data.Count; i++)
 			{
 				//每次运行前都将创建圆弧的标志位置反
@@ -1672,10 +1693,18 @@ public abstract class CompileBase:LexicalCheck
 						if(CalFunction.Has_circle)
 						{
 							MotionInfo motion_data_circle = new MotionInfo();
-							motion_data_circle.index = index2;
+							motion_data_circle.index = motion_data[index2].index;
+							motion_data_circle.Velocity = motion_data[index2].Velocity;
 							motion_data.Insert(index2, motion_data_circle);
 							motion_data_circle = motion_data[index2];
+							
+							//注意：motion_data_circle中元素属性的继承
+							motion_data_circle.Center_Point = motion_data1.DisplayTarget;
 							CalFunction.CalculateForCircle(ref motion_data1, ref motion_data_circle, ref motion_data2);
+							motion_data_circle.DisplayStart = motion_data1.DisplayTarget;
+							motion_data_circle.DisplayTarget.z = motion_data1.DisplayStart.z;
+							motion_data_circle.Rotate_Speed = (motion_data2.Velocity / (60f * (motion_data_circle.DisplayStart - motion_data_circle.Center_Point).magnitude)) * (180 / Mathf.PI);
+							
 							motion_data[index2] = motion_data_circle;  //把修改好的数据传回给原始的数据结构
 							motion_data[index2 + 1] = motion_data2;  //把修改好的数据传回给原始的数据结构
 							i = index2;  //跳过新增的圆弧数据结构
@@ -1693,7 +1722,61 @@ public abstract class CompileBase:LexicalCheck
 				}
 				
 			}
-			*/
+//			*/
+			for(int i = 0; i < motion_data.Count; i++)
+			{
+				if(i + 1 < motion_data.Count && motion_data[i].Motion_Type != -1)
+				{
+					
+					motion_data[i + 1].DisplayStart = motion_data[i].DisplayTarget;
+					if(motion_data[i + 1].Motion_Type == -1)
+					{
+						motion_data[i + 1].DisplayTarget = motion_data[i + 1].DisplayStart;
+					}
+					//改Virtual Position
+					if(motion_data[i].Motion_Type != -1)
+					{
+						motion_data[i].VirtualTarget = motion_data[i].DisplayTarget - motion_data[i].DisplayStart + motion_data[i].VirtualStart;
+						motion_data[i + 1].VirtualStart = motion_data[i].VirtualTarget;
+						if(motion_data[i + 1].Motion_Type == -1)
+						{
+							motion_data[i + 1].VirtualTarget = motion_data[i + 1].VirtualStart;
+						}
+					}
+				}
+				//算向量
+				motion_data[i].Direction = motion_data[i].DisplayTarget - motion_data[i].DisplayStart;
+				//改Virtual Position
+				if(i + 1 == motion_data.Count)
+				{
+					motion_data[i].VirtualTarget = motion_data[i].DisplayTarget - motion_data[i].DisplayStart + motion_data[i].VirtualStart;
+				}
+				//算角度
+				if(motion_data[i].Motion_Type == (int)MotionType.Circular02 || motion_data[i].Motion_Type == (int)MotionType.Circular03)
+				{
+					bool flag = false;
+					if(motion_data[i].Motion_Type == (int)MotionType.Circular02)
+						flag = true;
+					else
+						flag = false;
+					
+					motion_data[i].Rotate_Degree = ArcCalculateDegree.CalculateDegree(motion_data[i].Center_Point, motion_data[i].DisplayStart, motion_data[i].DisplayTarget, flag, motion_data[i].Current_Plane);
+					//算圆弧时间
+					
+					motion_data[i].Time_Value = motion_data[i].Rotate_Degree / motion_data[i].Rotate_Speed;
+					
+				}
+				else if(motion_data[i].Motion_Type == (int)MotionType.DryRunning || motion_data[i].Motion_Type == (int)MotionType.Line || motion_data[i].Motion_Type == (int)MotionType.MachineCooSys)
+				{
+					//算直线时间
+					motion_data[i].Time_Value = motion_data[i].Direction.magnitude / motion_data[i].Velocity * 60;
+				}
+				else if(motion_data[i].Motion_Type == (int)MotionType.AutoReturnRP || motion_data[i].Motion_Type == (int)MotionType.BackFromRP)
+				{
+					//算直线时间
+					motion_data[i].Time_Value = motion_data[i].Direction.magnitude / motion_data[i].Velocity * 60;
+				}		
+			}
 			_executeFlag = true;
 		}
 		else
@@ -1723,6 +1806,7 @@ public class CompensationCalculate
 	public bool Has_circle = false;
 	private float Radius1 = 0;
 	private float Radius2 = 0;
+	public bool Radius_ = true;
 	//计算半径补偿的主函数，public类型，对外开放的入口函数, 传入的参数为两个类，是引用类型，所以
 	public void Calculate(ref MotionInfo motion_data1, ref MotionInfo motion_data2)
 	{
@@ -1736,28 +1820,63 @@ public class CompensationCalculate
 		else
 			Radius2 = LoadRadiusValue.D_Value(motion_data2.D_Value);
 		
-		//传入第一个数据结构的RadiusState变量, 判断补偿方式
-		switch(motion_data1.RadiusState)
+		
+		if(Radius1 < 0)//当补偿半径小于零时，左右补偿会互换
 		{
-		//起刀，需要两个数据结构
-		case (int)RadiusType.CuttingStart:
-			//起刀的函数
-			CuttingStart(ref motion_data1, ref motion_data2);
-			break;
-		//正常补偿阶段，需要两个数据结构
-		case (int)RadiusType.Normal:
-			Normals(ref motion_data1, ref motion_data2);
-			break;
-		//补偿取消，需要第一个数据结构或者两个数据结构（当前只有G04，下一段再移动，补偿下一段）
-		case (int)RadiusType.Cancel:
-			Cancel(ref motion_data1, ref motion_data2);
-			break;
-		//在中间暂时取消补偿，只需要第一个数据结构
-		case (int)RadiusType.CancelInMiddle:
-			CancelInMiddle(ref motion_data1, ref motion_data2);
-			break;
-		default:
-			break;
+
+			if(motion_data1.RadiusCompensationInfo == (int)RadiusCompensationEnum.G41)
+				motion_data1.RadiusCompensationInfo = (int)RadiusCompensationEnum.G42;				
+			else
+				motion_data1.RadiusCompensationInfo = (int)RadiusCompensationEnum.G41;
+		}
+		
+		
+		
+		
+		if(motion_data2.RadiusCompensationInfo != (int)RadiusCompensationEnum.G40 && motion_data2.D_Value != 0)
+		{
+			//传入第一个数据结构的RadiusState变量, 判断补偿方式
+			switch(motion_data1.RadiusState)
+			{
+			//起刀，需要两个数据结构
+			case (int)RadiusType.CuttingStart:
+				//起刀的函数
+//				if(i == 1 )
+					CuttingStart(ref motion_data1, ref motion_data2);
+//				else
+//					CancelInMiddle(ref motion_data1, ref motion_data2);
+				break;
+			//正常补偿阶段，需要两个数据结构
+			case (int)RadiusType.Normal:
+				Normals(ref motion_data1, ref motion_data2);
+				break;
+			//补偿取消，需要第一个数据结构或者两个数据结构（当前只有G04，下一段再移动，补偿下一段）
+			case (int)RadiusType.Cancel:
+				//Cancel(ref motion_data1, ref motion_data2);
+				break;
+			//在中间暂时取消补偿，只需要第一个数据结构
+			case (int)RadiusType.CancelInMiddle:
+				//CancelInMiddle(ref motion_data1, ref motion_data2);
+
+
+				break;
+			default:
+				break;
+			}
+		}
+		else
+		{
+			if(Radius_)
+			{
+				Cancel(ref motion_data1, ref motion_data2);	
+				Radius_ = false;
+			}
+			else
+			{
+				Radius1 = 0;
+				Cancel(ref motion_data1, ref motion_data2);
+				Radius_ = true ;
+			}
 		}
 	}
 	
@@ -1766,53 +1885,1072 @@ public class CompensationCalculate
 	{
 		//当前肯定为直线，如果是圆弧起刀，我会在之前就报错
 		//后一种运动方式判断并处理
+		//Debug.Log ("起刀程序");
 		if(motion_data2.Motion_Type == (int)MotionType.Circular02) //直线 + G02圆弧
-		{
+
+
 			//当前起点: motion_data1.DisplayStart, 对应机床屏幕上显示的绝对坐标值
 			//当前终点: motion_data1.DisplayTarget = motion_data2.DisplayStart
 			//如果过程很杂，再在此处嵌入其他函数
-			
-		}
+
+
+			CuttingStart_style02 (ref motion_data1, ref motion_data2);
+	
 		else if(motion_data2.Motion_Type == (int)MotionType.Circular03) //直线 + G03圆弧
-		{
-			
-		}
+			CuttingStart_style03 (ref motion_data1, ref motion_data2);
 		else //直线 + 直线
-		{
-			
-		}
-		motion_data1.DisplayTarget = new Vector3(100, 100, 100);
-		motion_data2.DisplayStart = new Vector3(-100, -100, -100);
+			CuttingStart_style01 (ref motion_data1, ref motion_data2);
 	}
 	
 	private void Normals(ref MotionInfo motion_data1, ref MotionInfo motion_data2)
 	{
-		//if(遇到要增加圆弧的情况)
-		//{
-			//Has_Circle = true;
-			//return;
-		//}
-		
-		motion_data1.DisplayTarget = new Vector3(-100, -100, -100);
-		motion_data2.DisplayStart = new Vector3(-100, -100, -100);
+		if( motion_data1.RadiusCompensationInfo == (int)RadiusCompensationEnum.G41)//当前指令为左补偿时
+		{
+			if(Inside_Outside(ref motion_data1, ref motion_data2) == 1)
+				Left_Compensation_Inside(ref motion_data1, ref motion_data2);
+			else
+			{
+				Has_circle = true;
+				return;
+			}	
+		}
+		else//当前指令为右补偿时
+		{
+			if(Inside_Outside(ref motion_data1, ref motion_data2) == 1)
+				Right_Compensation_Inside(ref motion_data1, ref motion_data2);
+			else
+			{
+				Has_circle = true;
+				return;
+			}
+		}
 	}
-	
+	//偏置取消的时候的指令只能是G00或者是G01，当取消刀补是的指令为G02或者G03的情况时，系统会打出警报
 	private void Cancel(ref MotionInfo motion_data1, ref MotionInfo motion_data2)
 	{
-		motion_data1.DisplayTarget = new Vector3(100, 100, 100);
-		motion_data2.DisplayStart = new Vector3(-100, -100, -100);
+		float k1; 
+		int G41_G42_Sign;
+		G41_G42_Sign = 0;
+		
+		Radius1 = Mathf.Abs(Radius1);//确保为正值
+		
+		if(motion_data1.RadiusCompensationInfo == (int)RadiusCompensationEnum.G41)
+				G41_G42_Sign = 1;
+		else
+				G41_G42_Sign = -1;
+
+		if (motion_data1.Motion_Type == (int)MotionType.Circular02 )
+		{
+			if(motion_data1.Center_Point.x == motion_data1.DisplayTarget.x)//当前圆弧的直径所在直线斜率不存在
+			{
+				if(motion_data1.DisplayTarget.y > motion_data1.Center_Point.y)//当前圆弧的直径所在的直线矢量方向向上
+				{
+//					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x;
+					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y + Radius1*G41_G42_Sign;
+				}
+				else//当前圆弧的直径所在的直线的矢量方向向下
+				{
+//					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x;
+					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y - Radius1*G41_G42_Sign;
+				}
+			}
+			else//当前圆弧的直径所在的直线所在直线斜率存在
+			{
+				k1 = (motion_data1.DisplayTarget.y - motion_data1.Center_Point.y)/(motion_data1.DisplayTarget.x - motion_data1.Center_Point.x);
+				
+				if(motion_data1.DisplayTarget.x > motion_data1.Center_Point.x)//当前圆弧直径所在直线的矢量方向偏向象限右侧
+				{
+					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x + Radius1*G41_G42_Sign/Mathf.Sqrt (1 + k1*k1);
+					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y + Radius1*G41_G42_Sign*k1/Mathf.Sqrt(1 + k1*k1);
+					//Debug.Log ("调试");
+				}
+				else//当前圆弧直径所在直线的矢量方向偏向象限左侧
+				{
+					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x - Radius1*G41_G42_Sign/Mathf.Sqrt (1 + k1*k1);
+					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y - Radius1*G41_G42_Sign*k1/Mathf.Sqrt(1 + k1*k1);
+					//Debug.Log ("调试");
+				}
+			}
+		}
+		else if (motion_data1.Motion_Type == (int)MotionType.Circular03)
+		{
+			if(motion_data1.Center_Point.x == motion_data1.DisplayTarget.x)//当前圆弧直径所在直线斜率不存在
+			{
+				if(motion_data1.DisplayTarget.y > motion_data1.Center_Point.y)//当前圆弧直径所在直线的矢量方向向上
+				{
+//					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x;
+					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y - Radius1*G41_G42_Sign;
+				}
+				else//当前圆弧直径所在直线的矢量方向向下
+				{
+//					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x;
+					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y + Radius1*G41_G42_Sign;
+				}
+			}
+			else//当前圆弧直线所在直线斜率存在
+			{
+				k1 = (motion_data1.DisplayTarget.y - motion_data1.Center_Point.y)/(motion_data1.DisplayTarget.x - motion_data1.Center_Point.x);
+				if(motion_data1.DisplayTarget.x > motion_data1.Center_Point.x)//当前圆弧直径所在直线的矢量方向偏向右侧
+				{
+					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x - Radius1*G41_G42_Sign/Mathf.Sqrt (1 + k1*k1);
+					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y - Radius1*k1*G41_G42_Sign/Mathf.Sqrt(1 + k1*k1);
+					//Debug.Log("调试");
+				}
+				else//当前圆弧直径所在直线的矢量方向偏向左侧
+				{
+					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x + Radius1*G41_G42_Sign/Mathf.Sqrt (1 + k1*k1);
+					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y + Radius1*k1*G41_G42_Sign/Mathf.Sqrt(1 + k1*k1);
+					//Debug.Log("调试");
+				}
+			}
+		}
+		else 
+		{
+			if(motion_data1.DisplayStart.x == motion_data1.DisplayTarget.x)//当前直线的斜率不存在
+			{
+				if(motion_data1.DisplayTarget.y > motion_data1.DisplayStart.y)//若当前直线的矢量方向向上
+				{
+					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x - Radius1*G41_G42_Sign;
+//					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y;
+				}
+				else//若当前直线的矢量方向向下
+				{
+					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x + Radius1*G41_G42_Sign;
+//					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y;
+				}
+			}
+			else//当前直线的斜率存在
+			{
+				k1 = (motion_data1.DisplayTarget.y - motion_data1.DisplayStart.y)/(motion_data1.DisplayTarget.x - motion_data1.DisplayStart.x);
+				if(motion_data1.DisplayTarget.x > motion_data1.DisplayStart.x)//当前直线的矢量方向偏向右侧
+				{
+					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x - Radius1*G41_G42_Sign*k1/Mathf.Sqrt (1 + k1*k1);
+					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y + Radius1*G41_G42_Sign/Mathf.Sqrt (1 + k1*k1);
+					//Debug.Log ("调试");
+				}
+				else//当前直线的斜率偏向左侧
+				{
+					motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x + Radius1*G41_G42_Sign*k1/Mathf.Sqrt (1 + k1*k1);
+					motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y - Radius1*G41_G42_Sign/Mathf.Sqrt (1 + k1*k1);
+					//Debug.Log ("调试");
+				}
+			}
+		}
 	}
-	
-	private void CancelInMiddle(ref MotionInfo motion_data1, ref MotionInfo motion_data2)
-	{
-		motion_data1.DisplayTarget = new Vector3(100, 100, 100);
-		motion_data2.DisplayStart = new Vector3(-100, -100, -100);
-	}
-	
+		
+//	private void CancelInMiddle(ref MotionInfo motion_data1, ref MotionInfo motion_data2)
+//	{
+//		
+//	}
 	//新增圆弧情况处理
 	public void CalculateForCircle(ref MotionInfo motion_data1, ref MotionInfo motion_data_circle, ref MotionInfo motion_data2)
 	{
 		//在这里处理加了圆弧的情况
+		switch( motion_data1.RadiusCompensationInfo)
+		{
+		case((int)RadiusCompensationEnum.G41):
+			Left_Compensation_Outside(ref motion_data1, ref motion_data_circle, ref motion_data2);
+			if(Radius1 > 0)
+				motion_data_circle.Motion_Type = (int)MotionType.Circular02;
+			else
+				motion_data_circle.Motion_Type = (int)MotionType.Circular03;
+			break;
+		case((int)RadiusCompensationEnum.G42):
+			Right_Compensation_Outside(ref motion_data1, ref motion_data_circle, ref motion_data2);
+			if(Radius1 > 0)
+				motion_data_circle.Motion_Type = (int)MotionType.Circular03;
+			else
+				motion_data_circle.Motion_Type = (int)MotionType.Circular02;
+			break;
+		}
+	}
+
+	
+	//新添加的程序
+	
+	//刀补起刀函数
+	#region Modified Paramater By Eric
+	//起刀程序G01G01,当启动的指令中有G02或者03情况时，系统会发出警报
+	//刀具补偿的建立只能是G00或者G01的情况，不执行零件的加工
+	private void CuttingStart_style01(ref MotionInfo motion_data1, ref MotionInfo motion_data2)
+	{
+		float k2;
+		int G41_G42_Sign;
+		
+		if(motion_data2.RadiusCompensationInfo == (int)RadiusCompensationEnum.G41)
+			G41_G42_Sign = 1;
+		else
+			G41_G42_Sign = -1;
+
+		if(motion_data2.DisplayStart.x == motion_data2.DisplayTarget.x)//第二条直线斜率不存在
+		{
+			if(motion_data2.DisplayTarget.y > motion_data2.DisplayStart.y)//第二条直线的矢量方向向上
+			{
+				motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x - Radius2*G41_G42_Sign;
+//				motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y;
+			}
+			else//第二条直线的矢量方向向下
+			{
+				motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x + Radius2*G41_G42_Sign;
+//				motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y;
+			}
+		}
+		else//第二条直线斜率存在
+		{	
+			k2 = (motion_data2.DisplayTarget.y - motion_data2.DisplayStart.y)/(motion_data2.DisplayTarget.x - motion_data2.DisplayStart.x);
+			//Debug.LogError ("起刀直线左补偿");
+			if(motion_data2.DisplayTarget.x > motion_data2.DisplayStart.x)//当前直线的矢量方向偏向右侧
+			{
+				motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x - Radius2*k2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2);
+				motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y + Radius2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2);
+				//"调试");
+			}
+			else//当前直线的矢量方向偏向左侧象限
+			{
+				motion_data1.DisplayTarget.x = motion_data1.DisplayTarget.x + Radius2*k2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2) ;
+				motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.y - Radius2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2);
+				//"调试");
+			}
+		}
+		//Debug.LogWarning ("起刀G01G01");
+	}
+	//起刀程序G01G02
+	private void CuttingStart_style02(ref MotionInfo motion_data1, ref MotionInfo motion_data2)
+	{
+		float k2;
+		int G41_G42_Sign;
+		
+		if(motion_data2.RadiusCompensationInfo == (int)RadiusCompensationEnum.G41)
+			G41_G42_Sign = 1;
+		else
+			G41_G42_Sign = -1;
+			
+		if(motion_data2.DisplayStart.x == motion_data2.Center_Point.x)//当前圆弧段半径所在直线的斜率不存在
+		{
+			if(motion_data2.DisplayStart.y > motion_data2.Center_Point.y)//当前圆弧段的半径所在的直线方向向上
+			{
+				motion_data1.DisplayTarget.x = motion_data2.DisplayStart.x;
+				motion_data1.DisplayTarget.y = motion_data2.DisplayStart.y + Radius2*G41_G42_Sign;
+			}
+			else//当前圆弧段的半径所在的指向矢量方向向下
+			{
+				motion_data1.DisplayTarget.x = motion_data2.DisplayStart.x;
+				motion_data1.DisplayTarget.y = motion_data2.DisplayStart.y - Radius2*G41_G42_Sign;
+			}
+			
+		}
+
+		else 
+		{
+			k2 = (motion_data2.DisplayStart.y - motion_data2.Center_Point.y)/(motion_data2.DisplayStart.x - motion_data2.Center_Point.x);
+			//调试过
+			if(motion_data2.Center_Point.x < motion_data2.DisplayStart.x)//当前圆弧段所在的直线的矢量方向偏向向上
+			{
+				motion_data1.DisplayTarget.x = motion_data2.DisplayStart.x + Radius2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2);
+				motion_data1.DisplayTarget.y = motion_data2.DisplayStart.y + Radius2*k2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2);
+			}
+			else//当前圆弧段所在的直线的矢量方向偏向向下
+			{
+				motion_data1.DisplayTarget.x = motion_data2.DisplayStart.x - Radius2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2);
+				motion_data1.DisplayTarget.y = motion_data2.DisplayStart.y - Radius2*k2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2);
+			}
+		}
+		//Debug.LogWarning ("起刀G01G02");
+	}	
+	//起刀程序G01G03	
+	private void CuttingStart_style03(ref MotionInfo motion_data1, ref MotionInfo motion_data2)
+	{
+		float k2;
+		int G41_G42_Sign;
+		
+		if(motion_data2.RadiusCompensationInfo == (int)RadiusCompensationEnum.G41)
+			G41_G42_Sign = 1;
+		else 
+			G41_G42_Sign = -1;
+		
+		if(motion_data2.DisplayStart.x == motion_data2.Center_Point.x)//半径所在直线的斜率不存在
+		{			
+			if(motion_data2.DisplayStart.y > motion_data2.Center_Point.y)//方向向上
+			{
+				motion_data1.DisplayTarget.x = motion_data2.DisplayStart.x;
+				motion_data1.DisplayTarget.y = motion_data2.DisplayStart.y - Radius2*G41_G42_Sign;
+			}
+			else//方向向下
+			{
+				motion_data1.DisplayTarget.x = motion_data2.DisplayStart.x;
+				motion_data1.DisplayTarget.y = motion_data2.DisplayStart.y + Radius2*G41_G42_Sign;
+			}
+			//Debug.Log ("调试");
+		}
+		else 
+		{
+			k2 = (motion_data2.DisplayStart.y - motion_data2.Center_Point.y)/(motion_data2.DisplayStart.x - motion_data2.Center_Point.x);
+			if(motion_data2.Center_Point.x < motion_data2.DisplayStart.x)
+			{
+				//Debug.Log ("调试");
+				motion_data1.DisplayTarget.x = motion_data2.DisplayStart.x - Radius2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2);
+				motion_data1.DisplayTarget.y = motion_data2.DisplayStart.y - Radius2*k2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2);
+			}
+			else
+			{
+				motion_data1.DisplayTarget.x = motion_data2.DisplayStart.x + Radius2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2);
+				motion_data1.DisplayTarget.y = motion_data2.DisplayStart.y + Radius2*k2*G41_G42_Sign/Mathf.Sqrt (1 + k2*k2);
+				//Debug.Log ("调试");
+			}
+		}
+		//Debug.LogWarning ("起刀G01G03");
+	}
+	#endregion
+	////左右补偿的标记函数
+	#region Modified Paramater By Eric
+	private int Inside_Outside (ref MotionInfo motion_data1, ref MotionInfo motion_data2)//判断内外边走刀函数
+	{
+		switch (motion_data1.Motion_Type)
+		{
+		case (int)MotionType.Circular02:
+			return Inside_Outside02(ref motion_data1, ref motion_data2);
+		case (int)MotionType.Circular03:
+			return Inside_Outside03(ref motion_data1, ref motion_data2);
+		default:
+			return Inside_Outside01 (ref motion_data1, ref motion_data2);
+		}
+	}
+	
+	private int Inside_Outside02 (ref MotionInfo motion_data1, ref MotionInfo motion_data2)
+	{
+		double dot_Value;
+		double dot_Value_1;
+		int fix_dot_Value;
+		int G41_G42_Sign;
+		double Angle;
+		Vector3 tempDir;
+		Vector3 Run_Direction01;
+		Vector3 Run_Direction02;
+		
+		fix_dot_Value = 0;
+		G41_G42_Sign = 0;
+		//左右补偿标记
+		if(motion_data1.RadiusCompensationInfo == (int)RadiusCompensationEnum.G41)
+			G41_G42_Sign  = 1;
+		else
+			G41_G42_Sign = -1;
+		
+		Run_Direction01 = motion_data2.DisplayStart - motion_data1.Center_Point;
+		
+		if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+		{
+			Run_Direction02 = motion_data2.DisplayStart - motion_data2.Center_Point;//半径所在直线的向量
+			tempDir = Vector3.Cross (Run_Direction01,Run_Direction02);//叉乘
+			dot_Value = Vector3.Dot (tempDir , Vector3.forward  );//点乘
+			Angle = Vector3.Angle (Run_Direction01,Run_Direction02);//两向量之间的夹角
+			//Debug.Log (Angle);
+			if(Angle > -0.001f && Angle < 0.001f)//待定O0084测试程序
+			{
+				fix_dot_Value = 1;
+				//Debug.Log ("调试");
+			}
+			else if(Angle > 179.999f && Angle < 180.001f)
+			{
+				fix_dot_Value = 1*G41_G42_Sign;
+				//Debug.Log ("调试");
+			}
+			else
+			{
+				if(dot_Value > 0)
+					fix_dot_Value = 1*G41_G42_Sign;
+				else
+					fix_dot_Value = -1*G41_G42_Sign;
+				//Debug.Log ("调试");
+			}
+		}
+		else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+		{
+			Run_Direction02 = motion_data2.DisplayStart - motion_data2.Center_Point;//半径所在直线的向量
+			tempDir = Vector3.Cross (Run_Direction01,Run_Direction02);//叉乘
+			dot_Value = Vector3.Dot (tempDir , Vector3.forward );//点乘
+			Angle = Vector3.Angle (Run_Direction01,Run_Direction02);//两向量之间的夹角
+			//Debug.Log (Angle);	
+			if(Angle > -0.001f && Angle < 0.001f)
+			{
+				float R1 = Vector3.Distance (motion_data2.DisplayStart , motion_data1.Center_Point);
+				float R2 = Vector3.Distance (motion_data2.DisplayStart , motion_data2.Center_Point);
+				
+				if(R2 > R1)
+					fix_dot_Value = 1*G41_G42_Sign;
+				else
+					fix_dot_Value = -1*G41_G42_Sign;
+			}
+			else if(Angle > 179.999f && Angle < 180.001f)
+			{	
+					fix_dot_Value = 1;
+			}
+			else
+			{
+				if(dot_Value > 0)
+					fix_dot_Value = -1*G41_G42_Sign;
+				else
+					fix_dot_Value = 1*G41_G42_Sign;
+			}
+		}
+		else
+		{
+			Run_Direction02 = motion_data2.DisplayTarget - motion_data2.DisplayStart;
+			Angle = Vector3.Angle (Run_Direction01,Run_Direction02);//两向量之间的夹角
+			tempDir = Vector3.Cross (Run_Direction01,Run_Direction02);//叉乘
+			dot_Value = Vector3.Dot (tempDir , Vector3.forward );//点乘
+			//Debug.Log (Angle);	
+			if(Angle < 90.001f && Angle > 89.999f)//因为90为临界值，float 和double计算都会出现误差，故取精度为0.001
+				Angle = 90.0f;
+			if(Angle > -0.001f && Angle < 0.001f)
+				Angle = 0;
+			
+			if(Angle == 90.0f)
+			{//调整过
+				if(dot_Value > 0)
+					fix_dot_Value = 1*G41_G42_Sign;
+				else
+					fix_dot_Value = 1;
+			//	Debug.Log ("测试1");
+			}
+			else if(Angle == 0)
+			{
+				dot_Value_1 = Vector3.Dot (Run_Direction01, Run_Direction02);
+				if(dot_Value_1 > 0)
+					fix_dot_Value = 1*G41_G42_Sign;
+				else
+					fix_dot_Value = -1*G41_G42_Sign;
+			}
+			else if(Angle > 0 && Angle < 90.0f)
+				fix_dot_Value = 1*G41_G42_Sign;
+			else
+				fix_dot_Value = -1*G41_G42_Sign;
+		}
+
+
+		return fix_dot_Value;
+	}
+	
+
+	private int Inside_Outside03 (ref MotionInfo motion_data1, ref MotionInfo motion_data2)
+	{
+
+
+
+
+
+		double dot_Value;
+		double dot_Value_1;
+		int fix_dot_Value;
+		int G41_G42_Sign;
+		double Angle;
+		Vector3 tempDir;
+		Vector3 Run_Direction01;
+		Vector3 Run_Direction02;
+		
+
+
+		fix_dot_Value = 0;
+		G41_G42_Sign = 0;
+		//左右补偿标记
+		if(motion_data1.RadiusCompensationInfo == (int)RadiusCompensationEnum.G41)
+			G41_G42_Sign  = 1;
+		else
+			G41_G42_Sign = -1;
+		
+		Run_Direction01 = motion_data2.DisplayStart - motion_data1.Center_Point;
+			
+		if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+		{	
+			Run_Direction02 = motion_data2.DisplayStart - motion_data2.Center_Point;
+			tempDir = Vector3.Cross (Run_Direction01,Run_Direction02);//叉乘
+			dot_Value = Vector3.Dot (tempDir , Vector3.forward );//点乘
+			Angle = Vector3.Angle (Run_Direction01,Run_Direction02);//两向量之间的夹角
+			//Debug.Log (Angle);	
+			if(Angle > -0.001f && Angle < 0.001f)
+			{
+				float R1 = Vector3.Distance (motion_data2.DisplayStart , motion_data1.Center_Point);
+				float R2 = Vector3.Distance (motion_data2.DisplayStart , motion_data2.Center_Point);
+				
+				if(R2 > R1)
+					fix_dot_Value = -1*G41_G42_Sign;
+				else
+					fix_dot_Value = 1*G41_G42_Sign;
+			}
+			else if(Angle > 179.999f && Angle < 180.001f)
+			{
+				fix_dot_Value = 1;
+			}
+			else
+			{
+				if(dot_Value > 0)
+					fix_dot_Value = -1*G41_G42_Sign;
+				else
+					fix_dot_Value = 1*G41_G42_Sign;
+			}
+		}
+		else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+		{
+			Run_Direction02 = motion_data2.DisplayStart - motion_data2.Center_Point;
+			tempDir = Vector3.Cross (Run_Direction01,Run_Direction02);//叉乘
+			dot_Value = Vector3.Dot (tempDir , Vector3.forward );//点乘
+			Angle = Vector3.Angle (Run_Direction01,Run_Direction02);//两向量之间的夹角
+			//Debug.Log (Angle);			
+//待定O0083测试程序
+			if(Angle > -0.001f && Angle < 0.001f)
+			{
+				fix_dot_Value = 1;
+				///Debug.Log ("调试");
+			}
+			else if(Angle > 179.999f && Angle < 180.001f)
+			{
+				fix_dot_Value = -1*G41_G42_Sign;
+				//Debug.Log ("调试");
+			}
+			else
+			{
+				if(dot_Value > 0)
+					fix_dot_Value = 1*G41_G42_Sign;
+				else
+					fix_dot_Value = -1*G41_G42_Sign;
+			}	
+		}
+		else
+		{
+			Run_Direction02 = motion_data2.DisplayTarget - motion_data2.DisplayStart;
+			Angle = Vector3.Angle (Run_Direction01,Run_Direction02);//两向量之间的夹角
+			tempDir = Vector3.Cross (Run_Direction01,Run_Direction02);//叉乘
+			dot_Value = Vector3.Dot (tempDir , Vector3.forward );//点乘
+			//Debug.Log (Angle);	
+			if(Angle < 90.001f && Angle > 89.999f)//因为90为临界值，float 和double计算都会出现误差，故取精度为0.001
+				Angle = 90f;
+			if(Angle > -0.001f && Angle < 0.001f)
+				Angle = 0;
+			if(Angle == 90.0f)
+			{//调整过
+				if(dot_Value > 0)
+					fix_dot_Value = 1;
+				else
+					fix_dot_Value = -1*G41_G42_Sign;
+			}
+			else if(Angle == 0)
+			{
+				dot_Value_1 = Vector3.Dot (Run_Direction01, Run_Direction02);
+				if(dot_Value_1 > 0)
+					fix_dot_Value = -1*G41_G42_Sign;
+				else
+					fix_dot_Value = 1*G41_G42_Sign;
+			}
+			else if(Angle > 0 && Angle < 90.0f)
+				fix_dot_Value = -1*G41_G42_Sign;
+			else
+				fix_dot_Value = 1*G41_G42_Sign;
+		}
+		return fix_dot_Value;
+	}
+	
+
+	private int Inside_Outside01 (ref MotionInfo motion_data1, ref MotionInfo motion_data2)
+	{
+
+		double dot_Value;
+		double dot_Value_1;
+		int fix_dot_Value;
+		int G41_G42_Sign;
+		double Angle;
+		Vector3 tempDir;
+		Vector3 Run_Direction01;
+		Vector3 Run_Direction02;
+		
+		fix_dot_Value = 0;
+		G41_G42_Sign = 0;
+		//左右补偿标记
+		if(motion_data1.RadiusCompensationInfo == (int)RadiusCompensationEnum.G41)
+			G41_G42_Sign  = 1;
+		else
+			G41_G42_Sign = -1;
+		
+		Run_Direction01 = motion_data2.DisplayStart - motion_data1.DisplayStart;
+			
+		if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+		{
+			Run_Direction02 = motion_data2.Center_Point - motion_data2.DisplayStart;//半径所在直线的向量
+			Angle = Vector3.Angle (Run_Direction01,Run_Direction02);//两向量之间的夹角
+			tempDir = Vector3.Cross (Run_Direction01,Run_Direction02);//叉乘
+			dot_Value = Vector3.Dot (tempDir , Vector3.forward );//点乘
+			dot_Value_1 = Vector3.Dot (Run_Direction01,Run_Direction02);
+			if(Angle < 90.001f && Angle > 89.999f)//因为90为临界值，float 和double计算都会出现误差，故取精度为0.001
+				Angle = 90.0f;
+			if(Angle > -0.001f && Angle < 0.001f)
+				Angle = 0;
+			//Debug.Log (Angle);
+			if(Angle == 90.0f)
+			{
+				if(G41_G42_Sign == 1)
+					fix_dot_Value = 1;
+				else
+				{
+					if(dot_Value > 0)
+						fix_dot_Value = -1;
+					else 
+						fix_dot_Value = 1;
+				}
+			}
+			else if(Angle == 0)
+			{
+				if(dot_Value_1 > 0)
+					fix_dot_Value = 1*G41_G42_Sign;
+				else
+					fix_dot_Value = -1*G41_G42_Sign;
+			}
+			else if(Angle > 0 && Angle < 90.0f)
+				fix_dot_Value = 1*G41_G42_Sign;
+			else
+				fix_dot_Value = -1*G41_G42_Sign;
+		}
+		else if( motion_data2.Motion_Type == (int)MotionType.Circular03)
+		{
+			Run_Direction02 = motion_data2.Center_Point - motion_data2.DisplayStart;//半径所在直线的向量
+			Angle = Vector3.Angle (Run_Direction01,Run_Direction02);//两向量之间的夹角
+			tempDir = Vector3.Cross (Run_Direction01,Run_Direction02);//叉乘
+			dot_Value = Vector3.Dot (tempDir , Vector3.forward );//点乘
+			dot_Value_1 = Vector3.Dot (Run_Direction01,Run_Direction02);
+			//Debug.Log (Angle);
+			if(Angle < 90.001f && Angle > 89.999f)//因为90为临界值，float 和double计算都会出现误差，故取精度为0.001
+				Angle = 90.0f;
+			if(Angle > -0.001f && Angle < 0.001f)
+				Angle = 0;
+			
+			if(Angle == 90)
+			{
+				if(G41_G42_Sign == 1)
+				{
+					if(dot_Value > 0)
+						fix_dot_Value = 1;
+					else
+						fix_dot_Value = -1;
+				}
+				else
+					fix_dot_Value = 1;
+			}
+			else if(Angle == 0)
+			{
+				if(dot_Value_1 > 0)
+					fix_dot_Value = -1*G41_G42_Sign;
+				else
+					fix_dot_Value = 1*G41_G42_Sign;
+				Debug.Log ("调试");
+			}	
+			else if(Angle >= 0 && Angle < 90.0f)
+				fix_dot_Value = -1*G41_G42_Sign;
+			else
+				fix_dot_Value = 1*G41_G42_Sign;
+		}
+		else
+		{
+			Run_Direction02 = motion_data2.DisplayTarget - motion_data2.DisplayStart;
+			tempDir = Vector3.Cross (Run_Direction01,Run_Direction02);//叉乘
+			dot_Value = Vector3.Dot (tempDir , Vector3.forward );//点乘
+			Angle = Vector3.Angle (Run_Direction01,Run_Direction02);//两向量之间的夹角
+			//Debug.Log (Angle);	
+			if(Angle > -0.001f && Angle < 0.001f)
+			{
+				fix_dot_Value = 1;
+			}
+			else if(Angle > 179.999f && Angle < 180.001f)
+			{
+				fix_dot_Value = -1;
+			}
+			else
+			{
+				if(dot_Value > 0)	
+					fix_dot_Value = 1*G41_G42_Sign;
+				else
+					fix_dot_Value = -1*G41_G42_Sign;
+			}
+		}
+		return fix_dot_Value;
+	}
+	#endregion
+	//补偿主体函数
+	#region Modified Paramater By Eric
+	//左补偿内边走刀函数
+	private void Left_Compensation_Inside(ref MotionInfo motion_data1, ref MotionInfo motion_data2)//左补偿函数
+	{
+		G41_G01G01 G01G01 = new G41_G01G01();
+		G41_G01G02 G01G02 = new G41_G01G02();
+		G41_G01G03 G01G03 = new G41_G01G03();
+		G41_G02G01 G02G01 = new G41_G02G01();
+		G41_G02G02 G02G02 = new G41_G02G02();
+		G41_G02G03 G02G03 = new G41_G02G03();
+		G41_G03G01 G03G01 = new G41_G03G01();
+		G41_G03G02 G03G02 = new G41_G03G02();
+		G41_G03G03 G03G03 = new G41_G03G03();
+		
+		if(motion_data1.Motion_Type == (int)MotionType.Circular02)
+		{
+				
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G02G02.main(ref motion_data1, ref motion_data2);
+				//Debug.LogWarning ("G41_G02G02");
+			}
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G02G03.main(ref motion_data1, ref motion_data2);
+				//Debug.LogWarning ("G41_G02G03");
+			}
+			else
+			{
+				G02G01.main(ref motion_data1, ref motion_data2);
+				//Debug.LogWarning ("G41_G02G01");
+			}
+		}
+		else if(motion_data1.Motion_Type == (int)MotionType.Circular03)
+		{
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G03G02.main(ref motion_data1, ref motion_data2);
+				//Debug.LogWarning ("G41_G03G02");
+			}
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G03G03.main(ref motion_data1, ref motion_data2);
+				//Debug.LogWarning ("G41_G03G03");	
+			}
+			else
+			{
+				G03G01.main(ref motion_data1, ref motion_data2);
+				//Debug.LogWarning ("G41_G03G01");
+			}
+		}
+		else
+		{
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G01G02.main(ref motion_data1, ref motion_data2);
+				//Debug.LogWarning ("G41_G01G02");
+			} 
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G01G03.main(ref motion_data1, ref motion_data2);
+				//Debug.LogWarning ("G41_G01G03");
+			}
+			else
+			{
+				G01G01.main(ref motion_data1, ref motion_data2);
+				//Debug.LogWarning ("G41_G01G01");
+			}
+		}
+	}
+	//左补偿外边走刀函数
+	private void Left_Compensation_Outside(ref MotionInfo motion_data1, ref MotionInfo motion_data_circle, ref MotionInfo motion_data2)
+	{
+		G41_G01G01O G41_G01G01O = new G41_G01G01O();
+		G41_G01G02O G41_G01G02O = new G41_G01G02O();
+		G41_G01G03O G41_G01G03O = new G41_G01G03O();
+		G41_G02G01O G41_G02G01O = new G41_G02G01O();
+		G41_G02G02O G41_G02G02O = new G41_G02G02O();
+		G41_G02G03O G41_G02G03O = new G41_G02G03O();
+		G41_G03G01O G41_G03G01O = new G41_G03G01O();
+		G41_G03G02O G41_G03G02O = new G41_G03G02O();
+		G41_G03G03O G41_G03G03O = new G41_G03G03O();
+	
+		 if(motion_data1.Motion_Type == (int)MotionType.Circular02)
+		{
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G41_G02G02O.main(ref motion_data1, ref motion_data_circle, ref motion_data2); 
+				//Debug.LogWarning ("G41_G02G02O");
+			}
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G41_G02G03O.main(ref motion_data1, ref motion_data_circle, ref motion_data2); 
+				//Debug.LogWarning ("G41_G02G03O");
+			}
+			else
+			{
+				G41_G02G01O.main(ref motion_data1, ref motion_data_circle, ref motion_data2); 
+				//Debug.LogWarning ("G41_G02G01O");
+			}
+		}
+		else if(motion_data1.Motion_Type == (int)MotionType.Circular03)
+		{
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G41_G03G02O.main(ref motion_data1, ref motion_data_circle, ref motion_data2); 
+				//Debug.LogWarning ("G41_G03G02O");
+			}
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G41_G03G03O.main(ref motion_data1, ref motion_data_circle, ref motion_data2); 
+				//Debug.LogWarning ("G41_G03G03O");
+			}
+			else
+			{
+				G41_G03G01O.main(ref motion_data1, ref motion_data_circle, ref motion_data2);
+				//Debug.LogWarning ("G41_G03G01O");
+			}
+		}
+		else
+		{
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G41_G01G02O.main(ref motion_data1, ref motion_data_circle, ref motion_data2); 
+				//Debug.LogWarning ("G41_G01G02O");
+			}
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G41_G01G03O.main(ref motion_data1, ref motion_data_circle, ref motion_data2); 
+				//Debug.LogWarning ("G41_G01G03O");
+			}
+			else
+			{
+				G41_G01G01O.main(ref motion_data1, ref motion_data_circle, ref motion_data2);//已改为直线连接性
+				//Debug.LogWarning ("G41_G01G01O");
+			}
+		}
+	}
+	//右补偿内边走刀函数
+	private void Right_Compensation_Inside(ref MotionInfo motion_data1, ref MotionInfo motion_data2)
+	{
+
+
+		G42_G01G01 G42_G01G01 = new G42_G01G01();
+		G42_G01G02 G42_G01G02 = new G42_G01G02();
+		G42_G01G03 G42_G01G03 = new G42_G01G03();
+		G42_G02G01 G42_G02G01 = new G42_G02G01();
+		G42_G02G02 G42_G02G02 = new G42_G02G02();
+		G42_G02G03 G42_G02G03 = new G42_G02G03();
+		G42_G03G01 G42_G03G01 = new G42_G03G01();
+		G42_G03G02 G42_G03G02 = new G42_G03G02();
+		G42_G03G03 G42_G03G03 = new G42_G03G03();
+		
+		if(motion_data1.Motion_Type == (int)MotionType.Circular02)
+		{
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G42_G02G02.main(ref motion_data1, ref motion_data2);
+			//	Debug.LogWarning ("G42_G02G02");
+			}
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G42_G02G03.main(ref motion_data1, ref motion_data2);
+			//	Debug.LogWarning ("G42_G02G03");
+			}
+			else
+			{
+				G42_G02G01.main(ref motion_data1, ref motion_data2);
+			//	Debug.LogWarning ("G42_G02G01");
+			}
+		}
+		else if(motion_data1.Motion_Type == (int)MotionType.Circular03)
+		{
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G42_G03G02.main(ref motion_data1, ref motion_data2);
+			//	Debug.LogWarning ("G42_G03G02");
+			}
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G42_G03G03.main(ref motion_data1, ref motion_data2);
+			//	Debug.LogWarning ("G42_G03G03");
+			}
+			else
+			{
+				G42_G03G01.main(ref motion_data1, ref motion_data2);
+			//	Debug.LogWarning ("G42_G03G01");
+			}
+
+		}
+		else
+		{
+			
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G42_G01G02.main(ref motion_data1, ref motion_data2); 
+			//	Debug.LogWarning ("G42_G01G02");
+			}
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G42_G01G03.main(ref motion_data1, ref motion_data2);
+			//	Debug.LogWarning ("G42_G01G03");
+			}
+			else
+			{
+				G42_G01G01.main(ref motion_data1, ref motion_data2);
+			//	Debug.LogWarning ("G42_G01G01");
+			}
+		}
+	}
+	//右补偿外边走刀函数
+	private void Right_Compensation_Outside(ref MotionInfo motion_data1, ref MotionInfo motion_data_circle, ref MotionInfo motion_data2)
+	{
+		G42_G01G01O G42_G01G01O = new G42_G01G01O();
+		G42_G01G02O G42_G01G02O = new G42_G01G02O();
+		G42_G01G03O G42_G01G03O = new G42_G01G03O();
+		G42_G02G01O G42_G02G01O = new G42_G02G01O();
+		G42_G02G02O G42_G02G02O = new G42_G02G02O();
+		G42_G02G03O G42_G02G03O = new G42_G02G03O();
+		G42_G03G01O G42_G03G01O = new G42_G03G01O();
+		G42_G03G02O G42_G03G02O = new G42_G03G02O();
+		G42_G03G03O G42_G03G03O = new G42_G03G03O();
+		
+		if(motion_data1.Motion_Type == (int)MotionType.Circular02)
+		{
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G42_G02G02O.main(ref motion_data1,ref motion_data_circle, ref motion_data2);
+			//	Debug.LogWarning ("G42_G02G02O");
+			}
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G42_G02G03O.main(ref motion_data1,ref motion_data_circle, ref motion_data2); 
+			//	Debug.LogWarning ("G42_G02G03O");
+			}
+			else
+			{
+				G42_G02G01O.main(ref motion_data1,ref motion_data_circle, ref motion_data2); 
+			//	Debug.LogWarning ("G42_G02G01O");
+			}
+		}
+		else if(motion_data1.Motion_Type == (int)MotionType.Circular03)
+		{
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G42_G03G02O.main(ref motion_data1,ref motion_data_circle, ref motion_data2);
+			//	Debug.LogWarning ("G42_G03G02O");
+			}
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G42_G03G03O.main(ref motion_data1,ref motion_data_circle, ref motion_data2);
+			//	Debug.LogWarning ("G42_G03G03O");
+			}
+			else
+			{
+				G42_G03G01O.main(ref motion_data1,ref motion_data_circle, ref motion_data2);
+			//	Debug.LogWarning ("G42_G03G01O");
+			}
+		}
+		else
+		{
+			if(motion_data2.Motion_Type == (int)MotionType.Circular02)
+			{
+				G42_G01G02O.main(ref motion_data1,ref motion_data_circle, ref motion_data2); 
+			//	Debug.LogWarning ("G42_G01G02O");
+			}
+			else if(motion_data2.Motion_Type == (int)MotionType.Circular03)
+			{
+				G42_G01G03O.main(ref motion_data1,ref motion_data_circle, ref motion_data2); 
+			//	Debug.LogWarning ("G42_G01G03O");
+			}
+			else
+			{
+				G42_G01G01O.main(ref motion_data1,ref motion_data_circle, ref motion_data2);
+			//	Debug.LogWarning ("G42_G01G01O");
+			}
+		}
+	}
+	#endregion
+	
+
+
+	//转换坐标主体函数
+	#region Modified Paramater By Eric
+	//平面转换函数
+	public void Convert_XYPlane(ref MotionInfo motion_data1)
+	{
+
+		if(motion_data1.M_Code == (int)CheckInformation.YZPlane)
+		{
+			YZplane_to_XYplane(ref motion_data1);
+		}
+		else if(motion_data1.M_Code == (int)CheckInformation.ZXPlane)
+		{
+			ZXplane_to_XYplane(ref motion_data1);
+		}	    
+	}	
+	//转换坐标系ZX，转换XYplane
+	private void ZXplane_to_XYplane(ref MotionInfo motion_data1)
+	{
+		//motion_data1的数据plane转换
+		float Mid_Factor;
+		
+		Mid_Factor = motion_data1.DisplayStart.y;
+		motion_data1.DisplayStart.y = motion_data1.DisplayStart.z;
+		motion_data1.DisplayStart.z = Mid_Factor;
+		
+		Mid_Factor = motion_data1.DisplayTarget.y;
+		motion_data1.DisplayTarget.y = motion_data1.DisplayTarget.z;
+		motion_data1.DisplayTarget.z = Mid_Factor;
+		
+		Mid_Factor = motion_data1.Center_Point.y;
+		motion_data1.Center_Point.y = motion_data1.Center_Point.z;
+		motion_data1.Center_Point.z = Mid_Factor;
+	}
+	//转换坐标系YZ，转换XYplane
+	private void YZplane_to_XYplane(ref MotionInfo motion_data1)
+	{
+		//motion_data1的数据plane转换
+		float Mid_Factor;
+		Mid_Factor = motion_data1.DisplayStart.z;
+		motion_data1.DisplayStart.z = motion_data1.DisplayStart.x;
+		motion_data1.DisplayStart.x = Mid_Factor;
+		
+		Mid_Factor = motion_data1.DisplayTarget.z;
+		motion_data1.DisplayTarget.z = motion_data1.DisplayTarget.x;
+		motion_data1.DisplayTarget.x = Mid_Factor;
+		
+		Mid_Factor = motion_data1.Center_Point.z;
+		motion_data1.Center_Point.z = motion_data1.Center_Point.x;
+		motion_data1.Center_Point.x = Mid_Factor;	
+	}
+	#endregion
+}
+
+public class Length_Compensation
+{
+	public void Length(ref MotionInfo motion_data1)
+	{
+		float Length;//这里的Height已经包括刀具自身长度补偿！！！
+		
+		//读取长度补偿的数据
+		if(motion_data1.H_Value == 0)
+			Length = 0;
+		else
+			Length = LoadLengthValue.H_Value (motion_data1.H_Value);
+		
+		//判断长度补偿值正负
+		if(Length < 0)
+		{
+			if(motion_data1.LengthCompensationInfo == (int)LengthCompensationEnum.G43)
+				motion_data1.LengthCompensationInfo = (int)LengthCompensationEnum.G44;
+			else
+				motion_data1.LengthCompensationInfo = (int)LengthCompensationEnum.G43;
+		}
+		
+		//保证长度的补偿值为正值
+		Length = Mathf.Abs (Length);
+		
+		//进行长度补偿
+		float Orignal_Length = motion_data1.DisplayTarget.z;//保存原有的z坐标的值
+		if(motion_data1.LengthCompensationInfo != (int)LengthCompensationEnum.G49 || Length != 0)
+		{//如果下一次的长度补偿增量部位取消或者零，那么执行补偿程序
+			if(motion_data1.LengthCompensationInfo == (int)LengthCompensationEnum.G43)
+			{				
+				motion_data1.DisplayStart.z = motion_data1.DisplayStart.z + Length;
+				motion_data1.DisplayTarget.z =motion_data1.DisplayTarget.z + Length;	
+				motion_data1.Center_Point.z = Orignal_Length + Length;
+			}
+			else
+			{
+				motion_data1.DisplayStart.z = motion_data1.DisplayStart.z - Length;
+				motion_data1.DisplayTarget.z = motion_data1.DisplayTarget.z - Length;
+				motion_data1.Center_Point.z = Orignal_Length - Length;
+			}
+		}
+		//取消长度补偿
+		else
+			return;			
 	}
 }
 

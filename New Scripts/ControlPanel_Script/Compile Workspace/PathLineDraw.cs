@@ -5,11 +5,15 @@ public class PathLineDraw : MonoBehaviour {
 	
 	ControlPanel Main;
 	public LineInfo lineDrawer;
+	public LineInfo lineOriginalDrawer;
 	public ArcInfo arcDrawer;
 	Material lineMaterial;
+	
 	public Transform lineRef;
 	public bool pathLineDisplay = true;
-	public string pathLineState = "隐藏轨迹线";
+	public bool originalPathDisplay = true;
+	public string pathLineState = "隐藏切削轨迹线";
+	public string pathOriginalLineState = "隐藏原始轨迹线";
 	
 	public bool display_menu = false;
 	Rect menu_rect = new Rect(0,0,0,0);
@@ -23,6 +27,7 @@ public class PathLineDraw : MonoBehaviour {
 		
 		lineDrawer = new LineInfo();
 		arcDrawer = new ArcInfo();
+		lineOriginalDrawer = new LineInfo();
 		try
 		{
 			lineRef = GameObject.Find("GameObject").transform;
@@ -169,13 +174,27 @@ public class PathLineDraw : MonoBehaviour {
 		{
 			if(pathLineDisplay)
 			{
-				pathLineState = "显示轨迹线";
+				pathLineState = "显示切削轨迹线";
 				pathLineDisplay = false;
 			}
 			else
 			{
-				pathLineState = "隐藏轨迹线";
+				pathLineState = "隐藏切削轨迹线";
 				pathLineDisplay = true;
+			}
+		}
+		
+		if(GUI.Button(new Rect(90, 70, 120, 30), pathOriginalLineState))
+		{
+			if(originalPathDisplay)
+			{
+				pathOriginalLineState = "显示原始轨迹线";
+				originalPathDisplay = false;
+			}
+			else
+			{
+				pathOriginalLineState = "隐藏原始轨迹线";
+				originalPathDisplay = true;
 			}
 		}
 		
@@ -190,16 +209,25 @@ public class PathLineDraw : MonoBehaviour {
 	//快速进行的渲染
 	void OnPostRender() 
 	{
-       		if (!lineMaterial)
+       	if (!lineMaterial)
 		{
-            		Debug.LogError("Please Assign a material on the inspector");
-            		return;
-        	}
+            Debug.LogError("Please Assign a material on the inspector");
+            return;
+        }
+		
 		if(pathLineDisplay)
 		{
 			for(int i = 0; i < lineDrawer.Count(); i++)
 			{
 				DrawStraightLine(lineDrawer.start_point[i], lineDrawer.end_point[i], lineDrawer.line_color[i]);
+			}
+		}
+		
+		if(originalPathDisplay && !Main.AutoRunning_flag && !Main.MDI_RunningFlag)
+		{
+			for(int i = 0; i < lineOriginalDrawer.Count(); i++)
+			{
+				DrawStraightLine(lineOriginalDrawer.start_point[i], lineOriginalDrawer.end_point[i], lineOriginalDrawer.line_color[i]);
 			}
 		}
 //		DrawArcLine(new Vector3(-2f, 0, 0), new Vector3(2f, 0, 0), new Vector3(0, 0, 0), Mathf.PI, 2f, Color.yellow);

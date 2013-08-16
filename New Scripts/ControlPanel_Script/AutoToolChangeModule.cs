@@ -9,6 +9,7 @@ public class AutoToolChangeModule : MonoBehaviour {
 	#region Modified Paramater By Eric
 	ControlPanel Main;
 	LightNumber LightControl_Script;
+	DisplayMode DisplayMode_Script;
 	string[] toolApronName; //刀座名称
 	Transform[] apron = new Transform[20];  //存放刀座
 	Transform[] apronCube = new Transform[20];  //存放刀座上的小方块
@@ -74,7 +75,6 @@ public class AutoToolChangeModule : MonoBehaviour {
 			return;
 		}
 		toolRef.name = "tool_reference";
-		Transform apronTrans;
 		for(int i = 0; i < 20; i++)
 		{
 			apron[i] = GameObject.Find(toolApronName[0] + (i+1).ToString()).transform;
@@ -231,6 +231,7 @@ public class AutoToolChangeModule : MonoBehaviour {
 	{
 		Main = GameObject.Find("MainScript").GetComponent<ControlPanel>();
 		LightControl_Script = GameObject.Find("MainScript").GetComponent<LightNumber>();
+		DisplayMode_Script = GameObject.Find("MainScript").GetComponent<DisplayMode>();
 		menu_rect.x = 100f;
 		menu_rect.y = 300f;
 		menu_rect.width = 300f;
@@ -575,6 +576,20 @@ public class AutoToolChangeModule : MonoBehaviour {
 		Main.toolDiameter = cutterDiamater[20];
 		Main.ToolNo = currentToolNo;
 		LightControl_Script.SetNumber(Main.ToolNo);
+		//刀具显示控制
+		if(DisplayMode_Script.AllPartsHide())
+		{
+			if(cutter[buttomApronNo - 1] != null)
+			{
+				cutter[buttomApronNo - 1].renderer.enabled = false;
+				cutterApron[buttomApronNo - 1].renderer.enabled = false;
+			}
+			if(cutter[20] != null)
+			{
+				cutter[20].renderer.enabled = true;
+				cutterApron[20].renderer.enabled = true;
+			}
+		}
 		cutterIndex[21] = -1;
 		cutterIndex[22] = -1;
 		cutterLength[21] = 0;

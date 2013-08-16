@@ -5,6 +5,7 @@ public class MDIFunctionModule : MonoBehaviour {
 	ControlPanel Main;
 	CooSystem CooSystem_script;
 	MDIInputModule MDIInput_script;
+	MDIEditModule MDIEdit_Script;
 	
 	public float btn_width = 48;
 	public float btn_height = 48;
@@ -12,16 +13,13 @@ public class MDIFunctionModule : MonoBehaviour {
 	public float l_y=34;
 	public float left_x=57;
 	public float left_y=53;
-	
-	Rect TestRect;
-	Rect TestRect2;
+
 	// Use this for initialization
 	void Start () {
 		Main = gameObject.GetComponent<ControlPanel>();
 		CooSystem_script = gameObject.GetComponent<CooSystem>();
 		MDIInput_script=gameObject.GetComponent<MDIInputModule>();
-		TestRect = new Rect((l_x + 2*left_x + btn_width/4)/1000f*Main.width, (l_y+5*left_y + btn_height/4)/1000f*Main.height,(btn_width/2)/1000f*Main.width, (btn_height/2)/1000f*Main.height);
-		TestRect2 = new Rect(0, 0, 100, 100);
+		MDIEdit_Script = gameObject.GetComponent<MDIEditModule>();
 	}
 	
 	public void Function () 
@@ -139,6 +137,10 @@ public class MDIFunctionModule : MonoBehaviour {
 					Main.EndRow = SystemArguments.EditLineNumber;
 				    Main.SelectStart = 0;
 				    Main.SelectEnd = 0;
+					if(Main.ProgMDI)
+					{
+						MDIEdit_Script.EditProgRight();
+					}
 				}
 				Main.ALM_Control = false;
 				Main.ALMBlink = false;

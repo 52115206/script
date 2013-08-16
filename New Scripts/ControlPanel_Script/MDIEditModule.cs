@@ -19,7 +19,7 @@ public class MDIEditModule : MonoBehaviour {
 	public float left_x=57;
 	public float left_y=53;
 	
-	bool NewProg_flag = false;
+	bool NewProg_flag = false; 
 	
 	// Use this for initialization
 	void Awake()
@@ -87,7 +87,7 @@ public class MDIEditModule : MonoBehaviour {
 								AlterCode();	
 								Main.beModifed = true;
 								if (Main.ProgEDITProg)                      //tianjia BY WGG
-									ModifyProg();
+									ModifyProg(); 
 							}	
 						}
 					}
@@ -114,13 +114,27 @@ public class MDIEditModule : MonoBehaviour {
 						{
 							if(Main.InputText != "")
 							{
-								InsertCode();
+								InsertCode();	
 								Main.beModifed = true;
 								if (Main.ProgEDITProg && !NewProg_flag)        //tianjia By WGG
 									ModifyProg();
-								NewProg_flag = false;
+								NewProg_flag = false; 
 							}	
 						}
+						else if(Main.ProgEDITList)
+						{
+							if(Main.InputText.StartsWith("O"))
+							{
+								InsertNewProgram (Main.InputText.Trim ('O'));
+								if(NewProg_flag)
+								{
+									Main.ProgEDITList = false ;
+									Main.ProgEDITProg = true ;
+									NewProg_flag = false ;
+								}
+							}
+						}
+						
 					}
 				}
 			}
@@ -189,7 +203,7 @@ public class MDIEditModule : MonoBehaviour {
 				}
 			}
 		}
-			
+		
 		if (GUI.Button(new Rect((l_x)/1000f*Main.width, (l_y+6*left_y)/1000f*Main.height, btn_width/1000f*Main.width, btn_height/1000f*Main.height), "", Main.PAGEu))             
 		{
 			if(Main.ScreenPower)
@@ -299,7 +313,7 @@ public class MDIEditModule : MonoBehaviour {
 	/// <summary>
 	/// 重新编写的AlterCode()，实现代码的替换 董帅 2013-4-2
 	/// </summary>
-	void AlterCode()
+	void AlterCode() 
 	{
 	   if(Main.SelectStart==0)
 			Main.isSelecFirst=true;
@@ -349,7 +363,6 @@ public class MDIEditModule : MonoBehaviour {
 				Main.CodeForAll.Clear();
 				Main.CodeForAll.Add(temp_name);
 				Main.CodeForAll.Add(";");
-//				Main.
 				Main.ProgramNum = name_num;
 				Main.Progname_Backup = Main.ProgramNum;
 				Main.ProgEDITCusorV=0;
@@ -369,10 +382,19 @@ public class MDIEditModule : MonoBehaviour {
 				sw.Close ();
 				NewProg_flag = true;
 				Softkey_Script .FileInfoInitialize();
+				Main.ProgEDITAt = true;
+				Main.at_position = Main.RealListNum%8;	
+				Main.at_page_number = (Main.RealListNum - 1)/8;
+				Softkey_Script.Locate_At_Position (Main.RealListNum);
+				Main.WarnningClear();
+			}
+			else
+			{
+				Main.WarnningMessageCreate("程序已存在！");
 			}
 			Main.InputText = "";
 			Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
-			Main.WarnningClear();
+//			Main.WarnningClear();
 		}
 		else
 		{
@@ -457,6 +479,32 @@ public class MDIEditModule : MonoBehaviour {
 				File.Delete (temp_path+".nc");
 			}
 			
+			int name_int = Convert.ToInt32(Main.InputText.Trim().Trim('O',';','；'));
+			if(name_int == Main.ProgramNum && Main.ProgramNum!=0)
+			{
+				Main.CodeForAll.Clear();
+				Main.ProgEDITAt = false;
+				Main.at_position = -1;
+				Main.ProgramNum = 0;
+				Main.RealListNum = 1;
+				Main.Progname_Backup = Main.ProgramNum;
+				Main.ProgEDITCusorV=0;
+				Main.ProgEDITCusorH=0;
+				Main.StartRow=0;
+				Main.EndRow=SystemArguments.EditLineNumber;
+				Main.SelectStart=0;
+				Main.SelectEnd=0;
+				Main.TotalCodeNum = Main.CodeForAll.Count;
+				Softkey_Script.calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
+				EditProgRight();
+			}
+			if(name_int < Main.ProgramNum)
+			{
+				Main.RealListNum = Main.RealListNum - 1;
+//				Softkey_Script.Locate_At_Position (Main.RealListNum);
+			}
+			if(Main.ProgEDITAt)
+				Softkey_Script.Locate_At_Position (Main.RealListNum);
 			Softkey_Script.FileInfoInitialize ( );
 			Main.InputText = "";
 			Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
@@ -470,9 +518,9 @@ public class MDIEditModule : MonoBehaviour {
 		
 	}
 	
-	
 	/// <summary>
 	/// 重新编写的InsertCode ()，实现代码的添加 陈晓威 2013-3-31
+	/// 修改    实现新程序的添加   BY WGG 
 	/// </summary>
 	void InsertCode ()
 	{
@@ -605,9 +653,6 @@ public class MDIEditModule : MonoBehaviour {
 		}
 		
 //		//待插入的字符串
-//		int row_begin = 0;
-//		int row_end;
-//		int row_length;
 //		int append_pos = 0;  //插入处的代码序号
 //		int semicolon_flag = 0;  //程度的代码字符最后是否带有";"，0代表有，1代表没有
 //		//Debug.Log("V:"+Main.ProgEDITCusorV);
@@ -668,6 +713,7 @@ public class MDIEditModule : MonoBehaviour {
 //		//插入完毕后光标移到最左边
 //		Main.ProgEDITCusorPos = Main.corner_px + 23.5f;
 //	}
+	
 	
 	/// <summary>
 	/// 重新编写的DeleteCode ()，实现代码的删除 陈晓威 2013-4-1
@@ -785,6 +831,10 @@ public class MDIEditModule : MonoBehaviour {
 						    else
 								Main.SelectStart = 0;
 						    Main.SelectEnd = Main.SelectStart;
+							if(Main.ProgMDI && Main.ProgEDITCusorV == 0 && Main.ProgEDITCusorH == 0)
+							{
+								EditProgRight();
+							}
 						}
 						else
 						{
@@ -794,6 +844,10 @@ public class MDIEditModule : MonoBehaviour {
 							Main.ProgEDITCusorH = 0;
 							Main.SelectStart = 0;
 						    Main.SelectEnd = Main.SelectStart;
+							if(Main.ProgMDI)
+							{
+								EditProgRight();
+							}
 						}
 	                }
 	                else
@@ -991,7 +1045,6 @@ public class MDIEditModule : MonoBehaviour {
 				//编辑程序时
 				if(Main.ProgEDITProg)
 				{
-					bool NumInNine = false;
 					EditProgUp();
 				}
 			}
@@ -1042,8 +1095,6 @@ public class MDIEditModule : MonoBehaviour {
 					}
 					else
 					{
-						bool NumInNine = false;
-						//Debug.Log("hello");
 						EditProgDown();
 					}
 				}
@@ -1089,8 +1140,6 @@ public class MDIEditModule : MonoBehaviour {
 		int row_begin = 0;  //这一行开始字符序号
 		int row_end = 0;  //下一行开始字符序号
 		int row_length = 0;  //这一行字符数
-//		Debug.Log(Main.SeparatePosStart.Count);
-//		Debug.Log(Main.ProgEDITCusorV);
 		row_begin = Main.SeparatePosStart[Main.ProgEDITCusorV];
 		row_end = Main.SeparatePosEnd[Main.ProgEDITCusorV];
 		row_length = row_end - row_begin;
@@ -1265,7 +1314,6 @@ public class MDIEditModule : MonoBehaviour {
 		int row_begin;
 		int row_end;
 		int row_length;
-		bool IsReverse = false;
 		if(Main.ProgEDITCusorV > 0)
 		    row_begin = Main.SeparatePosStart[Main.ProgEDITCusorV - 1];
 		else
@@ -1325,6 +1373,6 @@ public class MDIEditModule : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+	
 	}
 }

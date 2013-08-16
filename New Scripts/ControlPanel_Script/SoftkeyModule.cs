@@ -19,7 +19,6 @@ public class SoftkeyModule : MonoBehaviour {
 	//位置界面功能完善---宋荣 ---03.09
 	//Improvement for the RPOG part by Eric---03.28
 	public string document_path = "";
-	bool file_open = false;
 	public bool EditList_display_switcher = false;
 	Dictionary<char,float> strlenmap;
 	
@@ -204,6 +203,7 @@ public class SoftkeyModule : MonoBehaviour {
 					Main.ProgAUTOFlip=0;
 				if(Main.ProgAUTOFlip==5)//“下一段”页返回“程序”页
 					Main.ProgAUTOFlip=0;
+				Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
 			}//增加内容到此
 		}
 		
@@ -393,11 +393,20 @@ public class SoftkeyModule : MonoBehaviour {
 			if(Main.ProgAUTO)//内容--AUTO模式下，程序界面，第一个按钮的功能，姓名--刘旋，时间--2013-4-9
 			{
 				if(Main.ProgAUTOFlip==3)//“当前段”页，按下“程序”按钮，转到“程序”页
+				{
 					Main.ProgAUTOFlip=0;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
+				}
 				if(Main.ProgAUTOFlip==5)//“下一段”页，按下“程序”按钮，转到“程序”页
+				{
 					Main.ProgAUTOFlip=0;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
+				}
 				if(Main.ProgAUTOFlip==4)//“相对”页，按下“绝对”按钮，转到“绝对”页
+				{
 					Main.ProgAUTOFlip=2;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, false);
+				}
 			}
 			if(Main.ProgMDI)//内容--MDI模式下，程序界面，第一个按钮的功能，姓名--刘旋，时间--2013-4-22
 			{
@@ -551,19 +560,23 @@ public class SoftkeyModule : MonoBehaviour {
 				if(Main.ProgAUTOFlip==0)//“程序”页，按下“检测”按钮，转到“绝对”页
 				{
 					Main.ProgAUTOFlip=2;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, false);
 				}
 				//内容--AUTO模式下，程序界面，第二个按钮功能的修改，姓名--刘旋，时间--2013-4-9
 				else if(Main.ProgAUTOFlip==2)//“绝对”页，按下“相对”按钮，转到“相对”页
 				{
 					Main.ProgAUTOFlip=4;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, false);
 				}
 				else if(Main.ProgAUTOFlip==3)//内容--“当前段”页，按下“检索”按钮，转到“绝对”页，姓名--刘旋，时间--2013-4-11
 				{
 					Main.ProgAUTOFlip=2;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, false);
 				}
 				else if(Main.ProgAUTOFlip==5)//内容--“下一段”页，按下“检索”按钮，转到“绝对”页，姓名--刘旋，时间--2013-4-11
 				{
 					Main.ProgAUTOFlip=2;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, false);
 				}
 			}//增加内容到此
 			
@@ -1159,18 +1172,36 @@ public class SoftkeyModule : MonoBehaviour {
 			if(Main.ProgAUTO)
 			{
 				if (Main.ProgAUTOFlip==0)//“程序”页，按下“操作”按钮，转到“操作”页
+				{
 					Main.ProgAUTOFlip=1;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
+				}
 				else if(Main.ProgAUTOFlip==2)//“绝对”页，按下“操作”按钮，转到“操作”页
+				{
 					Main.ProgAUTOFlip=1;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
+				}
 				else if (Main.ProgAUTOFlip==3)//“当前段”页，按下“操作”按钮，转到“操作”页
+				{
 					Main.ProgAUTOFlip=1;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
+				}
 				//内容--AUTO模式下，程序界面，第五个按钮功能的修改，姓名--刘旋，时间--2013-4-9
 				else if(Main.ProgAUTOFlip==4)//“相对”页，按下“操作”按钮，转到“操作”页
+				{
 					Main.ProgAUTOFlip=1;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
+				}
 				else if(Main.ProgAUTOFlip==5)//“下一段”页，按下“操作”按钮，转到“操作”页
+				{
 					Main.ProgAUTOFlip=1;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
+				}
 				else if(Main.ProgAUTOFlip == 1)
+				{
 					Main.autoSelecedProgRow = 0;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
+				}
 				
 			}//增加内容到此
 		}
@@ -1274,13 +1305,25 @@ public class SoftkeyModule : MonoBehaviour {
 			if(Main.ProgAUTO)//内容--AUTO模式下，程序界面，向后翻页按钮功能的修改，姓名--刘旋，时间--2013-4-9
 			{
 				if(Main.ProgAUTOFlip==1)//“操作”页，按“+”按钮，返回“程序”页
+				{
 					Main.ProgAUTOFlip=0;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
+				}
 				else if(Main.ProgAUTOFlip==0)//内容--“程序”页，按“+”按钮，返回“操作”页，姓名--刘旋，时间--2013-4-11
+				{
 					Main.ProgAUTOFlip=1;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
+				}
 				else if(Main.ProgAUTOFlip==3)//内容--“当前段”页，按“+”按钮，返回“操作”页，姓名--刘旋，时间--2013-4-11
+				{
 					Main.ProgAUTOFlip=1;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);	
+				}
 				else if(Main.ProgAUTOFlip==5)//内容--“下一段”页，按“+”按钮，返回“操作”页，姓名--刘旋，时间--2013-4-11
+				{
 					Main.ProgAUTOFlip=1;
+					Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);	
+				}
 			}
 		}
 		
@@ -1332,14 +1375,17 @@ public class SoftkeyModule : MonoBehaviour {
 		if(Directory.Exists(document_path))
 		{
 			string temp_name = "";
-			if(Main.current_filenum > 0)
-				Main.RealListNum = Main.current_filenum;
-			else
-				Main.RealListNum = 1;
+//			Debug.Log(Main.ProgramNum);
+//			if(Main.current_filenum > 0)
+//				Main.RealListNum = Main.current_filenum;
+//			else
+//				Main.RealListNum = 1;
+			
 			//Main.ProgEDITCusor = 175f;
 			//考虑到可能增减程序的情况，如果当前有打开程序，先记录下当前的程序号
-			if(Main.FileNameList.Count > 0)
-				temp_name = Main.FileNameList[Main.RealListNum - 1];
+//			if(Main.FileNameList.Count > 0)
+			if(Main.ProgramNum > 0)
+				temp_name = "O" + Main.ToolNumFormat(Main.ProgramNum);
 			Main.FileNameList.Clear();
 			Main.FileSizeList.Clear();
 			Main.FileDateList.Clear();
@@ -1364,12 +1410,10 @@ public class SoftkeyModule : MonoBehaviour {
 						get_fileinfo = new FileInfo(fullname);
 						Main.FileDateList.Add(get_fileinfo.LastWriteTime.ToString("yyyy/MM/dd HH:mm:ss"));
 						fileSize = (int)(get_fileinfo.Length / 1024);
-//						Main.ProgUsedSpace+=fileSize;
 						if(fileSize * 1204 < get_fileinfo.Length)
 							fileSize++;
 						Main.FileSizeList.Add(fileSize);
 						Main.ProgUsedSpace += fileSize;
-//						Main.ProgUnusedSpace -= fileSize;
 					}
 				}
 				//Initialize some arquments for display
@@ -1420,12 +1464,12 @@ public class SoftkeyModule : MonoBehaviour {
 			}// 10 level
 			else
 			{
-				for(int j=0;j<8;j++)                 //添加代码（原先存在问题：最后一个代码文件Delete后列表刷新不了）       添加BY王广官
+				 for(int j=0;j<8;j++)                 //添加代码（原先存在问题：最后一个代码文件Delete后列表刷新不了）       添加BY王广官
 				{
 					Main.CodeName[j] = "";
 				}
 				Array.Clear(Main.CodeSize, 0, Main.CodeSize.Length);
-				Array.Clear(Main.UpdateDate,0,Main.UpdateDate.Length);
+				Array.Clear(Main.UpdateDate,0,Main.UpdateDate.Length); 
 				Debug.LogWarning("Can't find any file in current working directory. 	Warning caused by Eric.");
 			}
 		}
@@ -1534,11 +1578,18 @@ public class SoftkeyModule : MonoBehaviour {
 		if(Main.InputText == "" || Main.InputText == "O")
 		{
 			if(Main.RealListNum < Main.TotalListNum)
+			{	
 				Main.RealListNum++;
+			}
 			else
+			{	
 				Main.RealListNum=1;
+			}
+			
 			if(Main.at_position < 0)
+			{
 				Main.RealListNum=1;
+			}
 			file_name = Main.FileNameList[Main.RealListNum - 1];
 		}
 		//有合适的输入时
@@ -1809,22 +1860,73 @@ public class SoftkeyModule : MonoBehaviour {
 		Main.auto_total_row = irow;
 	}
 	
+	/// <summary>
+	/// Calculates the sepo MDI.
+	/// </summary>
+	/// <param name='codelist'>
+	/// CodeForAuto
+	/// </param>
+	/// <param name='row_length'>
+	/// Row_length.
+	/// </param>
+	public void calcSepoMDI(List<string> codelist, float row_length)
+	{
+		if(codelist.Count == 0)
+			return;
+		float blank_length = 13f/Main.width*1000f;	  //检验一下这个参数是否合理TobeModified
+		int index_str = 0;
+	    float cur_length = 0;
+		string each_word=null;
+		int irow;
+		cur_length = getStrLen(codelist[0]);
+		Main.SeparateMDIStart.Clear();
+		Main.SeparateMDIEnd.Clear();
+		Main.SeparateMDIStart.Add(0);
+		for(irow = 0; index_str < codelist.Count;)   
+	    {
+			each_word = codelist[index_str];   
+			if((index_str+1 < codelist.Count) && codelist[index_str+1] != ";")  //对于普通的代码计算他所占有的长度
+			{
+				float next_wordsize = getStrLen(codelist[index_str + 1]);
+				cur_length = cur_length + next_wordsize + blank_length;
+			}
+			++index_str;  //相当于For循环括号里的第三个参数
+			if(each_word.Equals(";") && index_str <= codelist.Count) //遇到";"，说明要换行
+			{
+				Main.SeparateMDIStart.Add(index_str); //该行开始位置
+				Main.SeparateMDIEnd.Add(index_str);  //该行结束位置
+				if(index_str < codelist.Count)
+					cur_length = getStrLen(codelist[index_str]);
+				++irow;
+			}									
+			else if((cur_length > row_length)&&(index_str <= codelist.Count))  //当当前行代码超过指定长度时，也要换行
+			{
+				Main.SeparateMDIStart.Add(index_str); //该行开始位置
+				Main.SeparateMDIEnd.Add(index_str);  //该行结束位置
+				if(index_str < codelist.Count)
+					cur_length = getStrLen(codelist[index_str]);
+				++irow;
+			}		
+		}
+		Main.mdi_total_row = irow;
+	}
+	
 	public float getStrLen(string str)
 	{
 		float conlen=0;
 		char[] temp=str.ToCharArray();
-		for(int i=0; i<temp.Length; i++){
+		for(int i=0; i < temp.Length; i++)
+		{
 			try
 			{
-				conlen+=strlenmap[temp[i]];
+				conlen += strlenmap[temp[i]];
 			}
-			catch(Exception ee)
+			catch
 			{
 //				Debug.Log(temp[i]+"not found");
 			}
 		}
 		return conlen;	
-		
 	}
 	
 	public void StrLenMapInitialize()

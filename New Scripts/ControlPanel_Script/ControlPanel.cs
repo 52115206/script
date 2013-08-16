@@ -4,7 +4,8 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ControlPanel : MonoBehaviour { 
+public class ControlPanel : MonoBehaviour
+{ 
 	
 	#region Defined script variable
 	PositionModule Position_Script;
@@ -32,21 +33,22 @@ public class ControlPanel : MonoBehaviour {
 	AutoMoveModule AutoMove_Script;
 	ButtonShowOff ButtonShowOff_Script;
 	Warnning Warnning_Script;
+	PathLineDraw PathLineDraw_Script;
+	RightclickMenu RightclickMenu_Script;
 	#endregion
 	
 	#region Variable For New Panel
 	//添加 BY:WH
-	public float width_x=10;
-	public float height_y=10;
-	
+	public float width_x = 10;
+	public float height_y = 10;
 	public int num;
 	//电源键
-	public float NCPower_x=60f;
-	public float NCPower_y=564f;
-	public float NCPower_width=60f;
-	public float NCPower_height=40f;
+	public float NCPower_x = 60f;
+	public float NCPower_y = 564f;
+	public float NCPower_width = 60f;
+	public float NCPower_height = 40f;
 	public float NCPower_left_x;
-	public float NCPower_left_y=85f;
+	public float NCPower_left_y = 85f;
 	
 	//锁定
 	public float t2d_x;
@@ -54,61 +56,51 @@ public class ControlPanel : MonoBehaviour {
 	public float t2d_width;
 	public float t2d_height;
 	public GUIStyle background;
-	
 	public float t2d_Emergency_x;
 	public float t2d_Emergency_y;
 	public float t2d_Emergency_width;
 	public float t2d_Emergency_height;
-	
 	public float IO_width;
 	public float IO_height;
 	public float IO_x;
 	public float IO_y;
 	public float IO_left_x;
-	
 	public float btn_width = 49;
 	public float btn_height = 45;
-	public float Axis_x=478;
-	public float Axis_y=778;
-	public float Rapid_x=695;
-	public float Rapid_y=778;
-	public float left_x=64.5f;
-	public float left_y=52;
-	
+	public float Axis_x = 478;
+	public float Axis_y = 778;
+	public float Rapid_x = 695;
+	public float Rapid_y = 778;
+	public float left_x = 64.5f;
+	public float left_y = 52;
 	public Texture2D EMPTY_off_u;
 	public Texture2D EMPTY_off_d;
 	public Texture2D EMPTY_on_u;
 	public Texture2D EMPTY_on_d;
 	public GUIStyle EMPTY;
-	
 	public Texture2D DOWN_off_u;
 	public Texture2D DOWN_off_d;
 	public Texture2D DOWN_on_u;
 	public Texture2D DOWN_on_d;
 	public GUIStyle Axis_DOWN;
-	
 	public Texture2D HUNDRED_off_u;
 	public Texture2D HUNDRED_off_d;
 	public Texture2D HUNDRED_on_u;
 	public Texture2D HUNDRED_on_d;
 	public GUIStyle HUNDRED;
-	
 	public Texture2D UP_off_u;
 	public Texture2D UP_off_d;
 	public Texture2D UP_on_u;
 	public Texture2D UP_on_d;
 	public GUIStyle Axis_UP;
-	
 	public Texture2D ORIENT_off_u;
 	public Texture2D ORIENT_off_d;
 	public Texture2D ORIENT_on_u;
 	public Texture2D ORIENT_on_d;
 	public GUIStyle ORIENT;
-	
 	public Texture2D I_u;
 	public Texture2D I_d;
 	public GUIStyle I;
-	
 	public Texture2D O_u;
 	public Texture2D O_d;
 	public GUIStyle O;
@@ -117,99 +109,75 @@ public class ControlPanel : MonoBehaviour {
 	public Texture2D pO_u;
 	public Texture2D pO_d;
 	public GUIStyle pO;
-	
 	public Texture2D qN_u;
 	public Texture2D qN_d;
 	public GUIStyle qN;
-	
 	public Texture2D rG_u;
 	public Texture2D rG_d;
 	public GUIStyle rG;
-	
 	public Texture2D a7_u;
 	public Texture2D a7_d;
 	public GUIStyle a7;
-	
 	public Texture2D b8_u;
 	public Texture2D b8_d;
 	public GUIStyle b8;
-	
 	public Texture2D c9_u;
 	public Texture2D c9_d;
 	public GUIStyle c9;
-	
 	public Texture2D uX_u;
 	public Texture2D uX_d;
 	public GUIStyle uX;
-	
 	public Texture2D vY_u;
 	public Texture2D vY_d;
 	public GUIStyle vY;
-	
 	public Texture2D wZ_u;
 	public Texture2D wZ_d;
 	public GUIStyle wZ;
-	
 	public Texture2D four_u;
 	public Texture2D four_d;
 	public GUIStyle four;
-	
 	public Texture2D five_u;
 	public Texture2D five_d;
 	public GUIStyle five;
-	
 	public Texture2D six_u;
 	public Texture2D six_d;
 	public GUIStyle six;
-	
 	public Texture2D iM_u;
 	public Texture2D iM_d;
 	public GUIStyle iM;
-	
 	public Texture2D jS_u;
 	public Texture2D jS_d;
 	public GUIStyle jS;
-	
 	public Texture2D kT_u;
 	public Texture2D kT_d;
 	public GUIStyle kT;
-	
 	public Texture2D one_u;
 	public Texture2D one_d;
 	public GUIStyle one;
-	
 	public Texture2D two_u;
 	public Texture2D two_d;
 	public GUIStyle two;
-	
 	public Texture2D three_u;
 	public Texture2D three_d;
 	public GUIStyle three;
-	
 	public Texture2D lF_u;
 	public Texture2D lF_d;
 	public GUIStyle lF;
-	
 	public Texture2D dH_u;
 	public Texture2D dH_d;
 	public GUIStyle dH;
-	
 	public Texture2D eEOB_u;
 	public Texture2D eEOB_d;
 	public GUIStyle eEOB;
-	
 	public Texture2D ap_u;
 	public Texture2D ap_d;
 	public GUIStyle ap;
-	
 	public Texture2D zero_u;
 	public Texture2D zero_d;
 	public GUIStyle zero;
-	
 	public Texture2D po_u;
 	public Texture2D po_d;
 	public GUIStyle po;
-	
 	public Texture2D sh_u;
 	public Texture2D sh_d;
 	public GUIStyle sh;
@@ -220,35 +188,27 @@ public class ControlPanel : MonoBehaviour {
 	public Texture2D POS_u;
 	public Texture2D POS_d;
 	public GUIStyle POS;
-	
 	public Texture2D PROG_u;
 	public Texture2D PROG_d;
 	public GUIStyle PROG;
-	
 	public Texture2D SET_u;
 	public Texture2D SET_d;
 	public GUIStyle SET;
-	
 	public Texture2D INPUT_u;
 	public Texture2D INPUT_d;
 	public GUIStyle INPUT;
-	
 	public Texture2D SYSTEM_u;
 	public Texture2D SYSTEM_d;
 	public GUIStyle SYSTEM;
-	
 	public Texture2D MESSAGE_u;
 	public Texture2D MESSAGE_d;
 	public GUIStyle MESSAGE;
-	
 	public Texture2D ORPH_u;
 	public Texture2D ORPH_d;
 	public GUIStyle ORPH;
-	
 	public Texture2D HELP_u;
 	public Texture2D HELP_d;
 	public GUIStyle HELP;
-	
 	public Texture2D RESET_u;
 	public Texture2D RESET_d;
 	public GUIStyle RESET;
@@ -258,39 +218,30 @@ public class ControlPanel : MonoBehaviour {
 	public Texture2D CAN_u;
 	public Texture2D CAN_d;
 	public GUIStyle CAN;
-	
 	public Texture2D ALTER_u;
 	public Texture2D ALTER_d;
 	public GUIStyle ALTER;
-	
 	public Texture2D INSERT_u;
 	public Texture2D INSERT_d;
 	public GUIStyle INSERT;
-	
 	public Texture2D DELETE_u;
 	public Texture2D DELETE_d;
 	public GUIStyle DELETE;
-	
 	public Texture2D PAGEu_u;
 	public Texture2D PAGEu_d;
 	public GUIStyle PAGEu;
-	
 	public Texture2D PAGEd_u;
 	public Texture2D PAGEd_d;
 	public GUIStyle PAGEd;
-	
 	public Texture2D LEFT_u;
 	public Texture2D LEFT_d;
 	public GUIStyle LEFT;
-	
 	public Texture2D UP_u;
 	public Texture2D UP_d;
 	public GUIStyle UP;
-	
 	public Texture2D DOWN_u;
 	public Texture2D DOWN_d;
 	public GUIStyle DOWN;
-	
 	public Texture2D RIGHT_u;
 	public Texture2D RIGHT_d;
 	public GUIStyle RIGHT;
@@ -300,11 +251,9 @@ public class ControlPanel : MonoBehaviour {
 	public Texture2D Soft_LEFT_u;
 	public Texture2D Soft_LEFT_d;
 	public GUIStyle Soft_LEFT;
-	
 	public Texture2D Soft_EMPTY_u;
 	public Texture2D Soft_EMPTY_d;
 	public GUIStyle Soft_EMPTY;
-	
 	public Texture2D Soft_RIGHT_u;
 	public Texture2D Soft_RIGHT_d;
 	public GUIStyle Soft_RIGHT;
@@ -316,49 +265,41 @@ public class ControlPanel : MonoBehaviour {
 	public Texture2D COOL_on_u;
 	public Texture2D COOL_on_d;
 	public GUIStyle COOL;
-	
 	public Texture2D Empty1_off_u;
 	public Texture2D Empty1_off_d;
 	public Texture2D Empty1_on_u;
 	public Texture2D Empty1_on_d;
 	public GUIStyle Empty1;
-	
 	public Texture2D MHS_off_u;
 	public Texture2D MHS_off_d;
 	public Texture2D MHS_on_u;
 	public Texture2D MHS_on_d;
 	public GUIStyle MHS;
-	
 	public Texture2D ATCW_off_u;
 	public Texture2D ATCW_off_d;
 	public Texture2D ATCW_on_u;
 	public Texture2D ATCW_on_d;
 	public GUIStyle ATCW;
-	
 	public Texture2D ATCCW_off_u;
 	public Texture2D ATCCW_off_d;
 	public Texture2D ATCCW_on_u;
 	public Texture2D ATCCW_on_d;
 	public GUIStyle ATCCW;
-	
 	public Texture2D MHRN_off_u;
 	public Texture2D MHRN_off_d;
 	public Texture2D MHRN_on_u;
 	public Texture2D MHRN_on_d;
 	public GUIStyle MHRN;
-	
 	public Texture2D FOR_off_u;
 	public Texture2D FOR_off_d;
 	public Texture2D FOR_on_u;
 	public Texture2D FOR_on_d;
 	public GUIStyle FOR;
-	
 	public Texture2D BACK_off_u;
 	public Texture2D BACK_off_d;
 	public Texture2D BACK_on_u;
 	public Texture2D BACK_on_d;
 	public GUIStyle BACK;
-	
 	public Texture2D Empty2_off_u;
 	public Texture2D Empty2_off_d;
 	public Texture2D Empty2_on_u;
@@ -372,37 +313,31 @@ public class ControlPanel : MonoBehaviour {
 	public Texture2D MLK_on_u;
 	public Texture2D MLK_on_d;
 	public GUIStyle MLK;
-	
 	public Texture2D DRN_u;
 	public Texture2D DRN_d;
 	public Texture2D DRN_on_u;
 	public Texture2D DRN_on_d;
 	public GUIStyle DRN;
-	
 	public Texture2D BDT_u;
 	public Texture2D BDT_d;
 	public Texture2D BDT_on_u;
 	public Texture2D BDT_on_d;
 	public GUIStyle BDT;
-	
 	public Texture2D SBK_u;
 	public Texture2D SBK_d;
 	public Texture2D SBK_on_u;
 	public Texture2D SBK_on_d;
 	public GUIStyle SBK;
-	
 	public Texture2D OSP_u;
 	public Texture2D OSP_d;
 	public Texture2D OSP_on_u;
 	public Texture2D OSP_on_d;
 	public GUIStyle OSP;
-	
 	public Texture2D ZLOCK_u;
 	public Texture2D ZLOCK_d;
 	public Texture2D ZLOCK_on_u;
 	public Texture2D ZLOCK_on_d;
 	public GUIStyle ZLOCK;
-	
 	public Texture2D MachineEMPTY_u;
 	public Texture2D MachineEMPTY_d;
 	public Texture2D MachineEMPTY_on_u;
@@ -420,16 +355,15 @@ public class ControlPanel : MonoBehaviour {
 	public bool RapidMoveFlag = false;
 	//内容--定义布尔变量，用于指示JOG模式下F0，25%，50%，100%四个按钮的功能
 	//姓名--刘旋，时间--2013-4-8
-	public bool F0_flag=false;
-	public bool F25_flag=false;
-	public bool F50_flag=false;//默认50%按钮时按下状态
-	public bool F100_flag=false;//增加内容到此 2013-4-8
+	public bool F0_flag = false;
+	public bool F25_flag = false;
+	public bool F50_flag = false;//默认50%按钮时按下状态
+	public bool F100_flag = false;//增加内容到此 2013-4-8
 	//内容--定义整形变量SlowSpeedMode，用于指示慢常速下的按键状态，SlowSpeedMode=0，表示F0按下，SlowSpeedMode=1，表示25%按下
 	//SlowSpeedMode=2，表示50%按下，SlowSpeedMode=3，表示100%按下，姓名--刘旋，时间--2013-4-8
-	public int RapidSpeedMode=2;//增加内容到此  2013-4-8
-	public Rect PanelWindowRect = new Rect(-300, 20, 670, 650);   
+	public int RapidSpeedMode = 2;//增加内容到此  2013-4-8
+	public Rect PanelWindowRect = new Rect (-300, 20, 670, 650);
 	public float timeV = 0;
-	
 	public Texture2D t2d_alarm;
 	public Texture2D t2d_zero;
 	public Texture2D t2d_toolnum;
@@ -439,11 +373,9 @@ public class ControlPanel : MonoBehaviour {
 	public GUIStyle t2d_Emergency;
 	public Texture2D t2d_em_u;
 	public Texture2D t2d_em_d;
-	
 	public Texture2D t2d_Protect;
 	public Texture2D t2d_lock;
 	public Texture2D t2d_unlock;
-	
 	public Texture2D t2d_ModeSelect;
 	public Texture2D t2d_ModeSelectEDIT;
 	public Texture2D t2d_ModeSelectDNC;
@@ -453,12 +385,10 @@ public class ControlPanel : MonoBehaviour {
 	public Texture2D t2d_ModeSelectJOG;
 	public Texture2D t2d_ModeSelectREF;
 	public int mode_type = 0;
-	
 	public Texture2D t2d_NCPower_on_u;
 	public Texture2D t2d_NCPower_on_d;
 	public Texture2D t2d_NCPower_off_u;
 	public Texture2D t2d_NCPower_off_d;
-	
 	public Texture2D t2d_feedrate;
 	public Texture2D t2d_FeedRate_0;
 	public Texture2D t2d_FeedRate_10;
@@ -477,27 +407,22 @@ public class ControlPanel : MonoBehaviour {
 	public Texture2D t2d_FeedRate_140;
 	public Texture2D t2d_FeedRate_150;
 	public int feedrate_type = 0;
-	
 	public Texture2D t2d_spCW_off_d;
 	public Texture2D t2d_spCW_off_u;
 	public Texture2D t2d_spCW_on_d;
 	public Texture2D t2d_spCW_on_u;
-	
 	public Texture2D t2d_spCCW_on_u;
 	public Texture2D t2d_spCCW_on_d;
 	public Texture2D t2d_spCCW_off_u;
 	public Texture2D t2d_spCCW_off_d;
-	
 	public Texture2D t2d_spStop_on_u;
 	public Texture2D t2d_spStop_on_d;
 	public Texture2D t2d_spStop_off_u;
 	public Texture2D t2d_spStop_off_d;
-	
 	public Texture2D t2d_rapid_on_u;
 	public Texture2D t2d_rapid_on_d;
 	public Texture2D t2d_rapid_off_u;
 	public Texture2D t2d_rapid_off_d;
-	
 	public Texture2D t2d_BottomButton_u;
 	public Texture2D t2d_BottomButton_d;
 	
@@ -507,24 +432,21 @@ public class ControlPanel : MonoBehaviour {
 	public Texture2D t2d_f0_on_d;
 	public Texture2D t2d_f0_off_u;
 	public Texture2D t2d_f0_off_d;
-	
 	public Texture2D t2d_f25_on_u;
 	public Texture2D t2d_f25_on_d;
 	public Texture2D t2d_f25_off_u;
 	public Texture2D t2d_f25_off_d;
-	
 	public Texture2D t2d_f50_on_u;
 	public Texture2D t2d_f50_on_d;
 	public Texture2D t2d_f50_off_u;
 	public Texture2D t2d_f50_off_d;
-	
 	public Texture2D t2d_f100_on_u;
 	public Texture2D t2d_f100_on_d;
 	public Texture2D t2d_f100_off_u;
 	public Texture2D t2d_f100_off_d;//增加内容到此 2013-4-8
 	
 	//label字体style
-	public GUIStyle sty_ProgEDITWindowO; 
+	public GUIStyle sty_ProgEDITWindowO;
 	public GUIStyle sty_Title;
 	public GUIStyle sty_TitleLetter;
 	public GUIStyle sty_BigXYZ;
@@ -533,6 +455,7 @@ public class ControlPanel : MonoBehaviour {
 	public GUIStyle sty_ProgModeName;
 	public GUIStyle sty_Star;
 	public GUIStyle sty_Alarm;
+	public GUIStyle sty_AlarmLetter;
 	public GUIStyle sty_BottomChooseMenu;
 	public GUIStyle sty_ProgEditProgNum;
 	public GUIStyle sty_PosSmallWord;
@@ -553,11 +476,9 @@ public class ControlPanel : MonoBehaviour {
 	//button按钮style
 	public GUIStyle sty_NCPowerOn;
 	public GUIStyle sty_NCPowerOff;
-	
 	public GUIStyle sty_ButtonCW;
 	public GUIStyle sty_ButtonCCW;
 	public GUIStyle sty_ButtonSTOP;
-	
 	public GUIStyle sty_ButtonRapid;
 	public GUIStyle sty_ButtonYP;
 	public GUIStyle sty_ButtonYN;
@@ -576,31 +497,25 @@ public class ControlPanel : MonoBehaviour {
 	public GUIStyle sty_ButtonF100;//增加内容到此 2013-4-8
 	
 	public GUIStyle sty_ButtonEmpty;
-	
 	public GUIStyle sty_ScreenBackGround;
 	public GUIStyle sty_TopLabel;
-	
 	public GUIStyle sty_BottomButtonSmallest;
 	public GUIStyle sty_BottomButton_1;
 	public GUIStyle sty_BottomButton_2;
 	public GUIStyle sty_BottomButton_3;
 	public GUIStyle sty_BottomButton_4;
 	public GUIStyle sty_BottomButton_5;
-	
 	public GUIStyle sty_BottomLabel_1;
 	public GUIStyle sty_BottomLabel_2;
 	public GUIStyle sty_BottomLabel_3;
 	public GUIStyle sty_BottomLabel_4;
-	
 	public GUIStyle sty_ClockStyle;
-	
 	public GUIStyle sty_EDITLabel;
 	public GUIStyle sty_EDITLabelWindow;
 	public GUIStyle sty_ProgSharedWindow;
 	public GUIStyle sty_EDITLabelBar_1;
 	public GUIStyle sty_EDITLabelBar_2;
 	public GUIStyle sty_EDITLabelBar_3;
-	
 	public GUIStyle sty_EDITCursor;
 	public GUIStyle sty_EDITTextField;
 	public GUIStyle sty_EDITList;
@@ -610,7 +525,6 @@ public class ControlPanel : MonoBehaviour {
 	public GUIStyle sty_InputTextField;
 	public GUIStyle sty_OffSet_Coo;
 	public GUIStyle sty_SettingsBG;
-	
 	public GUIStyle sty_EditListTop;
 	
 	//内容--定义Message界面字体
@@ -623,12 +537,13 @@ public class ControlPanel : MonoBehaviour {
 	public GUIStyle sty_SysInfo;
 	//蓝色光标
 	public GUIStyle sty_BlueCursor;
+	
 	//定义恢复出厂设置窗口字体  添加 BY王广官
-	public GUIStyle sty_ResetWindow;
+	public GUIStyle sty_ResetWindow; 
 	
 	//内容--定义布尔变量，控制System、Message的显示，姓名--刘旋，时间--2013-4-24
-	public bool SystemMenu=false;
-	public bool MessageMenu=false;
+	public bool SystemMenu = false;
+	public bool MessageMenu = false;
 	public bool PosMenu = true;
 	public bool RelativeCoo = false;
 	public bool AbsoluteCoo = true;
@@ -660,7 +575,7 @@ public class ControlPanel : MonoBehaviour {
 	public int ProgEDITFlip = 0;
 	//内容--定义变量ProgAUTOFlip，用于控制AUTO模式下屏幕的显示
 	//姓名--刘旋，时间--2013-3-25
-	public int ProgAUTOFlip=0;
+	public int ProgAUTOFlip = 0;
 	public int ProgSharedFlip = 0;
 	public int ProgSharedView = 0;
 	public int ProgUsedNum = 0;
@@ -669,15 +584,15 @@ public class ControlPanel : MonoBehaviour {
 	//内容--内存总容量为512K，姓名--刘旋，时间--2013-3-18
 	public int ProgUnusedSpace = 512;//将419430400修改为512
 	//内容--定义变量ProgMDIFlip，用于控制MDI模式下，程序菜单屏幕的显示，姓名--刘旋，时间--2013-4-22
-	public int ProgMDIFlip=0;
+	public int ProgMDIFlip = 0;
 	//内容--定义变量ProgDNCFlip，用于控制DNC模式下，程序菜单屏幕的显示，姓名--刘旋，时间--2013-4-22
-	public int ProgDNCFlip=0;
+	public int ProgDNCFlip = 0;
 	//内容--定义变量ProgHANFlip，用于控制Handle模式下，程序菜单屏幕的显示，姓名--刘旋，时间--2013-4-22
-	public int ProgHANFlip=0;
+	public int ProgHANFlip = 0;
 	//内容--定义变量MessageFlip，用于Message模式的显示，姓名--刘旋，时间--2013-4-24
-	public int MessageFlip=0;
+	public int MessageFlip = 0;
 	//内容--定义变量SystemFlip，用于System模式的显示，姓名--刘旋，时间--2013-4-24
-	public int SystemFlip=0;
+	public int SystemFlip = 0;
 	public float ProgEDITCusor = 0;
 	
 	/// 记录当前光标的索引, 董帅 陈晓威， 2013-4-2
@@ -696,8 +611,8 @@ public class ControlPanel : MonoBehaviour {
 	public int MDISelectEnd = 0;
 	//记录是否选择 陈晓威 
 	public bool IsSelect = false;
-	public bool needRecalc=false;
-	public bool editDisplay=true;
+	public bool needRecalc = false;
+	public bool editDisplay = true;  //判断之前是显示EDIT画面还是MDI画面
 	/// 记录程序分行的位置，董帅，2013-4-2
 	public List<int> SeparatePosStart;
 	public List<int> SeparatePosEnd;
@@ -705,25 +620,34 @@ public class ControlPanel : MonoBehaviour {
 	public List<int> SeparateAutoStart;
 	public List<int> SeparateAutoEnd;
 	public int auto_total_row = 0;
+	public List<int> SeparateMDIStart;
+	public List<int> SeparateMDIEnd;
+	public int mdi_total_row = 0;
 	//public int ProgTotalRow = 0;
 	
 	//复制缓冲区 董帅 2013-4-10
-	public List<string> CodeBuffer = new List<string>();
+	public List<string> CodeBuffer = new List<string> ();
 	
 	//是否选择代码首个 陈晓威
-	public bool isSelecFirst=false;
+	public bool isSelecFirst = false;
 	//用CodeForMDI来存放MDI中的代码  
-	public List<string> CodeForMDI = new List<string>();
+	public List<string> CodeForMDI = new List<string> ();
+	public List<string> CodeForMDIRuning = new List<string> ();
 	//auto模式下code 陈晓威
-	public List<string> CodeForAUTO = new List<string>();
+	public List<string> CodeForAUTO = new List<string> ();
 	public int AutoBeginRow = 0;
 	public int AutoStopRow = 0;
-	public int AUTOStartRow=0;
-	public int AUTOEndRow=0;
-	public bool autoDisplayNormal=true;
-	public int autoSelecedProgRow=0;
-	
+	public int AUTOStartRow = 0;
+	public int AUTOEndRow = 0;
+	public int MDIBeginRow = 0;
+	public int MDIStopRow = 0;
+	public int MDIStartRowC = 0;
+	public int MDIEndRowC = 0;
+	public bool autoDisplayNormal = true;
+	public int autoSelecedProgRow = 0;
+	public int MDISelectedRow = 0;
 	public float ProgEDITCusorPos = 0;
+	public float InputTextPos = 0;
 	public bool ProgDNC = false;
 	public bool ProgAUTO = false;
 	public bool ProgMDI = false;
@@ -734,7 +658,7 @@ public class ControlPanel : MonoBehaviour {
 	public bool EmergencyBlink = false;
 	public bool ProgProtect = true;
 	public bool ProgProtectWarn = false;
-	public Vector2 TextSize = new Vector2(0,0);
+	public Vector2 TextSize = new Vector2 (0, 0);
 	public bool SettingMenu = false;
 	public bool OffSetTool = true;
 	public bool OffSetSetting = false;
@@ -742,14 +666,12 @@ public class ControlPanel : MonoBehaviour {
 	public bool OffSetOne = true;
 	public bool OffSetTwo = false;
 	public bool OffCooFirstPage = true;
-	
-	public List<string> FileNameList = new List<string>();
-	public List<int> FileSizeList = new List<int>();
-	public List<string> FileDateList = new List<string>();
+	public List<string> FileNameList = new List<string> ();
+	public List<int> FileSizeList = new List<int> ();
+	public List<string> FileDateList = new List<string> ();
 	//用CodeForAll来存放将ＮＣ代码分词后的结果 董帅 2013-4-3
-	public List<string> CodeForAll = new List<string>();
-	public List<List<string>> TempCodeList = new List<List<string>>();
-	
+	public List<string> CodeForAll = new List<string> ();
+	public List<List<string>> TempCodeList = new List<List<string>> ();
 	public bool[] MoreThanOneArray = new bool[9];
 	public int[] RealNumArray = new int[9];
 	public string[] TempCodeArray = new string[9];
@@ -775,23 +697,19 @@ public class ControlPanel : MonoBehaviour {
 	public string current_filename = "";
 	//The location of current file in the NC file list. Co-operate with arqument RealFileList.
 	public int current_filenum = 0;
-	
 	public GUIText EDITText;
 	public GUIText CursorText;
-	
 	public bool ShiftFlag = false;
 	public string InputText = "";
 	public string TempInputText = "";
-	public Vector2 InputTextSize = new Vector2(0,0);
+	public Vector2 InputTextSize = new Vector2 (0, 0);
 	public string OffSetTemp = "";
-	
 	public float coo_setting_cursor_x = 131f;
 	public float coo_setting_cursor_y = 120f;
 	public int coo_setting_1 = 1;
 	public int coo_setting_2 = 1;
-	
 	public bool power_notification = false;
-	Rect power_notifi_window = new Rect(Screen.width / 2f, Screen.height / 2f, 200f, 100f); 
+	Rect power_notifi_window = new Rect (Screen.width / 2f, Screen.height / 2f, 200f, 100f);
 	public float move_rate = 1f;
 	
 	//设定界面修改---张振华---03.11
@@ -803,21 +721,17 @@ public class ControlPanel : MonoBehaviour {
 	//设定界面修改---张振华---03.11
 	
 	//位置界面功能完善---宋荣 ---03.09
-	public bool operationBottomScrInitial=false;//position模式下按下操作键的初始界面显示标志
-	public bool operationBottomScrExecute=false;//position模式下按下执行界面显示标志
+	public bool operationBottomScrInitial = false;//position模式下按下操作键的初始界面显示标志
+	public bool operationBottomScrExecute = false;//position模式下按下执行界面显示标志
 	public bool posTimeAndNumber = false;
-	public bool partsNumBlink=false;//零件数闪烁标志
-	public bool runtimeIsBlink=false;//运行时间闪烁标志
-	public bool posOperationMode=false;//position下按下操作键,用来屏蔽第一、二、三个按钮的操作。
-	public int statusBeforeOperation=-1;
+	public bool partsNumBlink = false;//零件数闪烁标志
+	public bool runtimeIsBlink = false;//运行时间闪烁标志
+	public bool posOperationMode = false;//position下按下操作键,用来屏蔽第一、二、三个按钮的操作。
+	public int statusBeforeOperation = -1;
 	//位置界面功能完善---宋荣 ---03.09
-	
-	//内容--姓名--日期
-	//变量
+
 	//内容--定义布尔变量ProgEDITAt，用于选择程序时，前加@
-	//姓名--刘旋
-	//日期--2013-3-18
-	public bool ProgEDITAt=false;
+	public bool ProgEDITAt = false;
 	public int at_position = -1;
 	public int at_page_number = -1;
 	
@@ -831,8 +745,25 @@ public class ControlPanel : MonoBehaviour {
 	public float tool_setting_cursor_w = 91.5f; //刀偏界面光标垂直方向的值
 	//刀偏界面完善---张振华---03.30
 	
-	float left = -300f;
-	bool show_off = false;
+	//窗口动画控制
+	float show_off_speed = 3f;  //窗口切换的速度
+	float left = -300f;  //控制窗口界面左右移动
+	float top = 0;  //控制窗口界面上下移动
+	bool panelWindow_show_off = true; //主界面splash动画控制
+	bool screen_show_off = false;  //小窗口splash动画控制
+	bool show_off_times = false;  //单独动作还是连续动作判断
+	bool appear_dispear = true;  //出现或者消失
+	float show_off_centre_x = 0;
+	float show_off_centre_y = 0;
+	float show_off_big_corner_x = 0;
+	float show_off_big_corner_y = 0;
+	float show_off_small_corner_x = 0;
+	float show_off_small_corner_y = 0;
+	bool screen_move_on = false;
+	float hide_start_x = 0;
+	float screen_move_speed = 20f;
+	float display_speed = 0;
+	bool screen_hide = false;
 	public float remaining_x = 0; //剩余移动量X
 	public float remaining_y = 0; //剩余移动量Y
 	public float remaining_z = 0; //剩余移动量Z
@@ -846,6 +777,9 @@ public class ControlPanel : MonoBehaviour {
 	public bool Compile_flag = false; //如果通过编译，该标志位为true
 	public bool AutoRunning_flag = false; //如果AUTO程序正在运行，该标志位为true
 	public bool AutoPause_flag = false; //如果AUTO程序在运行时处于暂停状态，改标志位为true;
+	public bool MDI_CompileFlag = false;  //MDI程序编译状态
+	public bool MDI_RunningFlag = false;  //MDI程序正在运行标志位
+	public bool MDI_PauseFlag = false;  //MDI程序暂停标志位
 	public bool SingleStep = false;  //单步运行
 	public bool Current_F_value = false; //当前段F值显示标志位
 	public bool Current_S_value = false; //当前段S值显示标志位
@@ -858,7 +792,6 @@ public class ControlPanel : MonoBehaviour {
 	public int M_value = 0; //H值显示
 	public int T_Value = 0; //R值显示
 	public bool OSP_On = false;
-	
 	public float toolLength = 0;
 	public float toolDiameter = 0;
 	public bool main_axis_on = false;
@@ -891,7 +824,6 @@ public class ControlPanel : MonoBehaviour {
 	public GUIStyle sty_zero;
 	public GUIStyle sty_po;
 	public GUIStyle sty_sh;
-	
 	public GUIStyle sty_Pos;
 	public GUIStyle sty_PROG;
 	public GUIStyle sty_SET;
@@ -901,14 +833,12 @@ public class ControlPanel : MonoBehaviour {
 	public GUIStyle sty_GRPH;
 	public GUIStyle sty_HELP;
 	public GUIStyle sty_RESET;
-	
 	public GUIStyle sty_CAN;
 	public GUIStyle sty_ALTER;
 	public GUIStyle sty_INSERT;
 	public GUIStyle sty_DELETE;
 	public GUIStyle sty_PAGEu;
 	public GUIStyle sty_PAGEd;
-	
 	public GUIStyle sty_COOL;
 	public Texture2D sty_COOL_u;
 	public Texture2D sty_COOL_d;
@@ -930,7 +860,6 @@ public class ControlPanel : MonoBehaviour {
 	public GUIStyle sty_BACK;
 	public Texture2D sty_BACK_u;
 	public Texture2D sty_BACK_d;
-	
 	public GUIStyle sty_MLK;
 	public Texture2D sty_MLK_u;
 	public Texture2D sty_MLK_d;
@@ -949,7 +878,6 @@ public class ControlPanel : MonoBehaviour {
 	public GUIStyle sty_ZLOCK;
 	public Texture2D sty_ZLOCK_u;
 	public Texture2D sty_ZLOCK_d;
-	
 	public GUIStyle sty_S4P;
 	public Texture2D sty_S4P_u;
 	public Texture2D sty_S4P_d;
@@ -977,7 +905,6 @@ public class ControlPanel : MonoBehaviour {
 	public GUIStyle sty_SZN;
 	public Texture2D sty_SZN_u;
 	public Texture2D sty_SZN_d;
-	
 	public GUIStyle sty_SF0;
 	public Texture2D sty_SF0_u;
 	public Texture2D sty_SF0_d;
@@ -1013,6 +940,33 @@ public class ControlPanel : MonoBehaviour {
 	public Texture2D sty_SCCW_d;
 	#endregion
 	
+	#region Variable For Knob Enlarge
+	public GUIStyle sty_enlargeknob;
+	public Texture2D t2d_EDIT;
+	public Texture2D t2d_DNC;
+	public Texture2D t2d_AUTO;
+	public Texture2D t2d_MDI;
+	public Texture2D t2d_MPG;
+	public Texture2D t2d_JOG;
+	public Texture2D t2d_ZERO;
+	public Texture2D t2d_Feedrate0;
+	public Texture2D t2d_Feedrate10;
+	public Texture2D t2d_Feedrate20;
+	public Texture2D t2d_Feedrate30;
+	public Texture2D t2d_Feedrate40;
+	public Texture2D t2d_Feedrate50;
+	public Texture2D t2d_Feedrate60;
+	public Texture2D t2d_Feedrate70;
+	public Texture2D t2d_Feedrate80;
+	public Texture2D t2d_Feedrate90;
+	public Texture2D t2d_Feedrate100;
+	public Texture2D t2d_Feedrate110;
+	public Texture2D t2d_Feedrate120;
+	public Texture2D t2d_Feedrate130;
+	public Texture2D t2d_Feedrate140;
+	public Texture2D t2d_Feedrate150;
+	#endregion 
+	
 	#region Variable For Screen Modify
 	public float corner_px = 15f;
 	public float corner_py = 15f;
@@ -1020,123 +974,162 @@ public class ControlPanel : MonoBehaviour {
 	public float screen_sizey = 400f;
 	#endregion
 	
+	#region Small Screen Variable
+	public Rect screenRect = new Rect (300, 100, 30, 40);
+	public GUIStyle sty_screenOnlyBackground;
+	public bool screenOnly = false;
+	public bool panelWindowOnly = true;
+	float small_corner_px = 11f;
+	float small_corner_py = 9f;
+	float big_corner_px = 33.5f;
+	float big_corner_py = 32f;
+	public GUIStyle sty_Rightclick;
+	public GUIStyle sty_RightclickFont;
+	#endregion
+	
 	public GUIStyle TestGUIStyle;
 	
-	void Awake () 
+	void Awake ()
 	{
+		small_corner_px = 11.5f;
+		small_corner_py = 8.5f;
+		big_corner_px = 33.5f;
+		big_corner_py = 32f;
 		corner_px = 33.5f;
 		corner_py = 32f;
 		screen_sizex = 498f;
 		screen_sizey = 375f;
 		transform.name = "MainScript";
-		//添加 BY:WH
-		gameObject.AddComponent("LightNumber");
-		LightNumber_Script=gameObject.GetComponent<LightNumber>();
+		InputTextPos = corner_px + 23.5f;
+		screenRect.width = SystemArguments.SmallScreen_Width;
+		screenRect.height = SystemArguments.SmallScreen_Heght; 
+		width = 0.1f;
+		height = 0.1f;
+		left = 0f;
+		top = 0f;
+		show_off_speed = 8.5f;
+		show_off_big_corner_x = Screen.width - 30f - SystemArguments.PanelWindow_Width;
+		show_off_big_corner_y = 30f;
+		show_off_centre_x = show_off_big_corner_x + SystemArguments.PanelWindow_Width / 2;
+		show_off_centre_y = show_off_big_corner_y + SystemArguments.PanelWindow_Height / 2;
+		show_off_small_corner_x = show_off_centre_x - SystemArguments.SmallScreen_Width / 2;
+		show_off_small_corner_y = show_off_centre_y - SystemArguments.SmallScreen_Heght / 2;
+		PanelWindowRect = new Rect (left, 30f, width, height);		
 		
-		GameObject.Find("Main Camera").AddComponent("PathLineDraw");
-		gameObject.AddComponent("ModelInitialize");
-		gameObject.AddComponent("NCCodeFormat");
-		gameObject.AddComponent("ShowOuterSkin");
-		NCCodeFormat_Script=gameObject.GetComponent<NCCodeFormat>();
-		gameObject.AddComponent("PositionModule");
-		Position_Script = gameObject.GetComponent<PositionModule>();
-		gameObject.AddComponent("SystemModule");//添加脚本，姓名--刘旋，时间--2013-4-24
-		System_Script=gameObject.GetComponent<SystemModule>();
-		gameObject.AddComponent("MessageModule");
-		Message_Script=gameObject.GetComponent<MessageModule>();
-		gameObject.AddComponent("SoftkeyModule");
-		Softkey_Script = gameObject.GetComponent<SoftkeyModule>();
-		gameObject.AddComponent("ProgramModule");
-		Program_Script = gameObject.GetComponent<ProgramModule>();
-		gameObject.AddComponent("OffsetSettingModule");
-		Offset_Script = gameObject.GetComponent<OffsetSettingModule>();
-		gameObject.AddComponent("MDIInputModule");
-		MDIInput_Script = gameObject.GetComponent<MDIInputModule>();
-		gameObject.AddComponent("MDIFunctionModule");
-		MDIFunction_Script = gameObject.GetComponent<MDIFunctionModule>();
-		gameObject.AddComponent("MDIEditModule");
-		MDIEdit_Script = gameObject.GetComponent<MDIEditModule>();
-		gameObject.AddComponent("ModeSelectModule");
-		ModeSelect_Script = gameObject.GetComponent<ModeSelectModule>();
-		gameObject.AddComponent("FeedrateModule");
-		Feedrate_Script = gameObject.GetComponent<FeedrateModule>();
-		gameObject.AddComponent("MachineFunctionModule");
-		MachineFunction_Script = gameObject.GetComponent<MachineFunctionModule>();
-		gameObject.AddComponent("AuxiliaryFunctionModule");
-		AuxiliaryFunction_Script = gameObject.GetComponent<AuxiliaryFunctionModule>();
+		//添加 BY:WH
+		gameObject.AddComponent <LightNumber> ();
+		LightNumber_Script = gameObject.GetComponent<LightNumber> ();
+		GameObject.Find ("Main Camera").AddComponent <PathLineDraw> ();
+		PathLineDraw_Script = GameObject.Find ("Main Camera").GetComponent<PathLineDraw> ();
+		gameObject.AddComponent<ModelInitialize> ();
+		gameObject.AddComponent<NCCodeFormat> ();
+		gameObject.AddComponent<DisplayMode> ();
+		NCCodeFormat_Script = gameObject.GetComponent<NCCodeFormat> ();
+		gameObject.AddComponent <PositionModule> ();
+		Position_Script = gameObject.GetComponent<PositionModule> ();
+		gameObject.AddComponent<SystemModule> ();//添加脚本，姓名--刘旋，时间--2013-4-24
+		System_Script = gameObject.GetComponent<SystemModule> ();
+		gameObject.AddComponent<MessageModule> ();
+		Message_Script = gameObject.GetComponent<MessageModule> ();
+		gameObject.AddComponent <SoftkeyModule> ();
+		Softkey_Script = gameObject.GetComponent<SoftkeyModule> ();
+		gameObject.AddComponent<ProgramModule> ();
+		Program_Script = gameObject.GetComponent<ProgramModule> ();
+		gameObject.AddComponent<OffsetSettingModule> ();
+		Offset_Script = gameObject.GetComponent<OffsetSettingModule> ();
+		gameObject.AddComponent <MDIInputModule> ();
+		MDIInput_Script = gameObject.GetComponent<MDIInputModule> ();
+		gameObject.AddComponent<MDIFunctionModule> ();
+		MDIFunction_Script = gameObject.GetComponent<MDIFunctionModule> ();
+		gameObject.AddComponent<MDIEditModule> ();
+		MDIEdit_Script = gameObject.GetComponent<MDIEditModule> ();
+		gameObject.AddComponent<ModeSelectModule> ();
+		ModeSelect_Script = gameObject.GetComponent<ModeSelectModule> ();
+		gameObject.AddComponent<FeedrateModule> ();
+		Feedrate_Script = gameObject.GetComponent<FeedrateModule> ();
+		gameObject.AddComponent <MachineFunctionModule> ();
+		MachineFunction_Script = gameObject.GetComponent<MachineFunctionModule> ();
+		gameObject.AddComponent <AuxiliaryFunctionModule> ();
+		AuxiliaryFunction_Script = gameObject.GetComponent<AuxiliaryFunctionModule> ();
 		//GameObject move_obj = GameObject.Find("GameObjcet")
 		//GameObject.Find("move_control").AddComponent("MoveControl");
-		LoadScriptOfAudio();
-		MoveControl_script = GameObject.Find("move_control").GetComponent<MoveControl>();
-		AuxiliaryMoveModule_Script = GameObject.Find("move_control").GetComponent<AuxiliaryMoveModule>();
+		LoadScriptOfAudio ();
+		MoveControl_script = GameObject.Find ("move_control").GetComponent<MoveControl> ();
+		AuxiliaryMoveModule_Script = GameObject.Find ("move_control").GetComponent<AuxiliaryMoveModule> ();
 		//GameObject.Find("spindle_control").AddComponent("SpindleControl");
-		SpindleControl_script = GameObject.Find("spindle_control").GetComponent<SpindleControl>();
-		gameObject.AddComponent("CooSystem");
+		SpindleControl_script = GameObject.Find ("spindle_control").GetComponent<SpindleControl> ();
+		gameObject.AddComponent <CooSystem> ();
 //		gameObject.AddComponent("AutoMove");
 //		gameObject.AddComponent("CompileNC");
-		CooSystem_script = gameObject.GetComponent<CooSystem>();
+		CooSystem_script = gameObject.GetComponent<CooSystem> ();
 //		CompileNC_script = gameObject.GetComponent<CompileNC>();
-		gameObject.AddComponent("EntranceScript");
-		AutoRunning_Script = gameObject.GetComponent<EntranceScript>();
-		gameObject.AddComponent<ButtonShowOff>();
-		ButtonShowOff_Script = gameObject.GetComponent<ButtonShowOff>();
-		gameObject.AddComponent<TopMenu>();
-		TopMenu_Script = gameObject.GetComponent<TopMenu>();
-		Warnning_Script = gameObject.GetComponent<Warnning>();
+		gameObject.AddComponent<EntranceScript> ();
+		AutoRunning_Script = gameObject.GetComponent<EntranceScript> ();
+		gameObject.AddComponent<ButtonShowOff> ();
+		ButtonShowOff_Script = gameObject.GetComponent<ButtonShowOff> ();
+		gameObject.AddComponent<TopMenu> ();
+		TopMenu_Script = gameObject.GetComponent<TopMenu> ();
+		Warnning_Script = gameObject.GetComponent<Warnning> ();
+		gameObject.AddComponent<RightclickMenu> ();
+		RightclickMenu_Script = gameObject.GetComponent<RightclickMenu> ();
 		//添加 BY:WH
-		background.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/11");
+		background.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/11");
+		sty_Rightclick.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/RightClick");
+		sty_RightclickFont.font = (Font)Resources.Load ("font/msyh");
+		sty_RightclickFont.fontSize = 13;
+//		sty_screenOnlyBackground.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/12");
+			
+		NCPower_x = 60f;
+		NCPower_y = 564f;
+		NCPower_width = 60f;
+		NCPower_height = 40f;
+		NCPower_left_x = 0f;
+		NCPower_left_y = 85f;
 		
-		NCPower_x=60f;
-		NCPower_y=564f;
-		NCPower_width=60f;
-		NCPower_height=40f;
-		NCPower_left_x=0f;
-		NCPower_left_y=85f;
+		t2d_x = 180f;
+		t2d_y = 534f;
+		t2d_width = 55f;
+		t2d_height = 29f;
 		
-		t2d_x=180f;
-		t2d_y=534f;
-		t2d_width=55f;
-		t2d_height=29f;
+		t2d_Emergency_x = 91;
+		t2d_Emergency_y = 759;
+		t2d_Emergency_width = 115;
+		t2d_Emergency_height = 115;
 		
-		t2d_Emergency_x=91;
-		t2d_Emergency_y=759;
-		t2d_Emergency_width=115;
-		t2d_Emergency_height=115;
+		IO_width = 65f;
+		IO_height = 50f;
+		IO_x = 78f;
+		IO_y = 900f;
+		IO_left_x = 80f;
 		
-		IO_width=65f;
-		IO_height=50f;
-		IO_x=78f;
-		IO_y=900f;
-		IO_left_x=80f;
+		left_x = 65f;
 		
-		left_x=65f;
-		
-		Rapid_x=693;
+		Rapid_x = 693;
 
 //		t2d_lock = (Texture2D)Resources.Load("Texture_Panel/Button/lock");
 //		t2d_unlock = (Texture2D)Resources.Load("Texture_Panel/Button/unlock");
-		t2d_lock = (Texture2D)Resources.Load("DigitalControlPanel/66_2");
-		t2d_unlock = (Texture2D)Resources.Load("DigitalControlPanel/66");
+		t2d_lock = (Texture2D)Resources.Load ("DigitalControlPanel/66_2");
+		t2d_unlock = (Texture2D)Resources.Load ("DigitalControlPanel/66");
 //		t2d_alarm = (Texture2D)Resources.Load("Texture_Panel/Button/alarm");
 //		t2d_zero = (Texture2D)Resources.Load("Texture_Panel/Button/zero");
 //		t2d_toolnum = (Texture2D)Resources.Load("Texture_Panel/Button/toolnum");	
 //		t2d_em_u = (Texture2D)Resources.Load("Texture_Panel/Button/em_u");
 //		t2d_em_d = (Texture2D)Resources.Load("Texture_Panel/Button/em_d");
-		t2d_em_u = (Texture2D)Resources.Load("DigitalControlPanel/RedButton-1");
-		t2d_em_d = (Texture2D)Resources.Load("DigitalControlPanel/RedButton");
+		t2d_em_u = (Texture2D)Resources.Load ("DigitalControlPanel/RedButton-1");
+		t2d_em_d = (Texture2D)Resources.Load ("DigitalControlPanel/RedButton");
 		t2d_Protect = t2d_lock;
 //		t2d_Emergency = t2d_em_u;
 		t2d_Emergency.normal.background = t2d_em_u;
 		
-		I_u= (Texture2D)Resources.Load("DigitalControlPanel/green-1");
-		I_d= (Texture2D)Resources.Load("DigitalControlPanel/green");
-		I.normal.background=I_u;
-		I.active.background=I_d;
+		I_u = (Texture2D)Resources.Load ("DigitalControlPanel/green-1");
+		I_d = (Texture2D)Resources.Load ("DigitalControlPanel/green");
+		I.normal.background = I_u;
+		I.active.background = I_d;
 		
-		O_u= (Texture2D)Resources.Load("DigitalControlPanel/yellow-1");
-		O_d= (Texture2D)Resources.Load("DigitalControlPanel/yellow");
-		O.normal.background=O_u;
-		O.active.background=O_d;
+		O_u = (Texture2D)Resources.Load ("DigitalControlPanel/yellow-1");
+		O_d = (Texture2D)Resources.Load ("DigitalControlPanel/yellow");
+		O.normal.background = O_u;
+		O.active.background = O_d;
 		
 //		t2d_ModeSelectEDIT = (Texture2D)Resources.Load("Texture_Panel/Button/mode_edit");
 //		t2d_ModeSelectDNC = (Texture2D)Resources.Load("Texture_Panel/Button/mode_dnc");
@@ -1145,466 +1138,490 @@ public class ControlPanel : MonoBehaviour {
 //		t2d_ModeSelectHANDLE = (Texture2D)Resources.Load("Texture_Panel/Button/mode_handle");
 //		t2d_ModeSelectJOG = (Texture2D)Resources.Load("Texture_Panel/Button/mode_jog");
 //		t2d_ModeSelectREF = (Texture2D)Resources.Load("Texture_Panel/Button/mode_ref");
-		t2d_ModeSelectEDIT = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/1");
-		t2d_ModeSelectDNC = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/2");
-		t2d_ModeSelectAUTO = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/3");
-		t2d_ModeSelectMDI = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/4");
-		t2d_ModeSelectHANDLE = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/5");
-		t2d_ModeSelectJOG = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/6");
-		t2d_ModeSelectREF = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/7");
+		t2d_ModeSelectEDIT = (Texture2D)Resources.Load ("DigitalControlPanel/konb/1/1");
+		t2d_ModeSelectDNC = (Texture2D)Resources.Load ("DigitalControlPanel/konb/1/2");
+		t2d_ModeSelectAUTO = (Texture2D)Resources.Load ("DigitalControlPanel/konb/1/3");
+		t2d_ModeSelectMDI = (Texture2D)Resources.Load ("DigitalControlPanel/konb/1/4");
+		t2d_ModeSelectHANDLE = (Texture2D)Resources.Load ("DigitalControlPanel/konb/1/5");
+		t2d_ModeSelectJOG = (Texture2D)Resources.Load ("DigitalControlPanel/konb/1/6");
+		t2d_ModeSelectREF = (Texture2D)Resources.Load ("DigitalControlPanel/konb/1/7");
 		
 		//MDI Input value
-		pO_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/4");
-		pO_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/4");
-		pO.normal.background=pO_u;
-		pO.active.background=pO_d;
-		sty_pO.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/4");
+		pO_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/4");
+		pO_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/4");
+		pO.normal.background = pO_u;
+		pO.active.background = pO_d;
+		sty_pO.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/4");
 		
-		qN_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/5");
-		qN_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/5");
-		qN.normal.background=qN_u;
-		qN.active.background=qN_d;
-		sty_qN.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/5");
+		qN_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/5");
+		qN_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/5");
+		qN.normal.background = qN_u;
+		qN.active.background = qN_d;
+		sty_qN.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/5");
 		
-		rG_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/6");
-		rG_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/6");
-		rG.normal.background=rG_u;
-		rG.active.background=rG_d;
-		sty_rG.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/6");
+		rG_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/6");
+		rG_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/6");
+		rG.normal.background = rG_u;
+		rG.active.background = rG_d;
+		sty_rG.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/6");
 		
-		a7_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/7");
-		a7_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/7");
-		a7.normal.background=a7_u;
-		a7.active.background=a7_d;
-		sty_a7.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/7");
+		a7_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/7");
+		a7_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/7");
+		a7.normal.background = a7_u;
+		a7.active.background = a7_d;
+		sty_a7.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/7");
 		
-		b8_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/8");
-		b8_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/8");
-		b8.normal.background=b8_u;
-		b8.active.background=b8_d;
-		sty_b8.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/8");
+		b8_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/8");
+		b8_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/8");
+		b8.normal.background = b8_u;
+		b8.active.background = b8_d;
+		sty_b8.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/8");
 		
-		c9_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/9");
-		c9_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/9");
-		c9.normal.background=c9_u;
-		c9.active.background=c9_d;
-		sty_c9.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/9");
+		c9_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/9");
+		c9_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/9");
+		c9.normal.background = c9_u;
+		c9.active.background = c9_d;
+		sty_c9.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/9");
 		
-		uX_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/10");
-		uX_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/10");
-		uX.normal.background=uX_u;
-		uX.active.background=uX_d;
-		sty_uX.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/10");
+		uX_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/10");
+		uX_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/10");
+		uX.normal.background = uX_u;
+		uX.active.background = uX_d;
+		sty_uX.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/10");
 		
-		vY_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/11");
-		vY_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/11");
-		vY.normal.background=vY_u;
-		vY.active.background=vY_d;
-		sty_vY.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/11");
+		vY_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/11");
+		vY_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/11");
+		vY.normal.background = vY_u;
+		vY.active.background = vY_d;
+		sty_vY.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/11");
 		
-		wZ_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/12");
-		wZ_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/12");
-		wZ.normal.background=wZ_u;
-		wZ.active.background=wZ_d;
-		sty_wZ.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/12");
+		wZ_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/12");
+		wZ_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/12");
+		wZ.normal.background = wZ_u;
+		wZ.active.background = wZ_d;
+		sty_wZ.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/12");
 		
-		four_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/13");
-		four_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/13");
-		four.normal.background=four_u;
-		four.active.background=four_d;
-		sty_four.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/13");
+		four_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/13");
+		four_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/13");
+		four.normal.background = four_u;
+		four.active.background = four_d;
+		sty_four.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/13");
 		
-		five_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/14");
-		five_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/14");
-		five.normal.background=five_u;
-		five.active.background=five_d;
-		sty_five.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/14");
+		five_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/14");
+		five_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/14");
+		five.normal.background = five_u;
+		five.active.background = five_d;
+		sty_five.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/14");
 		
-		six_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/15");
-		six_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/15");
-		six.normal.background=six_u;
-		six.active.background=six_d;
-		sty_six.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/15");
+		six_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/15");
+		six_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/15");
+		six.normal.background = six_u;
+		six.active.background = six_d;
+		sty_six.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/15");
 		
-		iM_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/16");
-		iM_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/16");
-		iM.normal.background=iM_u;
-		iM.active.background=iM_d;
-		sty_iM.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/16");
+		iM_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/16");
+		iM_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/16");
+		iM.normal.background = iM_u;
+		iM.active.background = iM_d;
+		sty_iM.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/16");
 		
-		jS_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/17");
-		jS_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/17");
-		jS.normal.background=jS_u;
-		jS.active.background=jS_d;
-		sty_jS.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/17");
+		jS_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/17");
+		jS_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/17");
+		jS.normal.background = jS_u;
+		jS.active.background = jS_d;
+		sty_jS.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/17");
 		
-		kT_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/18");
-		kT_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/18");
-		kT.normal.background=kT_u;
-		kT.active.background=kT_d;
-		sty_kT.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/18");
+		kT_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/18");
+		kT_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/18");
+		kT.normal.background = kT_u;
+		kT.active.background = kT_d;
+		sty_kT.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/18");
 		
-		one_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/19");
-		one_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/19");
-		one.normal.background=one_u;
-		one.active.background=one_d;
-		sty_one.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/19");
+		one_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/19");
+		one_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/19");
+		one.normal.background = one_u;
+		one.active.background = one_d;
+		sty_one.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/19");
 		
-		two_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/20");
-		two_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/20");
-		two.normal.background=two_u;
-		two.active.background=two_d;
-		sty_two.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/20");
+		two_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/20");
+		two_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/20");
+		two.normal.background = two_u;
+		two.active.background = two_d;
+		sty_two.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/20");
 		
-		three_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/21");
-		three_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/21");
-		three.normal.background=three_u;
-		three.active.background=three_d;
-		sty_three.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/21");
+		three_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/21");
+		three_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/21");
+		three.normal.background = three_u;
+		three.active.background = three_d;
+		sty_three.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/21");
 		
-		lF_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/22");
-		lF_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/22");
-		lF.normal.background=lF_u;
-		lF.active.background=lF_d;
-		sty_lF.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/22");
+		lF_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/22");
+		lF_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/22");
+		lF.normal.background = lF_u;
+		lF.active.background = lF_d;
+		sty_lF.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/22");
 		
-		dH_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/23");
-		dH_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/23");
-		dH.normal.background=dH_u;
-		dH.active.background=dH_d;
-		sty_dH.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/23");
+		dH_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/23");
+		dH_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/23");
+		dH.normal.background = dH_u;
+		dH.active.background = dH_d;
+		sty_dH.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/23");
 		
-		eEOB_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/24");
-		eEOB_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/24");
-		eEOB.normal.background=eEOB_u;
-		eEOB.active.background=eEOB_d;
-		sty_eEOB.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/24");
+		eEOB_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/24");
+		eEOB_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/24");
+		eEOB.normal.background = eEOB_u;
+		eEOB.active.background = eEOB_d;
+		sty_eEOB.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/24");
 		
-		ap_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/25");
-		ap_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/25");
-		ap.normal.background=ap_u;
-		ap.active.background=ap_d;
-		sty_ap.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/25");
+		ap_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/25");
+		ap_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/25");
+		ap.normal.background = ap_u;
+		ap.active.background = ap_d;
+		sty_ap.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/25");
 		
-		zero_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/26");
-		zero_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/26");
-		zero.normal.background=zero_u;
-		zero.active.background=zero_d;
-		sty_zero.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/26");
+		zero_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/26");
+		zero_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/26");
+		zero.normal.background = zero_u;
+		zero.active.background = zero_d;
+		sty_zero.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/26");
 		
-		po_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/27");
-		po_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/27");
-		po.normal.background=po_u;
-		po.active.background=po_d;
-		sty_po.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/27");
+		po_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/27");
+		po_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/27");
+		po.normal.background = po_u;
+		po.active.background = po_d;
+		sty_po.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/27");
 		
-		sh_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/31");
-		sh_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/31");
-		sh.normal.background=sh_u;
-		sh.active.background=sh_d;
-		sty_sh.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/31");
+		sh_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/31");
+		sh_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/31");
+		sh.normal.background = sh_u;
+		sh.active.background = sh_d;
+		sty_sh.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/31");
 		
 		//MDI Input  value end
 		
 		//MDI Function value start
-		POS_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/28");
-		POS_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/28");
-		POS.normal.background=POS_u;
-		POS.active.background=POS_d;
-		sty_Pos.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/28");
+		POS_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/28");
+		POS_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/28");
+		POS.normal.background = POS_u;
+		POS.active.background = POS_d;
+		sty_Pos.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/28");
 		
-		PROG_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/29");
-		PROG_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/29");
-		PROG.normal.background=PROG_u;
-		PROG.active.background=PROG_d;
-		sty_PROG.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/29");
+		PROG_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/29");
+		PROG_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/29");
+		PROG.normal.background = PROG_u;
+		PROG.active.background = PROG_d;
+		sty_PROG.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/29");
 		
-		SET_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/30");
-		SET_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/30");
-		SET.normal.background=SET_u;
-		SET.active.background=SET_d;
-		sty_SET.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/30");
+		SET_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/30");
+		SET_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/30");
+		SET.normal.background = SET_u;
+		SET.active.background = SET_d;
+		sty_SET.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/30");
 		
-		INPUT_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/33");
-		INPUT_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/33");
-		INPUT.normal.background=INPUT_u;
-		INPUT.active.background=INPUT_d;
-		sty_INPUT.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/33");
+		INPUT_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/33");
+		INPUT_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/33");
+		INPUT.normal.background = INPUT_u;
+		INPUT.active.background = INPUT_d;
+		sty_INPUT.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/33");
 		
-		SYSTEM_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/34");
-		SYSTEM_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/34");
-		SYSTEM.normal.background=SYSTEM_u;
-		SYSTEM.active.background=SYSTEM_d;
-		sty_SYSTEM.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/34");
+		SYSTEM_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/34");
+		SYSTEM_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/34");
+		SYSTEM.normal.background = SYSTEM_u;
+		SYSTEM.active.background = SYSTEM_d;
+		sty_SYSTEM.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/34");
 		
-		MESSAGE_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/35");
-		MESSAGE_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/35");
-		MESSAGE.normal.background=MESSAGE_u;
-		MESSAGE.active.background=MESSAGE_d;
-		sty_MESSAGE.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/35");
+		MESSAGE_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/35");
+		MESSAGE_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/35");
+		MESSAGE.normal.background = MESSAGE_u;
+		MESSAGE.active.background = MESSAGE_d;
+		sty_MESSAGE.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/35");
 		
-		ORPH_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/36");
-		ORPH_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/36");
-		ORPH.normal.background=ORPH_u;
-		ORPH.active.background=ORPH_d;
-		sty_GRPH.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/36");
+		ORPH_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/36");
+		ORPH_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/36");
+		ORPH.normal.background = ORPH_u;
+		ORPH.active.background = ORPH_d;
+		sty_GRPH.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/36");
 		
-		HELP_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/46");
-		HELP_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/46");
-		HELP.normal.background=HELP_u;
-		HELP.active.background=HELP_d;
-		sty_HELP.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/46");
+		HELP_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/46");
+		HELP_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/46");
+		HELP.normal.background = HELP_u;
+		HELP.active.background = HELP_d;
+		sty_HELP.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/46");
 		
-		RESET_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/47");
-		RESET_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/47");
-		RESET.normal.background=RESET_u;
-		RESET.active.background=RESET_d;
-		sty_RESET.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/47");
+		RESET_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/47");
+		RESET_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/47");
+		RESET.normal.background = RESET_u;
+		RESET.active.background = RESET_d;
+		sty_RESET.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/47");
 		//MDI Function value end
 		
 		//MDI Edit value start
-		CAN_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/32");
-		CAN_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/32");
-		CAN.normal.background=CAN_u;
-		CAN.active.background=CAN_d;
-		sty_CAN.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/32");
+		CAN_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/32");
+		CAN_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/32");
+		CAN.normal.background = CAN_u;
+		CAN.active.background = CAN_d;
+		sty_CAN.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/32");
 		
-		ALTER_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/37");
-		ALTER_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/37");
-		ALTER.normal.background=ALTER_u;
-		ALTER.active.background=ALTER_d;
-		sty_ALTER.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/37");
+		ALTER_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/37");
+		ALTER_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/37");
+		ALTER.normal.background = ALTER_u;
+		ALTER.active.background = ALTER_d;
+		sty_ALTER.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/37");
 		
-		INSERT_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/38");
-		INSERT_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/38");
-		INSERT.normal.background=INSERT_u;
-		INSERT.active.background=INSERT_d;
-		sty_INSERT.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/38");
+		INSERT_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/38");
+		INSERT_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/38");
+		INSERT.normal.background = INSERT_u;
+		INSERT.active.background = INSERT_d;
+		sty_INSERT.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/38");
 		
-		DELETE_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/39");
-		DELETE_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/39");
-		DELETE.normal.background=DELETE_u;
-		DELETE.active.background=DELETE_d;
-		sty_DELETE.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/39");
+		DELETE_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/39");
+		DELETE_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/39");
+		DELETE.normal.background = DELETE_u;
+		DELETE.active.background = DELETE_d;
+		sty_DELETE.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/39");
 		
-		PAGEu_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/40");
-		PAGEu_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/40");
-		PAGEu.normal.background=PAGEu_u;
-		PAGEu.active.background=PAGEu_d;
-		sty_PAGEu.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/40");
+		PAGEu_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/40");
+		PAGEu_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/40");
+		PAGEu.normal.background = PAGEu_u;
+		PAGEu.active.background = PAGEu_d;
+		sty_PAGEu.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/40");
 		
-		PAGEd_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/41");
-		PAGEd_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/41");
-		PAGEd.normal.background=PAGEd_u;
-		PAGEd.active.background=PAGEd_d;
-		sty_PAGEd.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/UpPanel/3/41");
+		PAGEd_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/41");
+		PAGEd_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/41");
+		PAGEd.normal.background = PAGEd_u;
+		PAGEd.active.background = PAGEd_d;
+		sty_PAGEd.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/3/41");
 		
-		LEFT_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/42");
-		LEFT_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/42");
-		LEFT.normal.background=LEFT_u;
-		LEFT.active.background=LEFT_d;
+		LEFT_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/42");
+		LEFT_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/42");
+		LEFT.normal.background = LEFT_u;
+		LEFT.active.background = LEFT_d;
 		
-		UP_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/43");
-		UP_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/43");
-		UP.normal.background=UP_u;
-		UP.active.background=UP_d;
+		UP_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/43");
+		UP_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/43");
+		UP.normal.background = UP_u;
+		UP.active.background = UP_d;
 		
-		DOWN_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/44");
-		DOWN_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/44");
-		DOWN.normal.background=DOWN_u;
-		DOWN.active.background=DOWN_d;
+		DOWN_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/44");
+		DOWN_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/44");
+		DOWN.normal.background = DOWN_u;
+		DOWN.active.background = DOWN_d;
 		
-		RIGHT_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/45");
-		RIGHT_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/45");
-		RIGHT.normal.background=RIGHT_u;
-		RIGHT.active.background=RIGHT_d;
+		RIGHT_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/45");
+		RIGHT_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/45");
+		RIGHT.normal.background = RIGHT_u;
+		RIGHT.active.background = RIGHT_d;
 		//MDI Edit value end
 		
 		//Softkey value start
-		Soft_LEFT_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/2");
-		Soft_LEFT_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/2");
-		Soft_LEFT.normal.background=LEFT_u;
-		Soft_LEFT.active.background=LEFT_d;
+		Soft_LEFT_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/2");
+		Soft_LEFT_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/2");
+		Soft_LEFT.normal.background = LEFT_u;
+		Soft_LEFT.active.background = LEFT_d;
 		
-		Soft_EMPTY_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/1");
-		Soft_EMPTY_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/1");
+		Soft_EMPTY_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/1");
+		Soft_EMPTY_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/1");
 		Soft_EMPTY.normal.background = Soft_EMPTY_u;
 		Soft_EMPTY.active.background = Soft_EMPTY_d;
 		
-		Soft_RIGHT_u=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/1/3");
-		Soft_RIGHT_d=(Texture2D)Resources.Load("DigitalControlPanel/UpPanel/2/3");
-		Soft_RIGHT.normal.background=RIGHT_u;
-		Soft_RIGHT.active.background=RIGHT_d;
+		Soft_RIGHT_u = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/1/3");
+		Soft_RIGHT_d = (Texture2D)Resources.Load ("DigitalControlPanel/UpPanel/2/3");
+		Soft_RIGHT.normal.background = RIGHT_u;
+		Soft_RIGHT.active.background = RIGHT_d;
 		//Softkey value end
 		
 		//Auxiliary Function value start
-		COOL_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/8");
-		COOL_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/8");
-		COOL_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/8");
-		COOL_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/8");
-		COOL.normal.background=COOL_off_u;
-		COOL.active.background=COOL_off_d;
-		sty_COOL.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/8");
-		sty_COOL_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/8");
-		sty_COOL_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/8");
+		COOL_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/8");
+		COOL_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/8");
+		COOL_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/8");
+		COOL_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/8");
+		COOL.normal.background = COOL_off_u;
+		COOL.active.background = COOL_off_d;
+		sty_COOL.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/8");
+		sty_COOL_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/8");
+		sty_COOL_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/8");
 		
-		Empty1_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/7");
-		Empty1_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/7");
-		Empty1_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/7");
-		Empty1_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/7");
-		Empty1.normal.background=Empty1_off_u;
-		Empty1.active.background=Empty1_off_d;
+		Empty1_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/7");
+		Empty1_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/7");
+		Empty1_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/7");
+		Empty1_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/7");
+		Empty1.normal.background = Empty1_off_u;
+		Empty1.active.background = Empty1_off_d;
 		
-		MHS_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/11");
-		MHS_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/11");
-		MHS_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/11");
-		MHS_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/11");
-		MHS.normal.background=MHS_off_u;
-		MHS.active.background=MHS_off_d;
-		sty_MHS.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/11");
-		sty_MHS_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/11");
-		sty_MHS_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/11");
+		MHS_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/11");
+		MHS_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/11");
+		MHS_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/11");
+		MHS_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/11");
+		MHS.normal.background = MHS_off_u;
+		MHS.active.background = MHS_off_d;
+		sty_MHS.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/11");
+		sty_MHS_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/11");
+		sty_MHS_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/11");
 		
-		ATCW_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/9");
-		ATCW_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/9");
-		ATCW_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/9");
-		ATCW_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/9");
-		ATCW.normal.background=ATCW_off_u;
-		ATCW.active.background=ATCW_off_d;
-		sty_ATCW.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/9");
-		sty_ATCW_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/9");
-		sty_ATCW_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/9");
+		ATCW_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/9");
+		ATCW_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/9");
+		ATCW_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/9");
+		ATCW_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/9");
+		ATCW.normal.background = ATCW_off_u;
+		ATCW.active.background = ATCW_off_d;
+		sty_ATCW.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/9");
+		sty_ATCW_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/9");
+		sty_ATCW_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/9");
 		
-		ATCCW_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/10");
-		ATCCW_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/10");
-		ATCCW_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/10");
-		ATCCW_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/10");
-		ATCCW.normal.background=ATCCW_off_u;
-		ATCCW.active.background=ATCCW_off_d;
-		sty_ATCCW.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/10");
-		sty_ATCCW_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/10");
-		sty_ATCCW_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/10");
+		ATCCW_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/10");
+		ATCCW_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/10");
+		ATCCW_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/10");
+		ATCCW_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/10");
+		ATCCW.normal.background = ATCCW_off_u;
+		ATCCW.active.background = ATCCW_off_d;
+		sty_ATCCW.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/10");
+		sty_ATCCW_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/10");
+		sty_ATCCW_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/10");
 		
-		MHRN_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/12");
-		MHRN_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/12");
-		MHRN_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/12");
-		MHRN_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/12");
-		MHRN.normal.background=MHRN_off_u;
-		MHRN.active.background=MHRN_off_d;
-		sty_MHRN.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/12");
-		sty_MHRN_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/12");
-		sty_MHRN_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/12");
+		MHRN_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/12");
+		MHRN_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/12");
+		MHRN_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/12");
+		MHRN_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/12");
+		MHRN.normal.background = MHRN_off_u;
+		MHRN.active.background = MHRN_off_d;
+		sty_MHRN.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/12");
+		sty_MHRN_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/12");
+		sty_MHRN_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/12");
 		
-		FOR_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/13");
-		FOR_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/13");
-		FOR_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/13");
-		FOR_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/13");
-		FOR.normal.background=FOR_off_u;
-		FOR.active.background=FOR_off_d;
-		sty_FOR.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/13");
-		sty_FOR_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/13");
-		sty_FOR_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/13");
+		FOR_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/13");
+		FOR_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/13");
+		FOR_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/13");
+		FOR_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/13");
+		FOR.normal.background = FOR_off_u;
+		FOR.active.background = FOR_off_d;
+		sty_FOR.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/13");
+		sty_FOR_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/13");
+		sty_FOR_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/13");
 		
-		BACK_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/14");
-		BACK_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/14");
-		BACK_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/14");
-		BACK_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/14");
-		BACK.normal.background=BACK_off_u;
-		BACK.active.background=BACK_off_d;
-		sty_BACK.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/14");
-		sty_BACK_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/14");
-		sty_BACK_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/14");
+		BACK_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/14");
+		BACK_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/14");
+		BACK_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/14");
+		BACK_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/14");
+		BACK.normal.background = BACK_off_u;
+		BACK.active.background = BACK_off_d;
+		sty_BACK.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/14");
+		sty_BACK_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/14");
+		sty_BACK_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/14");
 		
-		Empty2_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/7");
-		Empty2_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/7");
-		Empty2_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/7");
-		Empty2_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/7");
-		Empty2.normal.background=Empty2_off_u;
-		Empty2.active.background=Empty2_off_d;
+		Empty2_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/7");
+		Empty2_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/7");
+		Empty2_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/7");
+		Empty2_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/7");
+		Empty2.normal.background = Empty2_off_u;
+		Empty2.active.background = Empty2_off_d;
 		//Auxiliary Function value end
 		
 		//Machine Function value start
-		MLK_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/1");
-		MLK_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/1");
-		MLK_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/1");
-		MLK_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/1");
-		MLK.normal.background=MLK_u;
-		MLK.active.background=MLK_d;
-		sty_MLK.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/1");
-		sty_MLK_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/1");
-		sty_MLK_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/1");
+		MLK_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/1");
+		MLK_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/1");
+		MLK_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/1");
+		MLK_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/1");
+		MLK.normal.background = MLK_u;
+		MLK.active.background = MLK_d;
+		sty_MLK.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/1");
+		sty_MLK_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/1");
+		sty_MLK_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/1");
 		
-		DRN_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/2");
-		DRN_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/2");
-		DRN_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/2");
-		DRN_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/2");
-		DRN.normal.background=DRN_u;
-		DRN.active.background=DRN_d;
-		sty_DRN.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/2");
-		sty_DRN_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/2");
-		sty_DRN_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/2");
+		DRN_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/2");
+		DRN_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/2");
+		DRN_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/2");
+		DRN_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/2");
+		DRN.normal.background = DRN_u;
+		DRN.active.background = DRN_d;
+		sty_DRN.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/2");
+		sty_DRN_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/2");
+		sty_DRN_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/2");
 		
-		BDT_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/3");
-		BDT_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/3");
-		BDT_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/3");
-		BDT_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/3");
-		BDT.normal.background=BDT_u;
-		BDT.active.background=BDT_d;
-		sty_BDT.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/3");
-		sty_BDT_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/3");
-		sty_BDT_d =  (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/3");
+		BDT_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/3");
+		BDT_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/3");
+		BDT_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/3");
+		BDT_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/3");
+		BDT.normal.background = BDT_u;
+		BDT.active.background = BDT_d;
+		sty_BDT.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/3");
+		sty_BDT_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/3");
+		sty_BDT_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/3");
 		
-		SBK_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/4");
-		SBK_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/4");
-		SBK_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/4");
-		SBK_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/4");
-		SBK.normal.background=SBK_u;
-		SBK.active.background=SBK_d;
-		sty_SBK.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/4");
-		sty_SBK_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/4");
-		sty_SBK_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/4");
+		SBK_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/4");
+		SBK_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/4");
+		SBK_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/4");
+		SBK_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/4");
+		SBK.normal.background = SBK_u;
+		SBK.active.background = SBK_d;
+		sty_SBK.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/4");
+		sty_SBK_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/4");
+		sty_SBK_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/4");
 		
-		OSP_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/5");
-		OSP_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/5");
-		OSP_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/5");
-		OSP_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/5");
-		OSP.normal.background=OSP_u;
-		OSP.active.background=OSP_d;
-		sty_OSP.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/5");
-		sty_OSP_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/5");
-		sty_OSP_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/5");
+		OSP_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/5");
+		OSP_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/5");
+		OSP_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/5");
+		OSP_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/5");
+		OSP.normal.background = OSP_u;
+		OSP.active.background = OSP_d;
+		sty_OSP.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/5");
+		sty_OSP_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/5");
+		sty_OSP_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/5");
 		
-		ZLOCK_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/6");
-		ZLOCK_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/6");
-		ZLOCK_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/6");
-		ZLOCK_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/6");
-		ZLOCK.normal.background=ZLOCK_u;
-		ZLOCK.active.background=ZLOCK_d;
-		sty_ZLOCK.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/6");
-		sty_ZLOCK_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/6");
-		sty_ZLOCK_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/6");
+		ZLOCK_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/6");
+		ZLOCK_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/6");
+		ZLOCK_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/6");
+		ZLOCK_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/6");
+		ZLOCK.normal.background = ZLOCK_u;
+		ZLOCK.active.background = ZLOCK_d;
+		sty_ZLOCK.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/6");
+		sty_ZLOCK_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/6");
+		sty_ZLOCK_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/6");
 		
-		MachineEMPTY_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/7");
-		MachineEMPTY_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/7");
-		MachineEMPTY_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/7");
-		MachineEMPTY_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/7");
-		MachineEMPTY.normal.background=MachineEMPTY_u;
-		MachineEMPTY.active.background=MachineEMPTY_d;
+		MachineEMPTY_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/7");
+		MachineEMPTY_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/7");
+		MachineEMPTY_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/7");
+		MachineEMPTY_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/7");
+		MachineEMPTY.normal.background = MachineEMPTY_u;
+		MachineEMPTY.active.background = MachineEMPTY_d;
 		
-		MachineEMPTY2.normal.background=MachineEMPTY_u;
-		MachineEMPTY2.active.background=MachineEMPTY_d;
+		MachineEMPTY2.normal.background = MachineEMPTY_u;
+		MachineEMPTY2.active.background = MachineEMPTY_d;
 		//Machine Function value end
 		
+		//knob enlarge value
+		t2d_EDIT = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/11");
+		t2d_DNC = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/22");
+		t2d_AUTO = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/33");
+		t2d_MDI = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/44");
+		t2d_MPG = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/55");
+		t2d_JOG = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/66");
+		t2d_ZERO = (Texture2D)Resources.Load("DigitalControlPanel/konb/1/77");
+		t2d_Feedrate0 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_0");
+		t2d_Feedrate10 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_10");
+		t2d_Feedrate20 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_20");
+		t2d_Feedrate30 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_30");
+		t2d_Feedrate40 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_40");
+		t2d_Feedrate50 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_50");
+		t2d_Feedrate60 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_60");
+		t2d_Feedrate70 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_70");
+		t2d_Feedrate80 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_80");
+		t2d_Feedrate90 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_90");
+		t2d_Feedrate100 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_100");
+		t2d_Feedrate110 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_110");
+		t2d_Feedrate120 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_120");
+		t2d_Feedrate130 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_130");
+		t2d_Feedrate140 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_140");
+		t2d_Feedrate150 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/s_150");
+		sty_enlargeknob.normal.background = t2d_EDIT;
+		//end
 		
-		if(PlayerPrefs.HasKey("ModeSelect"))
-			mode_type = PlayerPrefs.GetInt("ModeSelect");
-		else
-		{
-			PlayerPrefs.SetInt("ModeSelect", 1);
+		if (PlayerPrefs.HasKey ("ModeSelect"))
+			mode_type = PlayerPrefs.GetInt ("ModeSelect");
+		else {
+			PlayerPrefs.SetInt ("ModeSelect", 1);
 			mode_type = 1;
 		}
-		switch(mode_type)
-		{
+		switch (mode_type) {
 		case 1:
 			t2d_ModeSelect = t2d_ModeSelectEDIT;
 			MenuDisplay = "编辑";
@@ -1615,7 +1632,7 @@ public class ControlPanel : MonoBehaviour {
 			ProgHAN = false;
 			ProgJOG = false;
 			ProgREF = false;
-			editDisplay=true;
+			editDisplay = true;
 			break;
 		case 2:
 			t2d_ModeSelect = t2d_ModeSelectDNC;
@@ -1649,9 +1666,9 @@ public class ControlPanel : MonoBehaviour {
 			ProgHAN = false;
 			ProgJOG = false;
 			ProgREF = false;
-			editDisplay=false;
-			CodeForAll.Add("O0000");
-			CodeForAll.Add(";");
+			editDisplay = false;
+			CodeForAll.Add ("O0000");
+			CodeForAll.Add (";");
 			MDIpos_flag = true;
 			break;
 		case 5:
@@ -1691,47 +1708,29 @@ public class ControlPanel : MonoBehaviour {
 			break;	
 		}
 
-//		t2d_FeedRate_0 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate1");
-//		t2d_FeedRate_10 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate2");
-//		t2d_FeedRate_20 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate3");
-//		t2d_FeedRate_30 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate4");
-//		t2d_FeedRate_40 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate5");
-//		t2d_FeedRate_50 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate6");
-//		t2d_FeedRate_60 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate7");
-//		t2d_FeedRate_70 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate8");
-//		t2d_FeedRate_80 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate9");
-//		t2d_FeedRate_90 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate10");
-//		t2d_FeedRate_100 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate11");
-//		t2d_FeedRate_110 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate12");
-//		t2d_FeedRate_120 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate13");
-//		t2d_FeedRate_130 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate14");
-//		t2d_FeedRate_140 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate15");
-//		t2d_FeedRate_150 = (Texture2D)Resources.Load("Texture_Panel/Button/feedrate16");
-		t2d_FeedRate_0 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/1");
-		t2d_FeedRate_10 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/2");
-		t2d_FeedRate_20 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/3");
-		t2d_FeedRate_30 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/4");
-		t2d_FeedRate_40 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/5");
-		t2d_FeedRate_50 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/6");
-		t2d_FeedRate_60 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/7");
-		t2d_FeedRate_70 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/8");
-		t2d_FeedRate_80 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/9");
-		t2d_FeedRate_90 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/10");
-		t2d_FeedRate_100 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/11");
-		t2d_FeedRate_110 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/12");
-		t2d_FeedRate_120 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/13");
-		t2d_FeedRate_130 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/14");
-		t2d_FeedRate_140 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/15");
-		t2d_FeedRate_150 = (Texture2D)Resources.Load("DigitalControlPanel/konb/2/16");
-		if(PlayerPrefs.HasKey("FeedrateSelect"))
-			feedrate_type = PlayerPrefs.GetInt("FeedrateSelect");
-		else
-		{
-			PlayerPrefs.SetInt("FeedrateSelect", 11);
+		t2d_FeedRate_0 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/1");
+		t2d_FeedRate_10 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/2");
+		t2d_FeedRate_20 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/3");
+		t2d_FeedRate_30 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/4");
+		t2d_FeedRate_40 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/5");
+		t2d_FeedRate_50 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/6");
+		t2d_FeedRate_60 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/7");
+		t2d_FeedRate_70 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/8");
+		t2d_FeedRate_80 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/9");
+		t2d_FeedRate_90 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/10");
+		t2d_FeedRate_100 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/11");
+		t2d_FeedRate_110 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/12");
+		t2d_FeedRate_120 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/13");
+		t2d_FeedRate_130 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/14");
+		t2d_FeedRate_140 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/15");
+		t2d_FeedRate_150 = (Texture2D)Resources.Load ("DigitalControlPanel/konb/2/16");
+		if (PlayerPrefs.HasKey ("FeedrateSelect"))
+			feedrate_type = PlayerPrefs.GetInt ("FeedrateSelect");
+		else {
+			PlayerPrefs.SetInt ("FeedrateSelect", 11);
 			feedrate_type = 11;
 		}
-		switch(feedrate_type) 
-		{
+		switch (feedrate_type) {
 		case 1:
 			t2d_feedrate = t2d_FeedRate_0;
 			move_rate = 0f;
@@ -1799,409 +1798,360 @@ public class ControlPanel : MonoBehaviour {
 		}
 		MoveControl_script.move_rate = move_rate;
 		
-		t2d_NCPower_on_u = (Texture2D)Resources.Load("Texture_Panel/Button/NCPower_on_u");
-		t2d_NCPower_on_d = (Texture2D)Resources.Load("Texture_Panel/Button/NCPower_on_d");
-		t2d_NCPower_off_u = (Texture2D)Resources.Load("Texture_Panel/Button/NCPower_off_u");
-		t2d_NCPower_off_d = (Texture2D)Resources.Load("Texture_Panel/Button/NCPower_off_d");
+		t2d_NCPower_on_u = (Texture2D)Resources.Load ("Texture_Panel/Button/NCPower_on_u");
+		t2d_NCPower_on_d = (Texture2D)Resources.Load ("Texture_Panel/Button/NCPower_on_d");
+		t2d_NCPower_off_u = (Texture2D)Resources.Load ("Texture_Panel/Button/NCPower_off_u");
+		t2d_NCPower_off_d = (Texture2D)Resources.Load ("Texture_Panel/Button/NCPower_off_d");
 		sty_NCPowerOn.normal.background = t2d_NCPower_on_u;
 		sty_NCPowerOn.active.background = t2d_NCPower_on_d;
 		sty_NCPowerOff.normal.background = t2d_NCPower_off_u;
 		sty_NCPowerOff.active.background = t2d_NCPower_off_d;
-		
-//		t2d_spCW_off_d = (Texture2D)Resources.Load("Texture_Panel/Button/spCW_off_d");
-//		t2d_spCW_off_u = (Texture2D)Resources.Load("Texture_Panel/Button/spCW_off_u");
-//		t2d_spCW_on_d = (Texture2D)Resources.Load("Texture_Panel/Button/spCW_on_d");
-//		t2d_spCW_on_u = (Texture2D)Resources.Load("Texture_Panel/Button/spCW_on_u");
-		t2d_spCW_off_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/32");
-		t2d_spCW_off_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/32");
-		t2d_spCW_on_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/32");
-		t2d_spCW_on_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/32");
+
+		t2d_spCW_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/32");
+		t2d_spCW_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/32");
+		t2d_spCW_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/32");
+		t2d_spCW_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/32");
 		sty_ButtonCW.normal.background = t2d_spCW_off_u;
 		sty_ButtonCW.active.background = t2d_spCW_off_d;
-		sty_SCW.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/32");
-		sty_SCW_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/32");
-		sty_SCW_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/32");
-		
-		
-//		t2d_spCCW_on_u = (Texture2D)Resources.Load("Texture_Panel/Button/spCCW_on_u");
-//		t2d_spCCW_on_d = (Texture2D)Resources.Load("Texture_Panel/Button/spCCW_on_d");
-//		t2d_spCCW_off_u = (Texture2D)Resources.Load("Texture_Panel/Button/spCCW_off_u");
-//		t2d_spCCW_off_d = (Texture2D)Resources.Load("Texture_Panel/Button/spCCW_off_d");
-		t2d_spCCW_on_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/34");
-		t2d_spCCW_on_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/34");
-		t2d_spCCW_off_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/34");
-		t2d_spCCW_off_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/34");
+		sty_SCW.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/32");
+		sty_SCW_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/32");
+		sty_SCW_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/32");
+
+		t2d_spCCW_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/34");
+		t2d_spCCW_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/34");
+		t2d_spCCW_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/34");
+		t2d_spCCW_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/34");
 		sty_ButtonCCW.normal.background = t2d_spCCW_off_u;
 		sty_ButtonCCW.active.background = t2d_spCCW_off_d;
-		sty_SCCW.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/34");
-		sty_SCCW_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/34");
-		sty_SCCW_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/34");
-		
-//		t2d_spStop_on_u = (Texture2D)Resources.Load("Texture_Panel/Button/spStop_on_u");
-//		t2d_spStop_on_d = (Texture2D)Resources.Load("Texture_Panel/Button/spStop_on_d");
-//		t2d_spStop_off_u = (Texture2D)Resources.Load("Texture_Panel/Button/spStop_off_u");
-//		t2d_spStop_off_d = (Texture2D)Resources.Load("Texture_Panel/Button/spStop_off_d");
-		t2d_spStop_on_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/33");
-		t2d_spStop_on_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/33");
-		t2d_spStop_off_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/33");
-		t2d_spStop_off_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/33");
+		sty_SCCW.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/34");
+		sty_SCCW_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/34");
+		sty_SCCW_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/34");
+
+		t2d_spStop_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/33");
+		t2d_spStop_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/33");
+		t2d_spStop_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/33");
+		t2d_spStop_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/33");
 		sty_ButtonSTOP.normal.background = t2d_spStop_on_u;
 		sty_ButtonSTOP.active.background = t2d_spStop_on_d;
-		sty_SSTOP.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/33"); 
-		sty_SSTOP_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/33"); 
-		sty_SSTOP_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/33"); 
-		
-//		t2d_rapid_on_u = (Texture2D)Resources.Load("Texture_Panel/Button/rapid_on_u");
-//		t2d_rapid_on_d = (Texture2D)Resources.Load("Texture_Panel/Button/rapid_on_d");
-//		t2d_rapid_off_u = (Texture2D)Resources.Load("Texture_Panel/Button/rapid_off_u");
-//		t2d_rapid_off_d = (Texture2D)Resources.Load("Texture_Panel/Button/rapid_off_d");
-		t2d_rapid_on_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/19");
-		t2d_rapid_on_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/19");
-		t2d_rapid_off_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/19");
-		t2d_rapid_off_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/19");
+		sty_SSTOP.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/33"); 
+		sty_SSTOP_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/33"); 
+		sty_SSTOP_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/33"); 
+
+		t2d_rapid_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/19");
+		t2d_rapid_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/19");
+		t2d_rapid_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/19");
+		t2d_rapid_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/19");
 		sty_ButtonRapid.normal.background = t2d_rapid_off_u;
 		sty_ButtonRapid.active.background = t2d_rapid_off_d;
-		sty_SRAPID.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/19");
-		sty_SRAPID_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/19");
-		sty_SRAPID_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/19");
+		sty_SRAPID.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/19");
+		sty_SRAPID_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/19");
+		sty_SRAPID_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/19");
 		
 		//内容--为变量赋值，用于实现JOG模式下F0，25%、50%、100%四个按钮的显示
-		//姓名--刘旋，时间--2013-4-8
-//		t2d_f0_on_u=(Texture2D)Resources.Load("Texture_Panel/Button/f0_on_u");
-//		t2d_f0_on_d=(Texture2D)Resources.Load("Texture_Panel/Button/f0_on_d");
-//		t2d_f0_off_u=(Texture2D)Resources.Load("Texture_Panel/Button/f0_off_u");
-//		t2d_f0_off_d=(Texture2D)Resources.Load("Texture_Panel/Button/f0_off_d");
-		t2d_f0_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/24");
-		t2d_f0_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/24");
-		t2d_f0_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/24");
-		t2d_f0_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/24");
-		sty_ButtonF0.normal.background=t2d_f0_off_u;
-		sty_ButtonF0.active.background=t2d_f0_off_d;
-		sty_SF0.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/24");
-		sty_SF0_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/24");
-		sty_SF0_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/24");
+		t2d_f0_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/24");
+		t2d_f0_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/24");
+		t2d_f0_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/24");
+		t2d_f0_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/24");
+		sty_ButtonF0.normal.background = t2d_f0_off_u;
+		sty_ButtonF0.active.background = t2d_f0_off_d;
+		sty_SF0.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/24");
+		sty_SF0_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/24");
+		sty_SF0_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/24");
 		
-//		t2d_f25_on_u=(Texture2D)Resources.Load("Texture_Panel/Button/f25_on_u");
-//		t2d_f25_on_d=(Texture2D)Resources.Load("Texture_Panel/Button/f25_on_d");
-//		t2d_f25_off_u=(Texture2D)Resources.Load("Texture_Panel/Button/f25_off_u");
-//		t2d_f25_off_d=(Texture2D)Resources.Load("Texture_Panel/Button/f25_off_d");
-		t2d_f25_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/25");
-		t2d_f25_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/25");
-		t2d_f25_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/25");
-		t2d_f25_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/25");
-		sty_ButtonF25.normal.background=t2d_f25_off_u;
-		sty_ButtonF25.active.background=t2d_f25_off_d;
-		sty_SF25.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/25");
-		sty_SF25_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/25");
-		sty_SF25_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/25");
+		t2d_f25_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/25");
+		t2d_f25_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/25");
+		t2d_f25_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/25");
+		t2d_f25_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/25");
+		sty_ButtonF25.normal.background = t2d_f25_off_u;
+		sty_ButtonF25.active.background = t2d_f25_off_d;
+		sty_SF25.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/25");
+		sty_SF25_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/25");
+		sty_SF25_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/25");
+
+		t2d_f50_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/26");
+		t2d_f50_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/26");
+		t2d_f50_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/26");
+		t2d_f50_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/26");
+		sty_ButtonF50.normal.background = t2d_f50_off_u;
+		sty_ButtonF50.active.background = t2d_f50_off_d;
+		sty_SF50.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/26");
+		sty_SF50_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/26");
+		sty_SF50_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/26");
+
+		t2d_f100_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/27");
+		t2d_f100_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/27");
+		t2d_f100_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/27");
+		t2d_f100_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/27");
+		sty_ButtonF100.normal.background = t2d_f100_off_u;
+		sty_ButtonF100.active.background = t2d_f100_off_d;//增加内容到此  2013-4-8
+		sty_SF100.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/27");
+		sty_SF100_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/27");
+		sty_SF100_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/27");
 		
-//		t2d_f50_on_u=(Texture2D)Resources.Load("Texture_Panel/Button/f50_on_u");
-//		t2d_f50_on_d=(Texture2D)Resources.Load("Texture_Panel/Button/f50_on_d");
-//		t2d_f50_off_u=(Texture2D)Resources.Load("Texture_Panel/Button/f50_off_u");
-//		t2d_f50_off_d=(Texture2D)Resources.Load("Texture_Panel/Button/f50_off_d");
-		t2d_f50_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/26");
-		t2d_f50_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/26");
-		t2d_f50_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/26");
-		t2d_f50_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/26");
-		sty_ButtonF50.normal.background=t2d_f50_off_u;
-		sty_ButtonF50.active.background=t2d_f50_off_d;
-		sty_SF50.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/26");
-		sty_SF50_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/26");
-		sty_SF50_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/26");
+		EMPTY_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/7");
+		EMPTY_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/7");
+		EMPTY_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/7");
+		EMPTY_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/7");
+		EMPTY.normal.background = EMPTY_off_u;
+		EMPTY.active.background = EMPTY_off_d;
 		
-//		t2d_f100_on_u=(Texture2D)Resources.Load("Texture_Panel/Button/f100_on_u");
-//		t2d_f100_on_d=(Texture2D)Resources.Load("Texture_Panel/Button/f100_on_d");
-//		t2d_f100_off_u=(Texture2D)Resources.Load("Texture_Panel/Button/f100_off_u");
-//		t2d_f100_off_d=(Texture2D)Resources.Load("Texture_Panel/Button/f100_off_d");
-		t2d_f100_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/27");
-		t2d_f100_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/27");
-		t2d_f100_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/27");
-		t2d_f100_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/27");
-		sty_ButtonF100.normal.background=t2d_f100_off_u;
-		sty_ButtonF100.active.background=t2d_f100_off_d;//增加内容到此  2013-4-8
-		sty_SF100.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/27");
-		sty_SF100_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/27");
-		sty_SF100_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/27");
+		DOWN_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/28");
+		DOWN_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/28");
+		DOWN_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/28");
+		DOWN_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/28");
+		Axis_DOWN.normal.background = DOWN_off_u;
+		Axis_DOWN.active.background = DOWN_off_d;
+		sty_SDOWN.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/28");
+		sty_SDOWN_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/28");
+		sty_SDOWN_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/28");
 		
-		EMPTY_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/7");
-		EMPTY_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/7");
-		EMPTY_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/7");
-		EMPTY_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/7");
-		EMPTY.normal.background=EMPTY_off_u;
-		EMPTY.active.background=EMPTY_off_d;
+		HUNDRED_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/29");
+		HUNDRED_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/29");
+		HUNDRED_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/29");
+		HUNDRED_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/29");
+		HUNDRED.normal.background = HUNDRED_off_u;
+		HUNDRED.active.background = HUNDRED_off_d;
+		sty_SHUNDRED.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/29");
+		sty_SHUNDRED_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/29");
+		sty_SHUNDRED_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/29");
 		
-		DOWN_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/28");
-		DOWN_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/28");
-		DOWN_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/28");
-		DOWN_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/28");
-		Axis_DOWN.normal.background=DOWN_off_u;
-		Axis_DOWN.active.background=DOWN_off_d;
-		sty_SDOWN.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/28");
-		sty_SDOWN_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/28");
-		sty_SDOWN_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/28");
+		UP_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/30");
+		UP_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/30");
+		UP_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/30");
+		UP_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/30");
+		Axis_UP.normal.background = UP_off_u;
+		Axis_UP.active.background = UP_off_d;
+		sty_SUP.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/30");
+		sty_SUP_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/30");
+		sty_SUP_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/30");
 		
-		HUNDRED_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/29");
-		HUNDRED_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/29");
-		HUNDRED_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/29");
-		HUNDRED_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/29");
-		HUNDRED.normal.background=HUNDRED_off_u;
-		HUNDRED.active.background=HUNDRED_off_d;
-		sty_SHUNDRED.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/29");
-		sty_SHUNDRED_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/29");
-		sty_SHUNDRED_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/29");
-		
-		UP_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/30");
-		UP_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/30");
-		UP_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/30");
-		UP_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/30");
-		Axis_UP.normal.background=UP_off_u;
-		Axis_UP.active.background=UP_off_d;
-		sty_SUP.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/30");
-		sty_SUP_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/30");
-		sty_SUP_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/30");
-		
-		ORIENT_on_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/1/31");
-		ORIENT_on_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/31");
-		ORIENT_off_u=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/31");
-		ORIENT_off_d=(Texture2D)Resources.Load("DigitalControlPanel/DownPanel/4/31");
-		ORIENT.normal.background=ORIENT_off_u;
-		ORIENT.active.background=ORIENT_off_d;
-		sty_SORIENT.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/31");
-		sty_SORIENT_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/31");
-		sty_SORIENT_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/6/31");
+		ORIENT_on_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/1/31");
+		ORIENT_on_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/31");
+		ORIENT_off_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/31");
+		ORIENT_off_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/4/31");
+		ORIENT.normal.background = ORIENT_off_u;
+		ORIENT.active.background = ORIENT_off_d;
+		sty_SORIENT.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/31");
+		sty_SORIENT_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/31");
+		sty_SORIENT_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/6/31");
 		
 		//修改 BY:WH
-//		sty_ButtonYN.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/yminus_off_u");
-//		sty_ButtonYN.active.background = (Texture2D)Resources.Load("Texture_Panel/Button/yminus_on_d");
-		sty_ButtonYN.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/16");
-		sty_ButtonYN.active.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/16");
-		sty_SYN.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/16");
-		sty_SYN_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/16");
-		sty_SYN_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/7/16");
+		sty_ButtonYN.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/16");
+		sty_ButtonYN.active.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/16");
+		sty_SYN.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/16");
+		sty_SYN_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/16");
+		sty_SYN_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/7/16");
 		
-//		sty_ButtonYP.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/yplus_off_u");
-//		sty_ButtonYP.active.background = (Texture2D)Resources.Load("Texture_Panel/Button/yplus_on_d");
-		sty_ButtonYP.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/22");
-		sty_ButtonYP.active.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/22");
-		sty_SYP.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/22");
-		sty_SYP_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/22");
-		sty_SYP_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/7/22");
+		sty_ButtonYP.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/22");
+		sty_ButtonYP.active.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/22");
+		sty_SYP.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/22");
+		sty_SYP_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/22");
+		sty_SYP_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/7/22");
+
+		sty_ButtonZP.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/17");
+		sty_ButtonZP.active.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/17");
+		sty_SZP.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/17");
+		sty_SZP_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/17");
+		sty_SZP_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/7/17");
+
+		sty_ButtonZN.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/23");
+		sty_ButtonZN.active.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/23");
+		sty_SZN.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/23");
+		sty_SZN_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/23");
+		sty_SZN_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/7/23");
+
+		sty_ButtonXP.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/18");
+		sty_ButtonXP.active.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/18");
+		sty_SXP.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/18");
+		sty_SXP_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/18");
+		sty_SXP_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/7/18");
+
+		sty_ButtonXN.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/20");
+		sty_ButtonXN.active.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/20");
+		sty_SXN.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/20");
+		sty_SXN_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/20");
+		sty_SXN_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/7/20");
+
+		sty_Button4P.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/15");
+		sty_Button4P.active.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/15");
+		sty_S4P.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/15");
+		sty_S4P_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/15");
+		sty_S4P_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/7/15");
+
+		sty_Button4N.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/2/21");
+		sty_Button4N.active.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/3/21");
+		sty_S4N.normal.background = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/21");
+		sty_S4N_u = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/5/21");
+		sty_S4N_d = (Texture2D)Resources.Load ("DigitalControlPanel/DownPanel/7/21");
 		
-//		sty_ButtonZP.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/zplus_off_u");
-//		sty_ButtonZP.active.background = (Texture2D)Resources.Load("Texture_Panel/Button/zplus_on_d");
-		sty_ButtonZP.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/17");
-		sty_ButtonZP.active.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/17");
-		sty_SZP.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/17");
-		sty_SZP_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/17");
-		sty_SZP_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/7/17");
-		
-//		sty_ButtonZN.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/zminus_off_u");
-//		sty_ButtonZN.active.background = (Texture2D)Resources.Load("Texture_Panel/Button/zminus_on_d");
-		sty_ButtonZN.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/23");
-		sty_ButtonZN.active.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/23");
-		sty_SZN.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/23");
-		sty_SZN_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/23");
-		sty_SZN_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/7/23");
-		
-//		sty_ButtonXP.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/xplus_off_u");
-//		sty_ButtonXP.active.background = (Texture2D)Resources.Load("Texture_Panel/Button/xplus_on_d");
-		sty_ButtonXP.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/18");
-		sty_ButtonXP.active.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/18");
-		sty_SXP.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/18");
-		sty_SXP_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/18");
-		sty_SXP_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/7/18");
-		
-//		sty_ButtonXN.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/xminus_off_u");
-//		sty_ButtonXN.active.background = (Texture2D)Resources.Load("Texture_Panel/Button/xminus_on_d");
-		sty_ButtonXN.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/20");
-		sty_ButtonXN.active.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/20");
-		sty_SXN.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/20");
-		sty_SXN_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/20");
-		sty_SXN_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/7/20");
-		
-//		sty_Button4P.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/4plus_off_u");
-//		sty_Button4P.active.background = (Texture2D)Resources.Load("Texture_Panel/Button/4plus_on_d");
-		sty_Button4P.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/15");
-		sty_Button4P.active.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/15");
-		sty_S4P.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/15");
-		sty_S4P_u =  (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/15");
-		sty_S4P_d =  (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/7/15");
-		
-//		sty_Button4N.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/4minus_off_u");
-//		sty_Button4N.active.background = (Texture2D)Resources.Load("Texture_Panel/Button/4minus_on_d");
-		sty_Button4N.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/2/21");
-		sty_Button4N.active.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/3/21");
-		sty_S4N.normal.background = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/21");
-		sty_S4N_u = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/5/21");
-		sty_S4N_d = (Texture2D)Resources.Load("DigitalControlPanel/DownPanel/7/21");
-		
-		sty_ProgEDITWindowO.font = (Font)Resources.Load("font/STZHONGS");
+		sty_ProgEDITWindowO.font = (Font)Resources.Load ("font/STZHONGS");
 		sty_ProgEDITWindowO.fontSize = 16;
 		sty_ProgEDITWindowO.normal.textColor = Color.white;
 		
-		sty_Title.font = (Font)Resources.Load("font/STZHONGS");
+		sty_Title.font = (Font)Resources.Load ("font/STZHONGS");
 		sty_Title.fontSize = 18;
 //		sty_Title.fontStyle = FontStyle.Bold;
 		
-		sty_TitleLetter.font = (Font)Resources.Load("font/STSONG");
+		sty_TitleLetter.font = (Font)Resources.Load ("font/STSONG");
 		sty_TitleLetter.fontSize = 17;
 		
-		sty_BigXYZ.font = (Font)Resources.Load("font/LCD");
+		sty_BigXYZ.font = (Font)Resources.Load ("font/LCD");
 		sty_BigXYZ.fontSize = 45;
 		
-		sty_SmallNum.font = (Font)Resources.Load("font/monoMMM_5");
+		sty_SmallNum.font = (Font)Resources.Load ("font/monoMMM_5");
 		sty_SmallNum.fontSize = 14;
 		
-		sty_ProgramName.font = (Font)Resources.Load("font/monoMMM_5");
+		sty_ProgramName.font = (Font)Resources.Load ("font/monoMMM_5");
 		sty_ProgramName.fontSize = 15;
 		
-		sty_ProgModeName.font = (Font)Resources.Load("font/STZHONGS");
+		sty_ProgModeName.font = (Font)Resources.Load ("font/STZHONGS");
 		sty_ProgModeName.fontSize = 14;
 		
 		sty_Star.fontSize = 22;
 		
-		sty_Alarm.font = (Font)Resources.Load("font/times");
-		sty_Alarm.fontSize = 12;
-		sty_Alarm.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/red");
+		sty_AlarmLetter.font = (Font)Resources.Load ("font/STZHONGS");
+		sty_AlarmLetter.fontSize = 14;
+		sty_AlarmLetter.normal.textColor = Color.white;
+		
+//		sty_Alarm.font = (Font)Resources.Load ("font/times");
+//		sty_Alarm.fontSize = 12;
+		sty_Alarm.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Button/red");
 		sty_Alarm.normal.textColor = Color.white;
 		
-		TestGUIStyle.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/red");
+		TestGUIStyle.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Button/red");
 		TestGUIStyle.fontSize = 17;
 		TestGUIStyle.fontStyle = FontStyle.Bold;
 		TestGUIStyle.normal.textColor = Color.green;
 		
 //		sty_BottomChooseMenu.font = (Font)Resources.Load("font/monoMMM_5");
-		sty_BottomChooseMenu.font = (Font)Resources.Load("font/STZHONGS");
+		sty_BottomChooseMenu.font = (Font)Resources.Load ("font/STZHONGS");
 		sty_BottomChooseMenu.fontSize = 16;
 //		sty_BottomChooseMenu.fontStyle = FontStyle.Bold;
 		
-		sty_ProgEditProgNum.font = (Font)Resources.Load("font/monoMMM_5");
+		sty_ProgEditProgNum.font = (Font)Resources.Load ("font/monoMMM_5");
 		sty_ProgEditProgNum.fontSize = 15;
 		sty_ProgEditProgNum.normal.textColor = Color.white;
 		
 //		sty_PosSmallWord.font = (Font)Resources.Load("font/simfang");
-		sty_PosSmallWord.font = (Font)Resources.Load("font/STZHONGS");
+		sty_PosSmallWord.font = (Font)Resources.Load ("font/STZHONGS");
 		sty_PosSmallWord.fontSize = 15;
 		
-		sty_SmallXYZ.font = (Font)Resources.Load("font/times");
+		sty_SmallXYZ.font = (Font)Resources.Load ("font/times");
 		sty_SmallXYZ.fontSize = 17;
 		
-		sty_ScreenCover.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/StartScreen");
+		sty_ScreenCover.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/StartScreen");
 		
-		sty_ProgEDITWindowFG.font = (Font)Resources.Load("font/STZHONGS");
+		sty_ProgEDITWindowFG.font = (Font)Resources.Load ("font/STZHONGS");
 		sty_ProgEDITWindowFG.fontSize = 15;
 		sty_ProgEDITWindowFG.normal.textColor = Color.white;
 		
-		sty_BottomAST.font = (Font)Resources.Load("font/times");
+		sty_BottomAST.font = (Font)Resources.Load ("font/times");
 		sty_BottomAST.fontSize = 15;
 		//sty_BottomAST.normal.textColor = Color.cyan;
 		
 //		sty_MostWords.font = (Font)Resources.Load("font/simfang");
-		sty_MostWords.font = (Font)Resources.Load("font/STZHONGS");
+		sty_MostWords.font = (Font)Resources.Load ("font/STZHONGS");
 		sty_MostWords.fontSize = 15;
-		sty_MostWords.normal.textColor = new Color(0f, 0.31f, 0.321f, 1.0f);
+		sty_MostWords.normal.textColor = new Color (0f, 0.31f, 0.321f, 1.0f);
 		//sty_MostWords.normal.textColor = Color.cyan;
 		
 //		sty_Code.font = (Font)Resources.Load("font/STZHONGS");
 		sty_Code.fontSize = 17;
 		sty_Code.fontStyle = FontStyle.Bold;
 		
-		sty_ModeCode.fontSize=15;
-		sty_ModeCode.fontStyle=FontStyle.Bold;
+		sty_ModeCode.fontSize = 15;
+		sty_ModeCode.fontStyle = FontStyle.Bold;
 		
 		//内容--sty-Mode赋值为蓝色
 		//姓名--刘旋，时间--2013-3-29
-		sty_Mode.fontSize=15;
-		sty_Mode.fontStyle=FontStyle.Bold;
+		sty_Mode.fontSize = 15;
+		sty_Mode.fontStyle = FontStyle.Bold;
 //		sty_Mode.normal.textColor=Color.blue;
 //		Color mode1 = new Color(37.0f, 125.0f, 146.0f, 255.0f);
-		sty_Mode.normal.textColor = new Color(0.145f, 0.49f, 0.573f, 1.0f);
+		sty_Mode.normal.textColor = new Color (0.145f, 0.49f, 0.573f, 1.0f);
 //		sty_Mode.normal.textColor = Color(37, 125, 0, 100);
 		
-		sty_ProgEDITListWindowNum.font = (Font)Resources.Load("font/monoMMM_5");
+		sty_ProgEDITListWindowNum.font = (Font)Resources.Load ("font/monoMMM_5");
 		sty_ProgEDITListWindowNum.fontSize = 13;
 		
-		sty_Cursor.font = (Font)Resources.Load("font/times");
+		sty_Cursor.font = (Font)Resources.Load ("font/times");
 		sty_Cursor.fontSize = 15;
 		
-		sty_Warning.font = (Font)Resources.Load("font/STZHONGS");
+		sty_Warning.font = (Font)Resources.Load ("font/STZHONGS");
 		sty_Warning.fontSize = 13;
 		sty_Warning.normal.textColor = Color.red;
 		
-		sty_ScreenBackGround.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/ScreenBackground");
+		sty_ScreenBackGround.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/ScreenBackground");
 		
-		sty_TopLabel.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/toplabel");
+		sty_TopLabel.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/toplabel");
 		
-		sty_MessAlarm.font=(Font)Resources.Load("font/STZHONGS");
-		sty_MessAlarm.normal.textColor=Color.red;
-		sty_MessAlarm.fontSize=13;
+		sty_MessAlarm.font = (Font)Resources.Load ("font/STZHONGS");
+		sty_MessAlarm.normal.textColor = Color.red;
+		sty_MessAlarm.fontSize = 13;
 		
-		sty_MessRecordID.font=(Font)Resources.Load("font/simfang");
-		sty_MessRecordID.normal.textColor=Color.blue;
-		sty_MessRecordID.fontSize=13;
+		sty_MessRecordID.font = (Font)Resources.Load ("font/simfang");
+		sty_MessRecordID.normal.textColor = Color.blue;
+		sty_MessRecordID.fontSize = 13;
 		
-		sty_MessRecordTime.font=(Font)Resources.Load("font/simfang");
-		sty_MessRecordTime.fontSize=14;
+		sty_MessRecordTime.font = (Font)Resources.Load ("font/simfang");
+		sty_MessRecordTime.fontSize = 14;
 		
-		sty_MessRecordInfo.font=(Font)Resources.Load("font/simfang");
-		sty_MessRecordInfo.fontSize=15;
+		sty_MessRecordInfo.font = (Font)Resources.Load ("font/simfang");
+		sty_MessRecordInfo.fontSize = 15;
 		
-		sty_SysID.font=(Font)Resources.Load("font/monoMMM_5");
-		sty_SysID.fontSize=13;
+		sty_SysID.font = (Font)Resources.Load ("font/monoMMM_5");
+		sty_SysID.fontSize = 13;
 		
-		sty_SysInfo.font=(Font)Resources.Load("font/simfang");
-		sty_SysInfo.fontSize=15;
-		sty_SysInfo.normal.textColor=Color.blue;
+		sty_SysInfo.font = (Font)Resources.Load ("font/simfang");
+		sty_SysInfo.fontSize = 15;
+		sty_SysInfo.normal.textColor = Color.blue;
 		
-		t2d_BottomButton_u = (Texture2D)Resources.Load("Texture_Panel/Button/bottombutton_u");
-		t2d_BottomButton_d = (Texture2D)Resources.Load("Texture_Panel/Button/bottombutton_d");
+		t2d_BottomButton_u = (Texture2D)Resources.Load ("Texture_Panel/Button/bottombutton_u");
+		t2d_BottomButton_d = (Texture2D)Resources.Load ("Texture_Panel/Button/bottombutton_d");
 		
-		sty_BottomButtonSmallest.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/bottombutton_smallest");
-		sty_BottomButton_1.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/bottombutton_d");
-		sty_BottomButton_2.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/bottombutton_u");
-		sty_BottomButton_3.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/bottombutton_u");
-		sty_BottomButton_4.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/bottombutton_u");
-		sty_BottomButton_5.normal.background = (Texture2D)Resources.Load("Texture_Panel/Button/bottombutton_u");
+		sty_BottomButtonSmallest.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Button/bottombutton_smallest");
+		sty_BottomButton_1.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Button/bottombutton_d");
+		sty_BottomButton_2.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Button/bottombutton_u");
+		sty_BottomButton_3.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Button/bottombutton_u");
+		sty_BottomButton_4.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Button/bottombutton_u");
+		sty_BottomButton_5.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Button/bottombutton_u");
 		
-		sty_BottomLabel_1.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/bottomLabel01");
-		sty_BottomLabel_2.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/bottomLabel02");
-		sty_BottomLabel_3.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/bottomLabel03");
-		sty_BottomLabel_4.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/bottomLabel04");
+		sty_BottomLabel_1.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/bottomLabel01");
+		sty_BottomLabel_2.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/bottomLabel02");
+		sty_BottomLabel_3.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/bottomLabel03");
+		sty_BottomLabel_4.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/bottomLabel04");
 		
 		sty_ClockStyle.fontSize = 14;
 		
-		sty_BlueCursor.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/Blue");
+		sty_BlueCursor.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/Blue");
 		
-		sty_EDITLabel.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/EDITLabel");
-		sty_EDITLabelWindow.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/EditWindow");
-		sty_EDITLabelBar_1.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/EditBar01");
-		sty_EDITLabelBar_2.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/EditBar02");
-		sty_EDITLabelBar_3.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/EditBar03");
-		sty_ProgSharedWindow.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/ProgSharedWindow");
+		sty_EDITLabel.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/EDITLabel");
+		sty_EDITLabelWindow.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/EditWindow");
+		sty_EDITLabelBar_1.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/EditBar01");
+		sty_EDITLabelBar_2.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/EditBar02");
+		sty_EDITLabelBar_3.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/EditBar03");
+		sty_ProgSharedWindow.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/ProgSharedWindow");
 		
-		sty_EDITCursor.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/EditCursor");
+		sty_EDITCursor.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/EditCursor");
 //		sty_EDITCursor.font = (Font)Resources.Load("font/STZHONGS");
 		sty_EDITCursor.fontSize = 17;
 		sty_EDITCursor.fontStyle = FontStyle.Bold;
-		sty_EDITTextField.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/EditCursor");
+		sty_EDITTextField.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/EditCursor");
 		sty_EDITTextField.normal.textColor = Color.yellow;
 //		sty_EDITTextField.font = (Font)Resources.Load("font/STZHONGS");
 		sty_EDITTextField.fontSize = 17;
 		sty_EDITTextField.fontStyle = FontStyle.Bold;
 		
-		sty_EDITList.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/EditList");
-		sty_ListContent.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/ListContent");
-		sty_ListWindow.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/ListWindow");
-		sty_AUTOCheck.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/AUTOCheck");
+		sty_EDITList.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/EditList");
+		sty_ListContent.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/ListContent");
+		sty_ListWindow.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/ListWindow");
+		sty_AUTOCheck.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/AUTOCheck");
 		
-		sty_InputTextField.font = (Font)Resources.Load("font/times");
+		sty_InputTextField.font = (Font)Resources.Load ("font/times");
 		sty_InputTextField.fontSize = 15;
 		
-		sty_OffSet_Coo.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/offset_coo");
-		width = 670F;
-		height = 650F;
-		left = -700f;
-		PanelWindowRect = new Rect(left, 30f, width, height);
+		sty_OffSet_Coo.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/offset_coo");
+		
 		EDITText.enabled = false;
 		EDITText.font = sty_Code.font;
 		EDITText.fontSize = sty_Code.fontSize;
@@ -2213,36 +2163,36 @@ public class ControlPanel : MonoBehaviour {
 		CursorText.fontSize = sty_Cursor.fontSize;
 		
 		coo_setting_cursor_x = corner_px + 100f;
-	    coo_setting_cursor_y = corner_py + 73f;
+		coo_setting_cursor_y = corner_py + 73f;
 		coo_setting_1 = 1;
 		coo_setting_2 = 1;
 		
-		sty_SettingsBG.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/SettingsBG");
+		sty_SettingsBG.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/SettingsBG");
 		
 		//设定界面修改---陈振华---03.11
-		sty_OffSet_Coo_mini.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/offset_coo_mini");
-		sty_OffSet_Coo_mid.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/offset_coo_mid");
+		sty_OffSet_Coo_mini.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/offset_coo_mini");
+		sty_OffSet_Coo_mid.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/offset_coo_mid");
 		//设定界面修改---陈振华---03.11
 		
-		sty_EditListTop.normal.background = (Texture2D)Resources.Load("Texture_Panel/Label/EditListTop");
+		sty_EditListTop.normal.background = (Texture2D)Resources.Load ("Texture_Panel/Label/EditListTop");
 		OffSetTool = true;
 		OffSetSetting = false;
 		OffSetCoo = false;
 		
 		//刀偏界面完善---张振华---03.30
-		sty_MostWords_ToolOffSet.font = (Font)Resources.Load("font/STZHONGS");
+		sty_MostWords_ToolOffSet.font = (Font)Resources.Load ("font/STZHONGS");
 		sty_MostWords_ToolOffSet.fontSize = 14;
-		sty_MostWords_ToolOffSet.normal.textColor = new Color(0f, 0.31f, 0.321f, 1.0f);
+		sty_MostWords_ToolOffSet.normal.textColor = new Color (0f, 0.31f, 0.321f, 1.0f);
 		
-		sty_SerialNum.font = (Font)Resources.Load("font/monoMMM_5");
+		sty_SerialNum.font = (Font)Resources.Load ("font/monoMMM_5");
 		sty_SerialNum.fontSize = 14;
-		sty_SerialNum.normal.textColor = new Color(0f, 0.31f, 0.321f, 1.0f);
+		sty_SerialNum.normal.textColor = new Color (0f, 0.31f, 0.321f, 1.0f);
 		
 		ToolOffSetPage_num = 0;    //页面数
 		number = 0;                            //序号
 		tool_setting = 1;                     //黄色背景序号
-	    	tool_setting_cursor_y = corner_py + 46.5f;
-	    	tool_setting_cursor_w =  corner_px + 56f;
+		tool_setting_cursor_y = corner_py + 46.5f;
+		tool_setting_cursor_w = corner_px + 56f;
 		argu_setting_cursor_y = corner_py + 29.5f;
 		//刀偏界面完善---张振华---03.30
 		
@@ -2257,103 +2207,90 @@ public class ControlPanel : MonoBehaviour {
 		CycleTimeS = 0; //循环时间秒
 		RunningSpeed = 0; //实速度
 		SACT = 0; //相当于转速
-		if(PlayerPrefs.HasKey("RunningTimeH"))
-			RunningTimeH = PlayerPrefs.GetInt("RunningTimeH");
-		else
-		{
-			PlayerPrefs.SetInt("RunningTimeH", 0);
+		ALMBlink = false;
+		ALM_Control = false;
+		if (PlayerPrefs.HasKey ("RunningTimeH"))
+			RunningTimeH = PlayerPrefs.GetInt ("RunningTimeH");
+		else {
+			PlayerPrefs.SetInt ("RunningTimeH", 0);
 			RunningTimeH = 0;
 		}
-		if(PlayerPrefs.HasKey("RunningTimeM"))
-			RunningTimeM = PlayerPrefs.GetInt("RunningTimeM");
-		else
-		{
-			PlayerPrefs.SetInt("RunningTimeM", 0);
+		if (PlayerPrefs.HasKey ("RunningTimeM"))
+			RunningTimeM = PlayerPrefs.GetInt ("RunningTimeM");
+		else {
+			PlayerPrefs.SetInt ("RunningTimeM", 0);
 			RunningTimeM = 0;
 		}
-		if(PlayerPrefs.HasKey("PartsNum"))
-			PartsNum = PlayerPrefs.GetInt("PartsNum");
-		else
-		{
-			PlayerPrefs.SetInt("PartsNum", 0);
+		if (PlayerPrefs.HasKey ("PartsNum"))
+			PartsNum = PlayerPrefs.GetInt ("PartsNum");
+		else {
+			PlayerPrefs.SetInt ("PartsNum", 0);
 			PartsNum = 0;
 		}
 		
 	}
 	
-	void LoadScriptOfAudio()
+	void LoadScriptOfAudio ()
 	{
-		gameObject.AddComponent("AudioSource");
+		gameObject.AddComponent <AudioSource> ();
 		gameObject.audio.loop = true;
 		gameObject.audio.playOnAwake = false;
-		gameObject.audio.clip = (AudioClip)Resources.Load("Audio/move");
+		gameObject.audio.clip = (AudioClip)Resources.Load ("Audio/move");
 		gameObject.audio.minDistance = 30f;
 		GameObject move_obj;
-		try
-		{
-			move_obj = GameObject.Find("GameObject");
-		}
-		catch
-		{
-			Debug.LogError("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
+		try {
+			move_obj = GameObject.Find ("GameObject");
+		} catch {
+			Debug.LogError ("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
 			return;
 		}
-		if(move_obj == null)
-		{
-			Debug.LogError("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
+		if (move_obj == null) {
+			Debug.LogError ("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
 			return;
 		}
 		move_obj.transform.name = "move_control";
-		move_obj.AddComponent("MoveControl");
-		move_obj.AddComponent("AudioSource");
+		move_obj.AddComponent <MoveControl> ();
+		move_obj.AddComponent<AudioSource> ();
 		move_obj.audio.loop = true;
 		move_obj.audio.playOnAwake = false;
-		move_obj.audio.clip = (AudioClip)Resources.Load("Audio/move");
+		move_obj.audio.clip = (AudioClip)Resources.Load ("Audio/move");
 		move_obj.audio.minDistance = 30f;
-		move_obj.AddComponent("AuxiliaryMoveModule");
+		move_obj.AddComponent <AuxiliaryMoveModule> ();
 		GameObject spindle_obj;
-		try
-		{
-			spindle_obj = GameObject.Find("GameObject");
-		}
-		catch
-		{
-			Debug.LogError("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
+		try {
+			spindle_obj = GameObject.Find ("GameObject");
+		} catch {
+			Debug.LogError ("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
 			return;
 		}
-		if(spindle_obj == null)
-		{
-			Debug.LogError("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
+		if (spindle_obj == null) {
+			Debug.LogError ("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
 			return;
 		}
 		spindle_obj.transform.name = "spindle_control";
-		spindle_obj.AddComponent("SpindleControl");
-		spindle_obj.AddComponent("AudioSource");
+		spindle_obj.AddComponent<SpindleControl> ();
+		spindle_obj.AddComponent <AudioSource> ();
 		spindle_obj.audio.loop = true;
 		spindle_obj.audio.playOnAwake = false;
-		spindle_obj.audio.clip = (AudioClip)Resources.Load("Audio/spn");
+		spindle_obj.audio.clip = (AudioClip)Resources.Load ("Audio/spn");
 		spindle_obj.audio.minDistance = 30f;
 		GameObject auto_obj;
-		try
-		{
-			auto_obj = GameObject.Find("GameObject");
-		}
-		catch
-		{
-			Debug.LogError("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
+		try {
+			auto_obj = GameObject.Find ("GameObject");
+		} catch {
+			Debug.LogError ("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
 			return;
 		}
-		if(auto_obj == null)
-		{
-			Debug.LogError("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
+		if (auto_obj == null) {
+			Debug.LogError ("Need to add more Empty GameObject by manually: Error caused by Eric Jiang.");
 			return;
 		}
 		auto_obj.transform.name = "AutoMove";
-		auto_obj.AddComponent("AutoMoveModule");
-		AutoMove_Script = GameObject.Find("AutoMove").GetComponent<AutoMoveModule>();
+		auto_obj.AddComponent<AutoMoveModule> ();
+		AutoMove_Script = GameObject.Find ("AutoMove").GetComponent<AutoMoveModule> ();
 	}
 	
-	void ExchangeInt(ref int a, ref int b)
+	void ExchangeInt (ref int a, ref int b)
 	{
 		int temp;
 		temp = a;
@@ -2361,20 +2298,22 @@ public class ControlPanel : MonoBehaviour {
 		b = temp;
 	}
 	
-	public void ExchangeVar()
+	public void ExchangeVar ()
 	{
 		List<string> CodeForExchage = null;
 		CodeForExchage = CodeForAll;
 		CodeForAll = CodeForMDI;
 		CodeForMDI = CodeForExchage;
-		ExchangeInt(ref SelectEnd,ref MDISelectEnd);
-		ExchangeInt(ref SelectStart,ref MDISelectStart);
-		ExchangeInt(ref ProgEDITCusorH,ref MDIProgEDITCusorH);
-		ExchangeInt(ref ProgEDITCusorV,ref MDIProgEDITCusorV);
-		ExchangeInt(ref StartRow,ref MDIStartRow);
-		ExchangeInt(ref EndRow,ref MDIEndRow);
+		ExchangeInt (ref SelectEnd, ref MDISelectEnd);
+		ExchangeInt (ref SelectStart, ref MDISelectStart);
+		ExchangeInt (ref ProgEDITCusorH, ref MDIProgEDITCusorH);
+		ExchangeInt (ref ProgEDITCusorV, ref MDIProgEDITCusorV);
+		ExchangeInt (ref StartRow, ref MDIStartRow);
+		ExchangeInt (ref EndRow, ref MDIEndRow);
+		Softkey_Script.calcSepo (CodeForAll, SystemArguments.EditLength1);
 	}
 	
+//  原始备份	
 //	public void AutoDisplayFindRows(int showRow,bool displayNormal)
 //	{
 //		if(CodeForAUTO.Count == 0)
@@ -2432,30 +2371,30 @@ public class ControlPanel : MonoBehaviour {
 //
 //	}
 	
-	public void AutoDisplayFindRows(int showRow, bool displayNormal)
+	//Auto运行显示时光标的控制
+	public void AutoDisplayFindRows (int showRow, bool displayNormal)
 	{
-		Softkey_Script.calcSepoAuto(CodeForAUTO, SystemArguments.AutoLength1);
-		if(showRow >= auto_total_row)
+		Softkey_Script.calcSepoAuto (CodeForAUTO, SystemArguments.AutoLength1);
+		if (showRow >= auto_total_row)
 			return;
 		autoDisplayNormal = displayNormal;
 		int index = 0;  //代表光标终止行（一行代码可能占据多行）
 		int irow = -1;  //代表代码行号
-		for(int i = 0; i < SeparateAutoEnd.Count; i++)
-		{
+		for (int i = 0; i < SeparateAutoEnd.Count; i++) {
 			index = i;
-			if(CodeForAUTO[SeparateAutoEnd[i] - 1] == ";") //如果结束处为";"，则行号+1
+			if (CodeForAUTO [SeparateAutoEnd [i] - 1] == ";")  //如果结束处为";"，则行号+1
 				irow++;
-			if(irow == showRow)
+			if (irow == showRow)
 				break;
 		}
 		
-		if(irow != showRow)  //如果showRow数值超过最大行，则光标位于最后一行
-		{
+		if (irow != showRow) {  //如果showRow数值超过最大行，则光标位于最后一行
 			autoSelecedProgRow = irow;
-		}
+		} else
+			autoSelecedProgRow = showRow;
 		
 		int irowStart = index;  //代表光标起始行（一行代码可能占据多行）
-		while((irowStart > 0) && (CodeForAUTO[SeparateAutoEnd[irowStart - 1] -1] != ";"))
+		while ((irowStart > 0) && (CodeForAUTO[SeparateAutoEnd[irowStart - 1] -1] != ";"))
 			irowStart--;
 		//光标开始行
 		AutoBeginRow = irowStart;
@@ -2463,37 +2402,120 @@ public class ControlPanel : MonoBehaviour {
 		AutoStopRow = index;
 
 		int range = 0;
-		if(displayNormal)
+		if (displayNormal)
 			range = SystemArguments.AutoLongLineNumber;
 		else
 			range = SystemArguments.AutoPartLineNumber;
 		
 		AUTOStartRow = irowStart / range * range;
 		AUTOEndRow = AUTOStartRow + range;
-		if(index > AUTOEndRow)
-		{
+		if (index > AUTOEndRow) {
 			AUTOStartRow = irowStart;
 			AUTOEndRow = irowStart + range;
 		}
 	}
 	
+	//MDI运行显示时光标的控制
+	public void MDIDisplayFindRows (int showRow)
+	{
+		Softkey_Script.calcSepoMDI (CodeForMDIRuning, SystemArguments.EditLength1);
+		if (showRow >= mdi_total_row)
+			return;
+		int index = 0;  //代表光标终止行（一行代码可能占据多行）
+		int irow = -1;  //代表代码行号
+		for (int i = 0; i < SeparateMDIEnd.Count; i++) {
+			index = i;
+			if (CodeForMDIRuning [SeparateMDIEnd [i] - 1] == ";")  //如果结束处为";"，则行号+1
+				irow++;
+			if (irow == showRow)
+				break;
+		}
+		
+		if (irow != showRow) {  //如果showRow数值超过最大行，则光标位于最后一行
+			MDISelectedRow = irow;
+		} else
+			MDISelectedRow = showRow;
+		
+		int irowStart = index;  //代表光标起始行（一行代码可能占据多行）
+		while ((irowStart > 0) && (CodeForMDIRuning[SeparateMDIEnd[irowStart - 1] -1] != ";"))
+			irowStart--;
+		//光标开始行
+		MDIBeginRow = irowStart;
+		//光标结束行
+		MDIStopRow = index;
+
+		int range = 0;
+		range = SystemArguments.AutoLongLineNumber;
+		
+		MDIStartRowC = irowStart / range * range;
+		MDIEndRowC = MDIStartRowC + range;
+		if (index > MDIEndRowC) {
+			MDIStartRowC = irowStart;
+			MDIEndRowC = irowStart + range;
+		}
+	}
 	
-	void OnGUI()
+	void OnGUI ()
 	{ 
-		//GUI.depth = 1;
-		if(show_off == false)
-		{
+		//完整面板切换动画
+		if (panelWindow_show_off) {
 			PanelWindowRect.x = left;
+			PanelWindowRect.y = top;
 			PanelWindowRect.width = width;
 			PanelWindowRect.height = height;
 		}
 		
-		PanelWindowRect = GUI.Window(0, PanelWindowRect, PanelWindow, "", background);   
+		if (panelWindowOnly)
+			PanelWindowRect = GUI.Window (0, PanelWindowRect, PanelWindow, "", background); 
 		
-		if(power_notification)
-		{
-			power_notifi_window = GUI.Window(1, power_notifi_window, PowerState, "");
-			GUI.BringWindowToFront(1);
+		if (power_notification) {
+			power_notifi_window = GUI.Window (1, power_notifi_window, PowerState, "");
+			GUI.BringWindowToFront (1);
+		}
+		
+		//局部面板切换动画
+		if (screen_show_off) {
+			screenRect.x = left;
+			screenRect.y = top;
+			screenRect.width = width / SystemArguments.PanelWindow_Width * SystemArguments.SmallScreen_Width;
+			screenRect.height = height / SystemArguments.PanelWindow_Height * SystemArguments.SmallScreen_Heght;
+		}
+		
+		if (screenOnly)
+			screenRect = GUI.Window (2, screenRect, ScreenWindow, "", sty_screenOnlyBackground); 
+		
+		//窗口隐藏控制
+		Event mouse_e = Event.current;
+		if (panelWindowOnly) {
+			if (!panelWindow_show_off && !screen_hide && !screen_move_on) {
+				if (!PanelWindowRect.Contains (mouse_e.mousePosition) && mouse_e.isMouse && 
+					mouse_e.type == EventType.MouseDown && mouse_e.button == 0 && mouse_e.clickCount == 2) {
+					hide_start_x = PanelWindowRect.x;
+					display_speed = 0;
+					screen_move_on = true;
+				}
+			}
+		} else {
+			if (!screen_show_off && !screen_hide && !screen_move_on) {
+				if (!screenRect.Contains (mouse_e.mousePosition) && mouse_e.isMouse && 
+					mouse_e.type == EventType.MouseDown && mouse_e.button == 0 && mouse_e.clickCount == 2) {
+					hide_start_x = screenRect.x;
+					display_speed = 0;
+					screen_move_on = true;
+				}
+			}
+		}
+		
+		if (RightclickMenu_Script.rightclick_menu_on) {
+			if (panelWindowOnly) {
+				if (PanelWindowRect.Contains (mouse_e.mousePosition) && (Input.GetMouseButtonDown (0) || Input.GetMouseButtonDown (1) || Input.GetMouseButtonDown (2))) {
+					RightclickMenu_Script.rightclick_menu_on = false;
+				}
+			} else {
+				if (screenRect.Contains (mouse_e.mousePosition) && (Input.GetMouseButtonDown (0) || Input.GetMouseButtonDown (1) || Input.GetMouseButtonDown (2))) {
+					RightclickMenu_Script.rightclick_menu_on = false;
+				}
+			}
 		}
 		
 //		if(GUI.Button(new Rect(10, 90, 120, 30), "退出程序"))
@@ -2508,80 +2530,330 @@ public class ControlPanel : MonoBehaviour {
 //		{
 //			show_off_button_on = !show_off_button_on;
 //		}
-	}    
+	}
 	
 	void FixedUpdate ()
 	{
-		if(!show_off)
-		{
-			width = Mathf.Lerp(0.1f, 760f, 1.5f*Time.time);
-			height = Mathf.Lerp(0.1f, 800f, 1.5f*Time.time);
-			left = Mathf.Lerp(-300f, 500f, 1.5f*Time.time);
+		//完整面板切换
+		if (panelWindow_show_off && panelWindowOnly && !screen_move_on) {
+			PanelWindowShowOff (appear_dispear);
+		}
+		
+		//局部面板切换
+		if (screen_show_off && screenOnly && !screen_move_on) {
+			SmallScreenShowOff (appear_dispear);
+		}
+		
+		//面板显示和消失控制
+		if (screen_move_on) {
+			WindowHideControl ();
+		}
+		
+		//面板显示触发
+		if (screen_hide && !screen_move_on) {
+			if (Input.mousePosition.x >= Screen.width - 1f) {
+				if (panelWindowOnly) {
+					hide_start_x = Screen.width - SystemArguments.PanelWindow_Width;
+					display_speed = 0;
+					screen_move_on = true;
+				} else {
+					hide_start_x = Screen.width - SystemArguments.SmallScreen_Width;
+					display_speed = 0;
+					screen_move_on = true;
+				}
+			}
+		}
+	}
+	
+	void Update ()
+	{
+//		if (Input.GetKeyDown (KeyCode.A)) {
+//			ShowOffSwitch ();
+//		}
+	}
+	
+	//完整面板动画切换控制
+	void PanelWindowShowOff (bool appear_on)
+	{
+		if (appear_on) {
+			width = Mathf.Lerp (0.1f, SystemArguments.PanelWindow_Width, show_off_speed * timeV);
+			height = Mathf.Lerp (0.1f, SystemArguments.PanelWindow_Height, show_off_speed * timeV);
+			left = Mathf.Lerp (show_off_centre_x, show_off_big_corner_x, show_off_speed * timeV);
+			top = Mathf.Lerp (show_off_centre_y, show_off_big_corner_y, show_off_speed * timeV);
 			timeV += Time.deltaTime;	
-			if(timeV > 1)
-				show_off = true;
+			if (timeV > 0.5f) {
+				panelWindow_show_off = false;
+				timeV = 0;
+			}
+		} else {
+			width = Mathf.Lerp (SystemArguments.PanelWindow_Width, 0.1f, show_off_speed * timeV);
+			height = Mathf.Lerp (SystemArguments.PanelWindow_Height, 0.1f, show_off_speed * timeV);
+			left = Mathf.Lerp (show_off_big_corner_x, show_off_centre_x, show_off_speed * timeV);
+			top = Mathf.Lerp (show_off_big_corner_y, show_off_centre_y, show_off_speed * timeV);
+			timeV += Time.deltaTime;	
+			if (timeV > 0.5f) {
+				panelWindow_show_off = false;
+				if (show_off_times) {
+					appear_dispear = true;
+					show_off_times = false;
+					panelWindowOnly = false;
+					screenOnly = true;
+					screen_show_off = true;
+				}
+				timeV = 0;
+			}
+		}
+	}
+	
+	//局部面板动画切换控制
+	void SmallScreenShowOff (bool appear_on)
+	{
+		if (appear_on) {
+			width = Mathf.Lerp (0.1f, SystemArguments.PanelWindow_Width, show_off_speed * timeV);
+			height = Mathf.Lerp (0.1f, SystemArguments.PanelWindow_Height, show_off_speed * timeV);
+			left = Mathf.Lerp (show_off_centre_x, show_off_small_corner_x, show_off_speed * timeV);
+			top = Mathf.Lerp (show_off_centre_y, show_off_small_corner_y, show_off_speed * timeV);
+			timeV += Time.deltaTime;	
+			if (timeV > 0.5f) {
+				screen_show_off = false;
+				timeV = 0;
+			}
+		} else {
+			width = Mathf.Lerp (SystemArguments.PanelWindow_Width, 0.1f, show_off_speed * timeV);
+			height = Mathf.Lerp (SystemArguments.PanelWindow_Height, 0.1f, show_off_speed * timeV);
+			left = Mathf.Lerp (show_off_small_corner_x, show_off_centre_x, show_off_speed * timeV);
+			top = Mathf.Lerp (show_off_small_corner_y, show_off_centre_y, show_off_speed * timeV);
+			timeV += Time.deltaTime;	
+			if (timeV > 0.5f) {
+				screen_show_off = false;
+				if (show_off_times) {
+					appear_dispear = true;
+					show_off_times = false;
+					screenOnly = false;
+					panelWindowOnly = true;
+					panelWindow_show_off = true;
+				}
+				timeV = 0;
+			}
+		}
+	}
+	
+	//面板切换触发开关
+	void ShowOffSwitch ()
+	{
+		if (screenOnly) {
+			ProgEDITCusorPos = ProgEDITCusorPos - corner_px + big_corner_px - 4f;
+			InputTextPos = InputTextPos - corner_px + big_corner_px - 4f;
+			tool_setting_cursor_y = tool_setting_cursor_y - corner_py + big_corner_py;
+			tool_setting_cursor_w = tool_setting_cursor_w - corner_px + big_corner_px;
+			argu_setting_cursor_y = argu_setting_cursor_y - corner_py + big_corner_py;
+			Offset_Script.tool_corner_x = Offset_Script.tool_corner_x - corner_px + big_corner_px;
+			Offset_Script.tool_corner_y = Offset_Script.tool_corner_y - corner_py + big_corner_py;
+			coo_setting_cursor_x = coo_setting_cursor_x - corner_px + big_corner_px;
+			coo_setting_cursor_y = coo_setting_cursor_y - corner_py + big_corner_py;
+			corner_px = big_corner_px;
+			corner_py = big_corner_py;
+			show_off_small_corner_x = screenRect.x;
+			show_off_small_corner_y = screenRect.y;
+			left = show_off_small_corner_x;
+			top = show_off_small_corner_y;
+			show_off_centre_x = show_off_small_corner_x + SystemArguments.SmallScreen_Width / 2;
+			show_off_centre_y = show_off_small_corner_y + SystemArguments.SmallScreen_Heght / 2;
+			show_off_big_corner_x = show_off_centre_x - SystemArguments.PanelWindow_Width / 2;
+			show_off_big_corner_y = show_off_centre_y - SystemArguments.PanelWindow_Height / 2;
+			show_off_times = true;
+			appear_dispear = false;
+			screen_show_off = true;
+		} else {
+			ProgEDITCusorPos = ProgEDITCusorPos - corner_px + small_corner_px + 4f;
+			InputTextPos = InputTextPos - corner_px + small_corner_px + 4f;
+			tool_setting_cursor_y = tool_setting_cursor_y - corner_py + small_corner_py;
+			tool_setting_cursor_w = tool_setting_cursor_w - corner_px + small_corner_px;
+			argu_setting_cursor_y = argu_setting_cursor_y - corner_py + small_corner_py;
+			Offset_Script.tool_corner_x = Offset_Script.tool_corner_x - corner_px + small_corner_px;
+			Offset_Script.tool_corner_y = Offset_Script.tool_corner_y - corner_py + small_corner_py;
+			coo_setting_cursor_x = coo_setting_cursor_x - corner_px + small_corner_px;
+			coo_setting_cursor_y = coo_setting_cursor_y - corner_py + small_corner_py;
+			corner_px = small_corner_px;
+			corner_py = small_corner_py;
+			show_off_big_corner_x = PanelWindowRect.x;
+			show_off_big_corner_y = PanelWindowRect.y;
+			left = show_off_big_corner_x;
+			top = show_off_big_corner_y;
+			show_off_centre_x = show_off_big_corner_x + SystemArguments.PanelWindow_Width / 2;
+			show_off_centre_y = show_off_big_corner_y + SystemArguments.PanelWindow_Height / 2;
+			show_off_small_corner_x = show_off_centre_x - SystemArguments.SmallScreen_Width / 2;
+			show_off_small_corner_y = show_off_centre_y - SystemArguments.SmallScreen_Heght / 2;
+			show_off_times = true;
+			appear_dispear = false;
+			panelWindow_show_off = true;
+		}
+	}
+	
+	//面板显示与隐藏控制函数
+	void WindowHideControl ()
+	{
+		display_speed += 0.003f * screen_move_speed;
+		if (!screen_hide) { //消失
+			if (panelWindowOnly) {  //完整面板的消失
+				PanelWindowRect.x = Mathf.Lerp (hide_start_x, Screen.width + 1f, display_speed);
+				if (PanelWindowRect.x >= Screen.width + 1f) {
+					PanelWindowRect.y = Screen.height / 2 - SystemArguments.PanelWindow_Height / 2;
+					screen_move_on = false;
+					screen_hide = true;
+					display_speed = 0;
+				}
+			} else {  //局部面板的消失
+				screenRect.x = Mathf.Lerp (hide_start_x, Screen.width + 1f, display_speed);
+				if (screenRect.x >= Screen.width + 1f) {
+					screenRect.y = Screen.height / 2 - SystemArguments.SmallScreen_Heght / 2;
+					screen_move_on = false;
+					screen_hide = true;
+					display_speed = 0;
+				}
+			}
+		} else {  //出现
+			if (panelWindowOnly) {  //完整面板的出现
+				PanelWindowRect.x = Mathf.Lerp (Screen.width + 1f, hide_start_x, display_speed);
+				if (PanelWindowRect.x <= hide_start_x) {
+					screen_move_on = false;
+					screen_hide = false;
+					display_speed = 0;
+				}
+			} else {  //局部面板的出现
+				screenRect.x = Mathf.Lerp (Screen.width + 1f, hide_start_x, display_speed);
+				if (screenRect.x <= hide_start_x) {
+					screen_move_on = false;
+					screen_hide = false;
+					display_speed = 0;
+				}
+			}
 		}
 	}
 	
 	void PowerState (int windowID)
 	{
 		GUI.color = Color.black;
-		GUI.Label(new Rect(40f, 25f, 400f, 40f), "请打开NC系统电源！");
+		GUI.Label (new Rect (40f, 25f, 400f, 40f), "请打开NC系统电源！");
 		GUI.color = Color.white;
-		if(GUI.Button(new Rect(70f, 60f, 50f, 20f), "确定"))
+		if (GUI.Button (new Rect (70f, 60f, 50f, 20f), "确定"))
 			power_notification = false;
-		GUI.DragWindow();  
+		GUI.DragWindow ();  
 	}
 	
-	void PanelWindow(int windowID) 
-	{  
+	void ScreenWindow (int WindowID)
+	{
 		//屏幕
-		GUI.Box(new Rect(corner_px/1000f*width,corner_py/1000f*height,screen_sizex/1000f*width,screen_sizey/1000f*height),"");
+		Event mouse_e = Event.current;
+		GUI.Box (new Rect (corner_px / 1000f * width, corner_py / 1000f * height, screen_sizex / 1000f * width, screen_sizey / 1000f * height), "");
+		
+		//双击切换至完整画面
+		if (new Rect (corner_px / 1000f * width, corner_py / 1000f * height, screen_sizex / 1000f * width, screen_sizey / 1000f * height).Contains (mouse_e.mousePosition) && 
+			mouse_e.isMouse && mouse_e.type == EventType.MouseDown && mouse_e.button == 0 && mouse_e.clickCount == 2) {
+			ShowOffSwitch ();
+		}
 		//NC系统电源，屏幕是否显示
-		if(ScreenPower)
-		{
-			ScreenNormallyOn();
+		if (ScreenPower) {
+			ScreenNormallyOn ();
 			//位置界面
-			if(PosMenu)
-		    {
+			if (PosMenu) {
 				//Position模块显示
-				Position_Script.Position();
-		    }
+				Position_Script.Position ();
+			}
 			
 			//程序界面
-			if(ProgMenu)
-			{
+			if (ProgMenu) {
 				//Program模块显示
-				Program_Script.Program();
+				Program_Script.Program ();
 			}
 			
 			//设置界面
-			if(SettingMenu)
-			{
+			if (SettingMenu) {
 				//Offset模块显示
-				Offset_Script.Offset();
+				Offset_Script.Offset ();
 			}
 			
 			//System界面，姓名--刘旋，时间--2013-4-24
-			if(SystemMenu)
-			{
+			if (SystemMenu) {
 				//System模块显示
-				System_Script.System();
+				System_Script.System ();
 			}
 			
 			//Message界面，姓名--刘旋，时间--2013-4-24
-			if(MessageMenu)
-			{
+			if (MessageMenu) {
 				//Message模块显示
-				Message_Script.Message();
+				Message_Script.Message ();
 			}
 			
 			//屏幕 基本固定区域
-			ScreenBottom();
+			ScreenBottom ();
 			
 			//打印编辑区域
-			ScreenPrintArea();	
-			SpeedModule();//内容--增加行数SpeedModule用于控制时速度，姓名--刘旋，时间--2013-4-16
+			ScreenPrintArea ();	
+			SpeedModule ();//内容--增加行数SpeedModule用于控制时速度，姓名--刘旋，时间--2013-4-16
+		}
+		
+		//以上部分为屏幕显示区域，所有有关屏幕GUI效果的变化都通过上述函数增添和编辑
+		
+		//*********************************************************************************************************************
+		//屏幕启动和关闭界面
+		if (ScreenCover)
+			GUI.Box (new Rect (corner_px / 1000f * width, corner_py / 1000f * height, screen_sizex / 1000f * width, screen_sizey / 1000f * height), "", sty_ScreenCover);
+		
+		GUI.DragWindow ();
+	}
+	
+	void PanelWindow (int windowID)
+	{  
+		//屏幕
+		Event mouse_e = Event.current;
+		GUI.Box (new Rect (corner_px / 1000f * width, corner_py / 1000f * height, screen_sizex / 1000f * width, screen_sizey / 1000f * height), "");
+		
+		//双击切换至局部画面
+		if (new Rect (corner_px / 1000f * width, corner_py / 1000f * height, screen_sizex / 1000f * width, screen_sizey / 1000f * height).Contains (mouse_e.mousePosition) && 
+			mouse_e.isMouse && mouse_e.type == EventType.MouseDown && mouse_e.button == 0 && mouse_e.clickCount == 2) {
+			ShowOffSwitch ();
+		}
+		
+		//NC系统电源，屏幕是否显示
+		if (ScreenPower) {
+			ScreenNormallyOn ();
+			//位置界面
+			if (PosMenu) {
+				//Position模块显示
+				Position_Script.Position ();
+			}
+			
+			//程序界面
+			if (ProgMenu) {
+				//Program模块显示
+				Program_Script.Program ();
+			}
+			
+			//设置界面
+			if (SettingMenu) {
+				//Offset模块显示
+				Offset_Script.Offset ();
+			}
+			
+			//System界面，姓名--刘旋，时间--2013-4-24
+			if (SystemMenu) {
+				//System模块显示
+				System_Script.System ();
+			}
+			
+			//Message界面，姓名--刘旋，时间--2013-4-24
+			if (MessageMenu) {
+				//Message模块显示
+				Message_Script.Message ();
+			}
+			
+			//屏幕 基本固定区域
+			ScreenBottom ();
+			
+			//打印编辑区域
+			ScreenPrintArea ();	
+			SpeedModule ();//内容--增加行数SpeedModule用于控制时速度，姓名--刘旋，时间--2013-4-16
 		}
 		
 		//以上部分为屏幕显示区域，所有有关屏幕GUI效果的变化都通过上述函数增添和编辑
@@ -2590,29 +2862,29 @@ public class ControlPanel : MonoBehaviour {
 		
 		
 		//屏幕启动和关闭界面
-		if(ScreenCover)
-			GUI.Box(new Rect(corner_px/1000f*width,corner_py/1000f*height,screen_sizex/1000f*width,screen_sizey/1000f*height),"",sty_ScreenCover);
+		if (ScreenCover)
+			GUI.Box (new Rect (corner_px / 1000f * width, corner_py / 1000f * height, screen_sizex / 1000f * width, screen_sizey / 1000f * height), "", sty_ScreenCover);
 		
 		//MDI面板输入区	
-		MDIInput_Script.MDIInput();
+		MDIInput_Script.MDIInput ();
 		
 		//MDI功能按键区
-			//MDI功能选择按键
-		MDIFunction_Script.Function();
-			//MDI文字编辑按键
-		MDIEdit_Script.Edit();
+		//MDI功能选择按键
+		MDIFunction_Script.Function ();
+		//MDI文字编辑按键
+		MDIEdit_Script.Edit ();
 		
 		//屏幕下方功能软键-------------------------------------------------------------------------------------------------------------
-		Softkey_Script.Softkey();
+		Softkey_Script.Softkey ();
 
 		//NC系统电源按钮
 		//(1)
 //		GUI.Box(new Rect(40f/1000f*width,520f/1000f*height,150f/1000f*width,250f/1000f*height),"");
 		
-		NCPowerButton();
+		NCPowerButton ();
 		
 		//添加 BY:WH
-		LightNumber_Script.LightControl();
+		LightNumber_Script.LightControl ();
 		//LightNumber_Script.setLight((int)Lights.MACHINE,true);
 //		LightNumber_Script.setLight((int)Lights.MAG,true);
 //		LightNumber_Script.setLight((int)Lights.AIRorLUB,true);
@@ -2620,25 +2892,21 @@ public class ControlPanel : MonoBehaviour {
 //		LightNumber_Script.setLight((int)Lights.Y,true);
 //		LightNumber_Script.setLight((int)Lights.Z,true);
 //		LightNumber_Script.setLight((int)Lights.FourTH,true);
-		LightNumber_Script.showNumber();
+		LightNumber_Script.showNumber ();
 		
 		//(2)
 //		GUI.Box(new Rect(195f/1000f*width,520f/1000f*height,770f/1000f*width,100f/1000f*height),"");
 		
-		GUI.DrawTexture(new Rect(t2d_x/1000f*width,t2d_y/1000f*height,t2d_width/1000f*width,t2d_height/1000f*height), t2d_Protect, ScaleMode.ScaleAndCrop, true, 201/162f);
+		GUI.DrawTexture (new Rect (t2d_x / 1000f * width, t2d_y / 1000f * height, t2d_width / 1000f * width, t2d_height / 1000f * height), t2d_Protect, ScaleMode.ScaleAndCrop, true, 201 / 162f);
 
 		//程序保护锁---------------------------------------------------------------------------------------------------------------------------------------------------------
-		if (GUI.Button(new Rect(t2d_x/1000f*width, t2d_y/1000f*height, t2d_width/1000f*width, t2d_height/1000f*height), "", sty_ButtonEmpty))
-		{
-			if(ProgProtect)
-			{
+		if (GUI.Button (new Rect (t2d_x / 1000f * width, t2d_y / 1000f * height, t2d_width / 1000f * width, t2d_height / 1000f * height), "", sty_ButtonEmpty)) {
+			if (ProgProtect) {
 				t2d_Protect = t2d_unlock;
 				ProgProtect = false;
 				ProgProtectWarn = false;
-				WarnningClear();
-			}
-			else
-			{
+				WarnningClear ();
+			} else {
 				t2d_Protect = t2d_lock;
 				ProgProtect = true;
 			}	
@@ -2655,13 +2923,13 @@ public class ControlPanel : MonoBehaviour {
 //		GUI.Box(new Rect(195f/1000f*width,625f/1000f*height,770f/1000f*width,145f/1000f*height),"");
 		
 		//模式选择旋钮
-		ModeSelect_Script.ModeSelectButton();
+		ModeSelect_Script.ModeSelectButton ();
 		
 		//手动进给速率旋钮
-		Feedrate_Script.FeedrateSelect();
+		Feedrate_Script.FeedrateSelect ();
 	
 		//机床功能按键
-		MachineFunction_Script.MachineFunction();
+		MachineFunction_Script.MachineFunction ();
 
 		
 		//(4)
@@ -2672,25 +2940,20 @@ public class ControlPanel : MonoBehaviour {
 //		GUI.DrawTexture(new Rect(100f/1000f*width,790f/1000f*height,110f/1000f*width,110f/1000f*height), t2d_Emergency, ScaleMode.ScaleAndCrop, true, 1f);
 		
 		//紧急停止按钮   待完善
-		if (GUI.Button(new Rect(t2d_Emergency_x/1000f*width, t2d_Emergency_y/1000f*height, t2d_Emergency_width/1000f*width, t2d_Emergency_height/1000f*height), "", t2d_Emergency))            
-		{
-			if(ScreenPower)
-			{
-				if(EmergencyCtrl)
-				{
-					t2d_Emergency.normal.background=t2d_em_u;
-				}
-				else
-				{
-					t2d_Emergency.normal.background=t2d_em_d;
-					AutoMove_Script.StopAllCoroutines();
-					AutoMove_Script.EmergencyCall();
-					AutoRunning_Script.StopAllCoroutines();
-					AutoRunning_Script.DisplayEnd();
-					Program_Script.SetModalState(new List<int>(), new List<string>());  //模态变化的蓝色光标清空
+		if (GUI.Button (new Rect (t2d_Emergency_x / 1000f * width, t2d_Emergency_y / 1000f * height, t2d_Emergency_width / 1000f * width, t2d_Emergency_height / 1000f * height), "", t2d_Emergency)) {
+			if (ScreenPower) {
+				if (EmergencyCtrl) {
+					t2d_Emergency.normal.background = t2d_em_u;
+				} else {
+					t2d_Emergency.normal.background = t2d_em_d;
+					AutoMove_Script.StopAllCoroutines ();
+					AutoMove_Script.EmergencyCall ();
+					AutoRunning_Script.StopAllCoroutines ();
+					AutoRunning_Script.DisplayEnd ();
+					Program_Script.SetModalState (new List<int> (), new List<string> ());  //模态变化的蓝色光标清空
 					AutoRunning_flag = false;
 					RunningSpeed = 0;
-					SpindleStop();
+					SpindleStop ();
 					SpindleSpeed = 0;
 					Compile_flag = false;
 				}
@@ -2701,68 +2964,87 @@ public class ControlPanel : MonoBehaviour {
 		//循环启动 待完善
 //		GUI.color = Color.green;
 //		GUI.contentColor = Color.green;
-		if (GUI.Button(new Rect(IO_x/1000f*width, IO_y/1000f*height, IO_width/1000f*width, IO_height/1000f*height), "",I))          
-		{
-			if(ScreenPower)
-			{
-				if(Compile_flag && ProgAUTO && !AutoMove_Script.PauseState() && !AutoRunning_flag)
-					StartCoroutine(AutoRunning_Script.MotionStart());
+		if (GUI.Button (new Rect (IO_x / 1000f * width, IO_y / 1000f * height, IO_width / 1000f * width, IO_height / 1000f * height), "", I)) {
+			if (ScreenPower) {
+				//从AUTO运行程序
+				if (Compile_flag && ProgAUTO && !AutoMove_Script.PauseState () && !AutoRunning_flag && !MDI_RunningFlag && !EmergencyCtrl) {
+					AutoRunning_flag = true;
+					PathLineDraw_Script.lineOriginalDrawer.Clear ();
+					StartCoroutine (AutoRunning_Script.MotionStart ());
+				}
 				
-				if(!Compile_flag && ProgAUTO && !AutoRunning_flag)
-				{
+				//从MDI运行程序
+				if (!MDI_CompileFlag && ProgMDI && !MDI_RunningFlag && !AutoRunning_flag && !EmergencyCtrl) {
+					CodeForMDIRuning.Clear ();
+					for (int i = 0; i < CodeForAll.Count; i++) {
+						CodeForMDIRuning.Add (CodeForAll [i]);
+					}
 					string error_string = "";
-					Compile_flag = AutoRunning_Script.AutoCodeCompile(CodeForAUTO, ref error_string);
-					if(!Compile_flag)
-					{
+					MDI_CompileFlag = AutoRunning_Script.AutoCodeCompile (CodeForMDIRuning, ref error_string);
+					MDI_RunningFlag = true;
+					PathLineDraw_Script.lineOriginalDrawer.Clear ();
+					StartCoroutine (AutoRunning_Script.MotionStart ());	
+				}
+				
+				//从AUTO再次运行程序
+				if (!Compile_flag && ProgAUTO && !AutoRunning_flag && !MDI_RunningFlag && !EmergencyCtrl) {
+					string error_string = "";
+					Compile_flag = AutoRunning_Script.AutoCodeCompile (CodeForAUTO, ref error_string);
+					if (!Compile_flag) {
 //						Warnning_Script.object_description += "代码编译错误！\n";
 //						if(!Warnning_Script.come_forth)
 //							Warnning_Script.motion_start = true;
 					}
-					StartCoroutine(AutoRunning_Script.MotionStart());
+					AutoRunning_flag = true;
+					PathLineDraw_Script.lineOriginalDrawer.Clear ();
+					StartCoroutine (AutoRunning_Script.MotionStart ());
 				}
 				
-				if(AutoPause_flag && AutoRunning_flag)
-				{
-					AutoMove_Script.ReleasePause();
+				//AUTO运行过程中暂停
+				if (AutoPause_flag && AutoRunning_flag && !MDI_RunningFlag && !EmergencyCtrl) {
+					AutoMove_Script.ReleasePause ();
 					AutoPause_flag = false;
 					O.normal.background = O_u;
 				}
 				
-				if(SingleStep)
-				{
-					AutoRunning_Script.SingleStepStop();
+				//MDI运行过程中暂停
+				if (MDI_PauseFlag && MDI_RunningFlag && !AutoRunning_flag && !EmergencyCtrl) {
+					AutoMove_Script.ReleasePause ();
+					MDI_PauseFlag = false;
+					O.normal.background = O_u;
 				}
-			}
-			else
-			{
+				
+				//AUTO单步运行
+				if (SingleStep) {
+					AutoRunning_Script.SingleStepStop ();
+				}
+			} else {
 				power_notification = true;
 			}
 		}
 		
-		if(AutoRunning_flag)
-		{
+		if (AutoRunning_flag || MDI_RunningFlag) {
 			I.normal.background = I_d;
-		}
-		else
-		{
+		} else {
 			I.normal.background = I_u;
 		}
 		//进给保持按钮  待完善
 //		GUI.color = Color.yellow;
 //		GUI.contentColor = Color.yellow;
-		if (GUI.Button(new Rect((IO_x+IO_left_x)/1000f*width, IO_y/1000f*height, IO_width/1000f*width, IO_height/1000f*height), "",O))            
-		{
-			if(ScreenPower)
-			{
-				if(AutoRunning_flag)
-				{
-					AutoMove_Script.SetPause();
+		if (GUI.Button (new Rect ((IO_x + IO_left_x) / 1000f * width, IO_y / 1000f * height, IO_width / 1000f * width, IO_height / 1000f * height), "", O)) {
+			if (ScreenPower) {
+				if (AutoRunning_flag) {
+					AutoMove_Script.SetPause ();
 					AutoPause_flag = true;
 					O.normal.background = O_d;
 				}
-			}
-			else
-			{
+				
+				if (MDI_RunningFlag) {
+					AutoMove_Script.SetPause ();
+					MDI_PauseFlag = true;
+					O.normal.background = O_d;
+				}
+			} else {
 				power_notification = true;
 			}
 		}
@@ -2770,72 +3052,73 @@ public class ControlPanel : MonoBehaviour {
 //		GUI.contentColor = Color.white;
 		
 		// 机床辅助功能按键
-		AuxiliaryFunction_Script.AuxiliaryFunction();
+		AuxiliaryFunction_Script.AuxiliaryFunction ();
 		
 		// 手动进给按钮 待完善
-		ManualOperationButton();
+		ManualOperationButton ();
 		
 		// 主轴旋转控制按钮  待完善
-		SpindleControl();
+		SpindleControl ();
 		
-		if(show_off_button_on)
-			ButtonShowOff_Script.ButtonEnlarge();
-
-		GUI.DragWindow();    
+		if (show_off_button_on)
+		{
+			ButtonShowOff_Script.ButtonEnlarge ();
+			ButtonShowOff_Script.KnobEnlarge ();
+		}
+		GUI.DragWindow ();    
 	}
 	
-	void SpeedModule()//内容--增加行数SpeedModule用于控制时速度，姓名--刘旋，时间--2013-4-16
+	void SpeedModule ()//内容--增加行数SpeedModule用于控制时速度，姓名--刘旋，时间--2013-4-16
 	{
-		if(MoveControl_script.x_p||MoveControl_script.x_n||MoveControl_script.y_p||MoveControl_script.y_n||MoveControl_script.z_p||MoveControl_script.z_n) 
-			RunningSpeed=Convert.ToInt32(MoveControl_script.speed_to_move*MoveControl_script.move_rate*1000*60);
-		else
-		{
-			if((ProgJOG || ProgREF) && !AutoRunning_flag)
-				RunningSpeed=0;	
+		if (MoveControl_script.x_p || MoveControl_script.x_n || MoveControl_script.y_p || MoveControl_script.y_n || MoveControl_script.z_p || MoveControl_script.z_n) 
+			RunningSpeed = Convert.ToInt32 (MoveControl_script.speed_to_move * MoveControl_script.move_rate * 1000 * 60);
+		else {
+			if ((ProgJOG || ProgREF) && !AutoRunning_flag)
+				RunningSpeed = 0;	
 		}
 	}
 	
-	void ScreenNormallyOn() {
-		
-		GUI.Box(new Rect(corner_px/1000f*width,corner_py/1000f*height,screen_sizex/1000f*width,screen_sizey/1000f*height),"", sty_ScreenBackGround);
-		GUI.Label(new Rect(corner_px/1000f*width,corner_py/1000f*height,screen_sizex/1000f*width,23f/1000f*height),"", sty_TopLabel);
-		GUI.Label(new Rect(corner_px/1000f*width,(corner_py + 349f)/1000f*height,20f/1000f*width,25f/1000f*height),"", sty_BottomButtonSmallest);
-		GUI.Label(new Rect((corner_px + 25f)/1000f*width,(corner_py + 349f)/1000f*height,86f/1000f*width,25f/1000f*height),"", sty_BottomButton_1);
-		GUI.Label(new Rect((corner_px + 115f)/1000f*width,(corner_py + 349f)/1000f*height,86f/1000f*width,25f/1000f*height),"", sty_BottomButton_2);
-		GUI.Label(new Rect((corner_px + 206f)/1000f*width,(corner_py + 349f)/1000f*height,86f/1000f*width,25f/1000f*height),"", sty_BottomButton_3);
-		GUI.Label(new Rect((corner_px + 296f)/1000f*width,(corner_py + 349f)/1000f*height,86f/1000f*width,25f/1000f*height),"", sty_BottomButton_4);
-		GUI.Label(new Rect((corner_px + 387f)/1000f*width,(corner_py + 349f)/1000f*height,86f/1000f*width,25f/1000f*height),"", sty_BottomButton_5);
-		GUI.Label(new Rect((corner_px + 477f)/1000f*width,(corner_py + 349f)/1000f*height,20f/1000f*width,25f/1000f*height),"", sty_BottomButtonSmallest);
+	void ScreenNormallyOn ()
+	{
+		GUI.Box (new Rect (corner_px / 1000f * width, corner_py / 1000f * height, screen_sizex / 1000f * width, screen_sizey / 1000f * height), "", sty_ScreenBackGround);
+		GUI.Label (new Rect (corner_px / 1000f * width, corner_py / 1000f * height, screen_sizex / 1000f * width, 23f / 1000f * height), "", sty_TopLabel);
+		GUI.Label (new Rect (corner_px / 1000f * width, (corner_py + 349f) / 1000f * height, 20f / 1000f * width, 25f / 1000f * height), "", sty_BottomButtonSmallest);
+		GUI.Label (new Rect ((corner_px + 25f) / 1000f * width, (corner_py + 349f) / 1000f * height, 86f / 1000f * width, 25f / 1000f * height), "", sty_BottomButton_1);
+		GUI.Label (new Rect ((corner_px + 115f) / 1000f * width, (corner_py + 349f) / 1000f * height, 86f / 1000f * width, 25f / 1000f * height), "", sty_BottomButton_2);
+		GUI.Label (new Rect ((corner_px + 206f) / 1000f * width, (corner_py + 349f) / 1000f * height, 86f / 1000f * width, 25f / 1000f * height), "", sty_BottomButton_3);
+		GUI.Label (new Rect ((corner_px + 296f) / 1000f * width, (corner_py + 349f) / 1000f * height, 86f / 1000f * width, 25f / 1000f * height), "", sty_BottomButton_4);
+		GUI.Label (new Rect ((corner_px + 387f) / 1000f * width, (corner_py + 349f) / 1000f * height, 86f / 1000f * width, 25f / 1000f * height), "", sty_BottomButton_5);
+		GUI.Label (new Rect ((corner_px + 477f) / 1000f * width, (corner_py + 349f) / 1000f * height, 20f / 1000f * width, 25f / 1000f * height), "", sty_BottomButtonSmallest);
 	}
 	
 	void ScreenBottom ()
 	{
-		GUI.Label(new Rect((corner_px + 305f)/1000f*width,(corner_py - 3f)/1000f*height,200f/1000f*width,100f/1000f*height),"O         N", sty_Title);	
-		GUI.Label(new Rect((corner_px + 327f)/1000f*width,corner_py/1000f*height,200f/1000f*width,100f/1000f*height),ToolNumFormat(ProgramNum), sty_ProgramName);	
-		GUI.Label(new Rect((corner_px + 416f)/1000f*width,corner_py/1000f*height,200f/1000f*width,100f/1000f*height),LineNumFormat(LineNum), sty_ProgramName);
-		GUI.Label(new Rect(corner_px/1000f*width, (corner_py + 283f)/1000f*height,screen_sizex/1000f*width,22f/1000f*height),"", sty_TopLabel);
-		GUI.Label(new Rect((corner_px + 3f)/1000f*width,(corner_py +283f)/1000f*height,200f/1000f*width,100f/1000f*height),"A", sty_BottomAST);
-		GUI.Label(new Rect((corner_px+20f)/1000f*width,(corner_py + 283f)/1000f*height,200f/1000f*width,100f/1000f*height),"> ", sty_Cursor);
-		GUI.Label(new Rect((corner_px+330f)/1000f*width,(corner_py + 303f)/1000f*height,500f/1000f*width,300f/1000f*height),"S              T        ", sty_BottomAST);
-		GUI.Label(new Rect((corner_px+335f)/1000f*width,(corner_py + 303f)/1000f*height,500f/1000f*width,300f/1000f*height),NumberFormat(SpindleSpeed), sty_SmallNum);
-		GUI.Label(new Rect((corner_px+430f)/1000f*width,(corner_py + 303f)/1000f*height,500f/1000f*width,300f/1000f*height),ToolNumFormat(ToolNo), sty_SmallNum);
-		GUI.Label(new Rect(corner_px/1000f*width,(corner_py + 323f)/1000f*height,230f/1000f*width,25f/1000f*height),"", sty_BottomLabel_1);
-		GUI.Label(new Rect((corner_px+231f)/1000f*width,(corner_py + 323f)/1000f*height,45f/1000f*width,25f/1000f*height),"", sty_BottomLabel_2);
-		GUI.Label(new Rect((corner_px+277f)/1000f*width,(corner_py + 323f)/1000f*height,94f/1000f*width,25f/1000f*height),"", sty_BottomLabel_3);
-		GUI.Label(new Rect((corner_px+372f)/1000f*width,(corner_py + 323f)/1000f*height,125f/1000f*width,25f/1000f*height),"", sty_BottomLabel_4);
-		GUI.Label(new Rect((corner_px + 8f)/1000f*width,(corner_py + 323f)/1000f*height,500f/1000f*width,300f/1000f*height), MenuDisplay, sty_ProgModeName); 
-		GUI.Label(new Rect((corner_px + 58f)/1000f*width,(corner_py + 326f)/1000f*height,500f/1000f*width,300f/1000f*height),"****", sty_Star);
-	} 
+		GUI.Label (new Rect ((corner_px + 305f) / 1000f * width, (corner_py - 3f) / 1000f * height, 200f / 1000f * width, 100f / 1000f * height), "O         N", sty_Title);	
+		GUI.Label (new Rect ((corner_px + 327f) / 1000f * width, corner_py / 1000f * height, 200f / 1000f * width, 100f / 1000f * height), ToolNumFormat (ProgramNum), sty_ProgramName);	
+		GUI.Label (new Rect ((corner_px + 416f) / 1000f * width, corner_py / 1000f * height, 200f / 1000f * width, 100f / 1000f * height), LineNumFormat (LineNum), sty_ProgramName);
+		GUI.Label (new Rect (corner_px / 1000f * width, (corner_py + 283f) / 1000f * height, screen_sizex / 1000f * width, 22f / 1000f * height), "", sty_TopLabel);
+		GUI.Label (new Rect ((corner_px + 3f) / 1000f * width, (corner_py + 283f) / 1000f * height, 200f / 1000f * width, 100f / 1000f * height), "A", sty_BottomAST);
+		GUI.Label (new Rect ((corner_px + 20f) / 1000f * width, (corner_py + 283f) / 1000f * height, 200f / 1000f * width, 100f / 1000f * height), "> ", sty_Cursor);
+		GUI.Label (new Rect ((corner_px + 330f) / 1000f * width, (corner_py + 303f) / 1000f * height, 500f / 1000f * width, 300f / 1000f * height), "S              T        ", sty_BottomAST);
+		GUI.Label (new Rect ((corner_px + 335f) / 1000f * width, (corner_py + 303f) / 1000f * height, 500f / 1000f * width, 300f / 1000f * height), NumberFormat (SpindleSpeed), sty_SmallNum);
+		GUI.Label (new Rect ((corner_px + 430f) / 1000f * width, (corner_py + 303f) / 1000f * height, 500f / 1000f * width, 300f / 1000f * height), ToolNumFormat (ToolNo), sty_SmallNum);
+		GUI.Label (new Rect (corner_px / 1000f * width, (corner_py + 323f) / 1000f * height, 230f / 1000f * width, 25f / 1000f * height), "", sty_BottomLabel_1);
+		GUI.Label (new Rect ((corner_px + 231f) / 1000f * width, (corner_py + 323f) / 1000f * height, 45f / 1000f * width, 25f / 1000f * height), "", sty_BottomLabel_2);
+		GUI.Label (new Rect ((corner_px + 277f) / 1000f * width, (corner_py + 323f) / 1000f * height, 94f / 1000f * width, 25f / 1000f * height), "", sty_BottomLabel_3);
+		GUI.Label (new Rect ((corner_px + 372f) / 1000f * width, (corner_py + 323f) / 1000f * height, 125f / 1000f * width, 25f / 1000f * height), "", sty_BottomLabel_4);
+		GUI.Label (new Rect ((corner_px + 8f) / 1000f * width, (corner_py + 323f) / 1000f * height, 500f / 1000f * width, 300f / 1000f * height), MenuDisplay, sty_ProgModeName); 
+		GUI.Label (new Rect ((corner_px + 58f) / 1000f * width, (corner_py + 326f) / 1000f * height, 500f / 1000f * width, 300f / 1000f * height), "****", sty_Star);
+	}
 	
-	void ScreenPrintArea () 
+	void ScreenPrintArea ()
 	{
-		if(CursorBlink)
-			GUI.Label(new Rect(ProgEDITCusorPos,(corner_py + 283f)/1000f*height,500f/1000f*width,300f/1000f*height),"_", sty_Cursor);
+		if (CursorBlink)
+			GUI.Label (new Rect (ProgEDITCusorPos, (corner_py + 283f) / 1000f * height, 500f / 1000f * width, 300f / 1000f * height), "_", sty_Cursor);
 		
-		if(InputText != "")
-			GUI.Label(new Rect(corner_px + 23.5f,(corner_py + 283f)/1000f*height,500f/1000f*width,300f/1000f*height),InputText, sty_Cursor);
+		if (InputText != "")
+			GUI.Label (new Rect (InputTextPos, (corner_py + 283f) / 1000f * height, 500f / 1000f * width, 300f / 1000f * height), InputText, sty_Cursor);
 		
-		GUI.Label(new Rect(corner_px,(corner_py + 304f)/1000f*height,450f/1000f*width,300f/1000f*height), warnning_string, sty_Warning);
+		GUI.Label (new Rect (corner_px, (corner_py + 304f) / 1000f * height, 450f / 1000f * width, 300f / 1000f * height), warnning_string, sty_Warning);
 //		if(ProgProtectWarn)
 //			GUI.Label(new Rect(33f,372f/1000f*height,450f/1000f*width,300f/1000f*height),"WRITE PROTECT", sty_Warning);
 //			//GUI.Label(new Rect(33f,372f/1000f*height,450f/1000f*width,300f/1000f*height),"WRITE PROTECT", sty_Warning);
@@ -2844,91 +3127,82 @@ public class ControlPanel : MonoBehaviour {
 //			GUI.Label(new Rect(33f,372f/1000f*height,450f/1000f*width,300f/1000f*height),"未找到字符!", sty_Warning);	
 //			//NotFoundWarn = false;
 //		}
-		if(EmergencyCtrl == false)
-			GUI.Label(new Rect((corner_px + 140f)/1000f*width,(corner_py + 326f)/1000f*height,500f/1000f*width,300f/1000f*height),"*** ***", sty_Star);
+		if (!EmergencyCtrl)
+			GUI.Label (new Rect ((corner_px + 140f) / 1000f * width, (corner_py + 326f) / 1000f * height, 500f / 1000f * width, 300f / 1000f * height), "*** ***", sty_Star);
 		 
-		GUI.Label(new Rect((corner_px + 287f)/1000f*width,(corner_py + 325f)/1000f*height,300f/1000f*width,300f/1000f*height),""+System.DateTime.Now.ToString("HH:mm:ss"),sty_ClockStyle);
+		GUI.Label (new Rect ((corner_px + 287f) / 1000f * width, (corner_py + 325f) / 1000f * height, 300f / 1000f * width, 300f / 1000f * height), "" + System.DateTime.Now.ToString ("HH:mm:ss"), sty_ClockStyle);
 		//ALM  blink
-		if(Time.time - BlinkTime > 0.5f)
-		{
+		if (Time.time - BlinkTime > 0.5f) {
 			CursorBlink = !CursorBlink;
 			EmergencyBlink = !EmergencyBlink;
-			if(ALM_Control)
-			{
+			if (ALM_Control) {
 				ALMBlink = !ALMBlink;
 			}
 			BlinkTime = Time.time;
 		}
 
-		
-		if(ALMBlink)
-			GUI.Label(new Rect((corner_px + 233f)/1000f*width,(corner_py + 324f)/1000f*height,42f/1000f*width,22f/1000f*height),"ALM", sty_Alarm);
+		if (ALMBlink) {
+			GUI.Label (new Rect ((corner_px + 233f) / 1000f * width, (corner_py + 324f) / 1000f * height, 42f / 1000f * width, 22f / 1000f * height), "", sty_Alarm);
+			GUI.Label (new Rect ((corner_px + 233f) / 1000f * width, (corner_py + 323f) / 1000f * height, 42f / 1000f * width, 22f / 1000f * height), "ALM", sty_AlarmLetter);
+		}
 			
-		if(EmergencyCtrl)
-		{
-			if(EmergencyBlink)
-				GUI.Label(new Rect((corner_px + 132f)/1000f*width,(corner_py + 324f)/1000f*height,95f/1000f*width,22f/1000f*height),"  -- EMG --", sty_Alarm);
+		if (EmergencyCtrl) {
+			if (EmergencyBlink) {
+				GUI.Label (new Rect ((corner_px + 132f) / 1000f * width, (corner_py + 324f) / 1000f * height, 95f / 1000f * width, 22f / 1000f * height), "", sty_Alarm);
+				GUI.Label (new Rect ((corner_px + 132f) / 1000f * width, (corner_py + 323f) / 1000f * height, 95f / 1000f * width, 22f / 1000f * height), " -- EMG --", sty_AlarmLetter);
+			}
 		}
 	}
-
-
 	
-	void NCPowerButton () {
-		
+	void NCPowerButton ()
+	{
 		//NC系统开
-		if (GUI.Button(new Rect(NCPower_x/1000f*width, NCPower_y/1000f*height, NCPower_width/1000f*width, NCPower_height/1000f*height), "", sty_NCPowerOn))            
-		{
-			if(ScreenPower == false)
-			{
+		if (GUI.Button (new Rect (NCPower_x / 1000f * width, NCPower_y / 1000f * height, NCPower_width / 1000f * width, NCPower_height / 1000f * height), "", sty_NCPowerOn)) {
+			if (ScreenPower == false) {
 				sty_NCPowerOn.normal.background = t2d_NCPower_on_d;
 				ScreenCover = true;
 				power_notification = false;
-			    	StartCoroutine(ScreenCoverSet());
-				F_operationButton();
+				StartCoroutine (ScreenCoverSet ());
+				F_operationButton ();
 			}
 			ScreenPower = true;
 		}
 		
 		//NC系统关
-		if (GUI.Button(new Rect(NCPower_x/1000f*width, (NCPower_y+NCPower_left_y)/1000f*height, NCPower_width/1000f*width, NCPower_height/1000f*height), "", sty_NCPowerOff))           
-		{
-			if(ScreenPower)
-			{
+		if (GUI.Button (new Rect (NCPower_x / 1000f * width, (NCPower_y + NCPower_left_y) / 1000f * height, NCPower_width / 1000f * width, NCPower_height / 1000f * height), "", sty_NCPowerOff)) {
+			if (ScreenPower) {
 				sty_NCPowerOn.normal.background = t2d_NCPower_on_u;
 				ScreenCover = true;
-			    	StartCoroutine(ScreenCoverSet());
-				F_operationButton();
+				StartCoroutine (ScreenCoverSet ());
+				F_operationButton ();
 			}
 			ScreenPower = false;
 		}
 	}
 	
-	void F_operationButton()//内容--控制电源关闭和开启时F0，F25,F50,F100按钮的状态，姓名--刘旋，时间--2013-4-12
+	void F_operationButton ()//内容--控制电源关闭和开启时F0，F25,F50,F100按钮的状态，姓名--刘旋，时间--2013-4-12
 	{
-		if(ScreenPower==false)
-		{
-			if(PlayerPrefs.HasKey("F_SpeedMode"))
-			    RapidSpeedMode = PlayerPrefs.GetInt("F_SpeedMode");
-		    else
-		    {
-			    PlayerPrefs.SetInt("F_SpeedMode", 2);
-			    RapidSpeedMode = 2;
-		    }
-			switch(RapidSpeedMode)
-			{
+		if (ScreenPower == false) {
+			if (PlayerPrefs.HasKey ("F_SpeedMode"))
+				RapidSpeedMode = PlayerPrefs.GetInt ("F_SpeedMode");
+			else {
+				PlayerPrefs.SetInt ("F_SpeedMode", 2);
+				RapidSpeedMode = 2;
+			}
+			switch (RapidSpeedMode) {
 			case 0:
-				F0_flag=true;
-				F25_flag=false;
-				F50_flag=false;
-				F100_flag=false;
-				sty_ButtonF0.active.background=t2d_f0_on_d;
-				sty_ButtonF0.normal.background=t2d_f0_on_u; 
-				sty_ButtonF25.active.background=t2d_f25_off_d;
-				sty_ButtonF25.normal.background=t2d_f25_off_u;
-				sty_ButtonF50.active.background=t2d_f50_off_d;
-				sty_ButtonF50.normal.background=t2d_f50_off_u;
-				sty_ButtonF100.active.background=t2d_f100_off_d;
-				sty_ButtonF100.normal.background=t2d_f100_off_u;
+				F0_flag = true;
+				F25_flag = false;
+				F50_flag = false;
+				F100_flag = false;
+				sty_ButtonF0.active.background = t2d_f0_on_d;
+				sty_ButtonF0.normal.background = t2d_f0_on_u; 
+				sty_ButtonF25.active.background = t2d_f25_off_d;
+				sty_ButtonF25.normal.background = t2d_f25_off_u;
+				sty_ButtonF50.active.background = t2d_f50_off_d;
+				sty_ButtonF50.normal.background = t2d_f50_off_u;
+				sty_ButtonF100.active.background = t2d_f100_off_d;
+				sty_ButtonF100.normal.background = t2d_f100_off_u;
 				
 				sty_SF0.normal.background = sty_SF0_d;
 				sty_SF25.normal.background = sty_SF25_u;
@@ -2936,18 +3210,18 @@ public class ControlPanel : MonoBehaviour {
 				sty_SF100.normal.background = sty_SF100_u;
 				break;
 			case 1:
-				F0_flag=false;
-				F25_flag=true;
-				F50_flag=false;
-				F100_flag=false;
-				sty_ButtonF25.active.background=t2d_f25_on_d;
-				sty_ButtonF25.normal.background=t2d_f25_on_u;						    
-				sty_ButtonF0.active.background=t2d_f0_off_d;
-				sty_ButtonF0.normal.background=t2d_f0_off_u;
-				sty_ButtonF50.active.background=t2d_f50_off_d;
-				sty_ButtonF50.normal.background=t2d_f50_off_u;
-				sty_ButtonF100.active.background=t2d_f100_off_d;
-				sty_ButtonF100.normal.background=t2d_f100_off_u;
+				F0_flag = false;
+				F25_flag = true;
+				F50_flag = false;
+				F100_flag = false;
+				sty_ButtonF25.active.background = t2d_f25_on_d;
+				sty_ButtonF25.normal.background = t2d_f25_on_u;						    
+				sty_ButtonF0.active.background = t2d_f0_off_d;
+				sty_ButtonF0.normal.background = t2d_f0_off_u;
+				sty_ButtonF50.active.background = t2d_f50_off_d;
+				sty_ButtonF50.normal.background = t2d_f50_off_u;
+				sty_ButtonF100.active.background = t2d_f100_off_d;
+				sty_ButtonF100.normal.background = t2d_f100_off_u;
 				
 				sty_SF0.normal.background = sty_SF0_u;
 				sty_SF25.normal.background = sty_SF25_d;
@@ -2955,18 +3229,18 @@ public class ControlPanel : MonoBehaviour {
 				sty_SF100.normal.background = sty_SF100_u;
 				break;
 			case 2:
-				F0_flag=false;
-				F25_flag=false;
-				F50_flag=true;
-				F100_flag=false;
-				sty_ButtonF50.active.background=t2d_f50_on_d;
-				sty_ButtonF50.normal.background=t2d_f50_on_u;
-				sty_ButtonF0.active.background=t2d_f0_off_d;
-				sty_ButtonF0.normal.background=t2d_f0_off_u;
-				sty_ButtonF25.active.background=t2d_f25_off_d;
-				sty_ButtonF25.normal.background=t2d_f25_off_u;
-				sty_ButtonF100.active.background=t2d_f100_off_d;
-				sty_ButtonF100.normal.background=t2d_f100_off_u;
+				F0_flag = false;
+				F25_flag = false;
+				F50_flag = true;
+				F100_flag = false;
+				sty_ButtonF50.active.background = t2d_f50_on_d;
+				sty_ButtonF50.normal.background = t2d_f50_on_u;
+				sty_ButtonF0.active.background = t2d_f0_off_d;
+				sty_ButtonF0.normal.background = t2d_f0_off_u;
+				sty_ButtonF25.active.background = t2d_f25_off_d;
+				sty_ButtonF25.normal.background = t2d_f25_off_u;
+				sty_ButtonF100.active.background = t2d_f100_off_d;
+				sty_ButtonF100.normal.background = t2d_f100_off_u;
 				
 				sty_SF0.normal.background = sty_SF0_u;
 				sty_SF25.normal.background = sty_SF25_u;
@@ -2974,18 +3248,18 @@ public class ControlPanel : MonoBehaviour {
 				sty_SF100.normal.background = sty_SF100_u;
 				break;
 			case 3:
-				F0_flag=false;
-				F25_flag=false;
-				F50_flag=false;
-				F100_flag=true;
-				sty_ButtonF100.active.background=t2d_f100_on_d;
-				sty_ButtonF100.normal.background=t2d_f100_on_u;						    
-				sty_ButtonF0.active.background=t2d_f0_off_d;
-				sty_ButtonF0.normal.background=t2d_f0_off_u;
-				sty_ButtonF25.active.background=t2d_f25_off_d;
-				sty_ButtonF25.normal.background=t2d_f25_off_u;
-				sty_ButtonF50.active.background=t2d_f50_off_d;
-				sty_ButtonF50.normal.background=t2d_f50_off_u;
+				F0_flag = false;
+				F25_flag = false;
+				F50_flag = false;
+				F100_flag = true;
+				sty_ButtonF100.active.background = t2d_f100_on_d;
+				sty_ButtonF100.normal.background = t2d_f100_on_u;						    
+				sty_ButtonF0.active.background = t2d_f0_off_d;
+				sty_ButtonF0.normal.background = t2d_f0_off_u;
+				sty_ButtonF25.active.background = t2d_f25_off_d;
+				sty_ButtonF25.normal.background = t2d_f25_off_u;
+				sty_ButtonF50.active.background = t2d_f50_off_d;
+				sty_ButtonF50.normal.background = t2d_f50_off_u;
 				
 				sty_SF0.normal.background = sty_SF0_u;
 				sty_SF25.normal.background = sty_SF25_u;
@@ -2994,17 +3268,15 @@ public class ControlPanel : MonoBehaviour {
 				break;
 			}
 		
-		}
-		else
-		{
-			sty_ButtonF0.active.background=t2d_f0_off_d;
-			sty_ButtonF0.normal.background=t2d_f0_off_u; 
-			sty_ButtonF25.active.background=t2d_f25_off_d;
-			sty_ButtonF25.normal.background=t2d_f25_off_u;
-			sty_ButtonF50.active.background=t2d_f50_off_d;
-			sty_ButtonF50.normal.background=t2d_f50_off_u;
-			sty_ButtonF100.active.background=t2d_f100_off_d;
-			sty_ButtonF100.normal.background=t2d_f100_off_u;
+		} else {
+			sty_ButtonF0.active.background = t2d_f0_off_d;
+			sty_ButtonF0.normal.background = t2d_f0_off_u; 
+			sty_ButtonF25.active.background = t2d_f25_off_d;
+			sty_ButtonF25.normal.background = t2d_f25_off_u;
+			sty_ButtonF50.active.background = t2d_f50_off_d;
+			sty_ButtonF50.normal.background = t2d_f50_off_u;
+			sty_ButtonF100.active.background = t2d_f100_off_d;
+			sty_ButtonF100.normal.background = t2d_f100_off_u;
 			
 			sty_SF0.normal.background = sty_SF0_u;
 			sty_SF25.normal.background = sty_SF25_u;
@@ -3013,23 +3285,19 @@ public class ControlPanel : MonoBehaviour {
 		}
 	}
 	
-	void ManualOperationButton () {
+	void ManualOperationButton ()
+	{
 		
-		if (GUI.Button(new Rect((Axis_x+left_x)/1000f*width, (Axis_y+left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonRapid))            
-		{
-			if(ScreenPower)
-			{
-				if(RapidMoveFlag)
-				{
+		if (GUI.Button (new Rect ((Axis_x + left_x) / 1000f * width, (Axis_y + left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonRapid)) {
+			if (ScreenPower) {
+				if (RapidMoveFlag) {
 					RapidMoveFlag = false;
 					MoveControl_script.speed_to_move = 0.08333F;//内容--JOG模式下，慢常速为5m/min=(5/60)m/s,因此spee-to-move=5/60,姓名--刘旋，时间--2013-4-8
 					MoveControl_script.move_rate = move_rate;
 					sty_ButtonRapid.normal.background = t2d_rapid_off_u;
 					sty_ButtonRapid.active.background = t2d_rapid_off_d;
 					sty_SRAPID.normal.background = sty_SRAPID_u;
-				}
-				else
-				{
+				} else {
 					RapidMoveFlag = true;
 					MoveControl_script.speed_to_move = 0.16667F;//内容--JOG模式下，快常速为10m/min=(10/60)m/s,因此spee-to-move=10/60,姓名--刘旋，时间--2013-4-8
 					MoveControl_script.move_rate = 1f;//内容--JOG模式下，实际进给速率倍率的修改，不恒为1，与进给面板数值保持一致，姓名--刘旋，时间--2013-4-8
@@ -3037,440 +3305,333 @@ public class ControlPanel : MonoBehaviour {
 					sty_ButtonRapid.active.background = t2d_rapid_on_d;
 					sty_SRAPID.normal.background = sty_SRAPID_d;
 				}
-			}
-			else
-			{
+			} else {
 				power_notification = true;
-				GUI.BringWindowToBack(0);
+				GUI.BringWindowToBack (0);
 			}
 		}
 		
-		if (GUI.Button(new Rect((Axis_x)/1000f*width, (Axis_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_Button4P))             
-		{
-			if(ScreenPower)
-			{
-					sty_S4P.normal.background = sty_S4P_d;
-			}
-			else
-			{
+		if (GUI.Button (new Rect ((Axis_x) / 1000f * width, (Axis_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_Button4P)) {
+			if (ScreenPower) {
+				sty_S4P.normal.background = sty_S4P_d;
+			} else {
 				power_notification = true;
 			}
-		}
-		else
+		} else
 			sty_S4P.normal.background = sty_S4P_u;
 		
-		if (GUI.Button(new Rect((Axis_x)/1000f*width, (Axis_y+2*left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_Button4N))            
-		{
-			if(ScreenPower)
-			{
-					sty_S4N.normal.background = sty_S4N_d;
-			}
-			else
-			{
+		if (GUI.Button (new Rect ((Axis_x) / 1000f * width, (Axis_y + 2 * left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_Button4N)) {
+			if (ScreenPower) {
+				sty_S4N.normal.background = sty_S4N_d;
+			} else {
 				power_notification = true;
 			}
-		}
-		else
+		} else
 			sty_S4N.normal.background = sty_S4N_u;
 		
-		if(GUI.RepeatButton(new Rect((Axis_x+left_x)/1000f*width, (Axis_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonYN))
-		{
-			if(ScreenPower)
-			{
+		if (GUI.RepeatButton (new Rect ((Axis_x + left_x) / 1000f * width, (Axis_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonYN)) {
+			if (ScreenPower) {
 				sty_SYN.normal.background = sty_SYN_d;
-				if(ProgJOG)
-				{
-					if(RapidMoveFlag)
-					{
+				if (ProgJOG) {
+					if (RapidMoveFlag) {
 						MoveControl_script.speed_to_move = 0.16667F;//内容--JOG模式下，快常速为10m/min=(10/60)m/s,因此spee-to-move=10/60,姓名--刘旋，时间--2013-4-8
 						MoveControl_script.move_rate = 1f;//内容--JOG模式下，实际进给速率倍率的修改，恒为1，姓名--刘旋，时间--2013-4-11
-						switch(RapidSpeedMode)//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
-						{
+						switch (RapidSpeedMode) {//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
 						case 0://模式0（即;F0状态）
-							MoveControl_script.speed_to_move=0.0005f*MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
+							MoveControl_script.speed_to_move = 0.0005f * MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
 							break;
 						case 1://模式0（即;F25状态）
-							MoveControl_script.speed_to_move=0.25f*MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
+							MoveControl_script.speed_to_move = 0.25f * MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
 							break;
 						case 2://模式0（即;F50状态）
-							MoveControl_script.speed_to_move=0.5f*MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
+							MoveControl_script.speed_to_move = 0.5f * MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
 							break;
 						case 3://模式0（即;F100状态）
-							MoveControl_script.speed_to_move=1f*MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
+							MoveControl_script.speed_to_move = 1f * MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
 							break;	
 									
 						}//增加内容到此  2013-4-9
-					}
-					else
-					{
+					} else {
 						MoveControl_script.speed_to_move = 0.08333F;//内容--JOG模式下，慢常速为5m/min=(5/60)m/s,因此spee-to-move=5/60,姓名--刘旋，时间--2013-4-8				
 						MoveControl_script.move_rate = move_rate;
 					}
 					//碰撞
-					if(!MoveControl_script.collision_yn)
-					{
-						if(MoveControl_script.MachineZero.x - MoveControl_script.Y_part.localPosition.x >= 0.5f)
+					if (!MoveControl_script.collision_yn) {
+						if (MoveControl_script.MachineZero.x - MoveControl_script.Y_part.localPosition.x >= 0.5f)
 							MoveControl_script.y_n = false;
-						else
-						{
+						else {
 							MoveControl_script.y_n = true;
 							beModifed = true;
 						}
 					}
 					
 				}
-			}
-			else
-			{
+			} else {
 				power_notification = true;
 			}
-		}
-		else
-		{
+		} else {
 			sty_SYN.normal.background = sty_SYN_u;
 			MoveControl_script.y_n = false;
 		}
 		
-		if(GUI.RepeatButton(new Rect((Axis_x+2*left_x)/1000f*width, (Axis_y+left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonXN))
-		{
-			if(ScreenPower)
-			{
+		if (GUI.RepeatButton (new Rect ((Axis_x + 2 * left_x) / 1000f * width, (Axis_y + left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonXN)) {
+			if (ScreenPower) {
 				sty_SXN.normal.background = sty_SXN_d;
-				if(ProgJOG)
-				{
-					if(RapidMoveFlag)
-					{
+				if (ProgJOG) {
+					if (RapidMoveFlag) {
 						MoveControl_script.speed_to_move = 0.16667F;//内容--JOG模式下，快常速为10m/min=(10/60)m/s,因此spee-to-move=10/60,姓名--刘旋，时间--2013-4-8
 						MoveControl_script.move_rate = 1f;//内容--JOG模式下，实际进给速率倍率的修改，恒为1，姓名--刘旋，时间--2013-4-11
-						switch(RapidSpeedMode)//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
-							{
-						    case 0://模式0（即;F0状态）
-									MoveControl_script.speed_to_move=0.0005f*MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
-								    break;
-							case 1://模式0（即;F25状态）
-								    MoveControl_script.speed_to_move=0.25f*MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
-								    break;
-							case 2://模式0（即;F50状态）
-									MoveControl_script.speed_to_move=0.5f*MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
-								    break;
-							case 3://模式0（即;F100状态）
-								    MoveControl_script.speed_to_move=1f*MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
-								    break;	
+						switch (RapidSpeedMode) {//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
+						case 0://模式0（即;F0状态）
+							MoveControl_script.speed_to_move = 0.0005f * MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
+							break;
+						case 1://模式0（即;F25状态）
+							MoveControl_script.speed_to_move = 0.25f * MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
+							break;
+						case 2://模式0（即;F50状态）
+							MoveControl_script.speed_to_move = 0.5f * MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
+							break;
+						case 3://模式0（即;F100状态）
+							MoveControl_script.speed_to_move = 1f * MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
+							break;	
 									
-							}//增加内容到此  2013-4-9
-					}
-					else
-					{
+						}//增加内容到此  2013-4-9
+					} else {
 						MoveControl_script.speed_to_move = 0.08333F;//内容--JOG模式下，慢常速为5m/min=(5/60)m/s,因此spee-to-move=5/60,姓名--刘旋，时间--2013-4-8
 						MoveControl_script.move_rate = move_rate;
 					}
 					//碰撞
-					if(!MoveControl_script.collision_xn)
-					{
-						if(MoveControl_script.MachineZero.z - MoveControl_script.X_part.localPosition.z >= 0.8f)
+					if (!MoveControl_script.collision_xn) {
+						if (MoveControl_script.MachineZero.z - MoveControl_script.X_part.localPosition.z >= 0.8f)
 							MoveControl_script.x_n = false;
-						else
-						{
+						else {
 							MoveControl_script.x_n = true;
 							beModifed = true;
 						}
 					}
 					
 				}
-			}
-			else
-			{
+			} else {
 				power_notification = true;
 			}
-		}
-		else
-		{
+		} else {
 			MoveControl_script.x_n = false;
 			sty_SXN.normal.background = sty_SXN_u;
 		}
 		
-		if(GUI.RepeatButton(new Rect((Axis_x+2*left_x)/1000f*width, (Axis_y+2*left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonZN))
-		{
-			if(ScreenPower)
-			{
+		if (GUI.RepeatButton (new Rect ((Axis_x + 2 * left_x) / 1000f * width, (Axis_y + 2 * left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonZN)) {
+			if (ScreenPower) {
 				sty_SZN.normal.background = sty_SZN_d;
-				if(ProgJOG)
-				{
-					if(RapidMoveFlag)
-					{
+				if (ProgJOG) {
+					if (RapidMoveFlag) {
 						MoveControl_script.speed_to_move = 0.16667F;//内容--JOG模式下，快常速为10m/min=(10/60)m/s,因此spee-to-move=10/60,姓名--刘旋，时间--2013-4-8
 						MoveControl_script.move_rate = 1f;//内容--JOG模式下，实际进给速率倍率的修改，恒为1，姓名--刘旋，时间--2013-4-11
-						switch(RapidSpeedMode)//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
-							{
-						    case 0://模式0（即;F0状态）
-									MoveControl_script.speed_to_move=0.0005f*MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
-								    break;
-							case 1://模式0（即;F25状态）
-								    MoveControl_script.speed_to_move=0.25f*MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
-								    break;
-							case 2://模式0（即;F50状态）
-									MoveControl_script.speed_to_move=0.5f*MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
-								    break;
-							case 3://模式0（即;F100状态）
-								    MoveControl_script.speed_to_move=1f*MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
-								    break;	
+						switch (RapidSpeedMode) {//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
+						case 0://模式0（即;F0状态）
+							MoveControl_script.speed_to_move = 0.0005f * MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
+							break;
+						case 1://模式0（即;F25状态）
+							MoveControl_script.speed_to_move = 0.25f * MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
+							break;
+						case 2://模式0（即;F50状态）
+							MoveControl_script.speed_to_move = 0.5f * MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
+							break;
+						case 3://模式0（即;F100状态）
+							MoveControl_script.speed_to_move = 1f * MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
+							break;	
 									
-							}//增加内容到此  2013-4-9
-					}
-					else
-					{
+						}//增加内容到此  2013-4-9
+					} else {
 						MoveControl_script.speed_to_move = 0.08333F;//内容--JOG模式下，慢常速为5m/min=(5/60)m/s,因此spee-to-move=5/60,姓名--刘旋，时间--2013-4-8
 						MoveControl_script.move_rate = move_rate;
 					}
 					//碰撞
-					if(!MoveControl_script.collision_zn)
-					{
-						if(MoveControl_script.MachineZero.y - MoveControl_script.Z_part.localPosition.y >= 0.51f)
+					if (!MoveControl_script.collision_zn) {
+						if (MoveControl_script.MachineZero.y - MoveControl_script.Z_part.localPosition.y >= 0.51f)
 							MoveControl_script.z_n = false;
-						else
-						{
+						else {
 							MoveControl_script.z_n = true;
 							beModifed = true;
 						}
 					}
 					
 				}
-			}
-			else
-			{
+			} else {
 				power_notification = true;
 			}
-		}
-		else
-		{
+		} else {
 			MoveControl_script.z_n = false;
 			sty_SZN.normal.background = sty_SZN_u;
 		}
 		
-		if(ProgREF)
-		{
-			if(GUI.Button(new Rect((Axis_x+2*left_x)/1000f*width, Axis_y/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonZP))
-			{
-				if(ScreenPower)
-				{
+		if (ProgREF) {
+			if (GUI.Button (new Rect ((Axis_x + 2 * left_x) / 1000f * width, Axis_y / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonZP)) {
+				if (ScreenPower) {
 					MoveControl_script.move_rate = 1f;//内容--归零模式下，实际进给速率倍率的修改，恒为1,姓名--刘旋，时间--2013-4-11
 					MoveControl_script.speed_to_move = 0.333333F;//内容--归零操作的实际速度为20m/min=0.333333m/s，而实际速度RunningSpeed=speed—to-move*move-rate，因此speed-to-move应设为0.333333姓名--刘旋，时间--2013-4-8
-					if(!z_return_zero)
-					{
+					if (!z_return_zero) {
 						MoveControl_script.z_p = true;
 						beModifed = true;
 					}
-				}
-				else
+				} else
 					power_notification = true;
 			}
 			
-			if(GUI.Button(new Rect(Axis_x/1000f*width, (Axis_y+left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonXP))
-			{
-				if(ScreenPower)
-				{
+			if (GUI.Button (new Rect (Axis_x / 1000f * width, (Axis_y + left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonXP)) {
+				if (ScreenPower) {
 					MoveControl_script.move_rate = 1f;//内容--归零模式下，实际进给速率倍率的修改，恒为1,姓名--刘旋，时间--2013-4-11
 					MoveControl_script.speed_to_move = 0.333333F;//内容--归零操作的实际速度为10m/min=0.1667m/s，而实际速度RunningSpeed=speed—to-move*move-rate，因此speed-to-move应设为0.1667,姓名--刘旋，时间--2013-4-8
-					if(!x_return_zero)
-					{
+					if (!x_return_zero) {
 						MoveControl_script.x_p = true;
 						beModifed = true;
 					}
-				}
-				else
+				} else
 					power_notification = true;
 			}
 			
-			if(GUI.Button(new Rect((Axis_x+left_x)/1000f*width, (Axis_y+2*left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonYP))
-			{
-				if(ScreenPower)
-				{
+			if (GUI.Button (new Rect ((Axis_x + left_x) / 1000f * width, (Axis_y + 2 * left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonYP)) {
+				if (ScreenPower) {
 					MoveControl_script.move_rate = 1f;//内容--归零模式下，实际进给速率倍率的修改，恒为1,姓名--刘旋，时间--2013-4-11
 					MoveControl_script.speed_to_move = 0.333333F;//内容--归零操作的实际速度为10m/min=0.1667m/s，而实际速度RunningSpeed=speed—to-move*move-rate，因此speed-to-move应设为0.1667,姓名--刘旋，时间--2013-4-8
-					if(!y_return_zero)
-					{
+					if (!y_return_zero) {
 						MoveControl_script.y_p = true;
 						beModifed = true;
 					}
-				}
-				else
+				} else
 					power_notification = true;
 			}
-		}
-		else
-		{
-			if(GUI.RepeatButton(new Rect((Axis_x+2*left_x)/1000f*width, Axis_y/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonZP))
-			{
-				if(ScreenPower)
-				{
+		} else {
+			if (GUI.RepeatButton (new Rect ((Axis_x + 2 * left_x) / 1000f * width, Axis_y / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonZP)) {
+				if (ScreenPower) {
 					sty_SZP.normal.background = sty_SZP_d;
-					if(ProgJOG)
-					{
-						if(RapidMoveFlag)
-						{
+					if (ProgJOG) {
+						if (RapidMoveFlag) {
 							MoveControl_script.speed_to_move = 0.16667F;//内容--JOG模式下，快常速为10m/min=(10/60)m/s,因此spee-to-move=10/60,姓名--刘旋，时间--2013-4-8
 							MoveControl_script.move_rate = 1f;//内容--JOG模式下，实际进给速率倍率的修改，恒为1，姓名--刘旋，时间--2013-4-11
-							switch(RapidSpeedMode)//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
-								{
-							    case 0://模式0（即;F0状态）
-										MoveControl_script.speed_to_move=0.0005f*MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
-									    break;
-								case 1://模式0（即;F25状态）
-									    MoveControl_script.speed_to_move=0.25f*MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
-									    break;
-								case 2://模式0（即;F50状态）
-										MoveControl_script.speed_to_move=0.5f*MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
-									    break;
-								case 3://模式0（即;F100状态）
-									    MoveControl_script.speed_to_move=1f*MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
-									    break;	
+							switch (RapidSpeedMode) {//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
+							case 0://模式0（即;F0状态）
+								MoveControl_script.speed_to_move = 0.0005f * MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
+								break;
+							case 1://模式0（即;F25状态）
+								MoveControl_script.speed_to_move = 0.25f * MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
+								break;
+							case 2://模式0（即;F50状态）
+								MoveControl_script.speed_to_move = 0.5f * MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
+								break;
+							case 3://模式0（即;F100状态）
+								MoveControl_script.speed_to_move = 1f * MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
+								break;	
 										
-								}//增加内容到此  2013-4-9
-						}
-						else
-						{
+							}//增加内容到此  2013-4-9
+						} else {
 							MoveControl_script.speed_to_move = 0.08333F;//内容--JOG模式下，慢常速为5m/min=(5/60)m/s,因此spee-to-move=5/60,姓名--刘旋，时间--2013-4-8
 							MoveControl_script.move_rate = move_rate;
 						}
 						//碰撞
-						if(!MoveControl_script.collision_zp)
-						{
-							if(MoveControl_script.MachineZero.y - MoveControl_script.Z_part.localPosition.y <= 0)
+						if (!MoveControl_script.collision_zp) {
+							if (MoveControl_script.MachineZero.y - MoveControl_script.Z_part.localPosition.y <= 0)
 								MoveControl_script.z_p = false;
-							else
-							{
+							else {
 								MoveControl_script.z_p = true;
 								beModifed = true;
 							}
 						}
 					}
-				}
-				else
-				{
+				} else {
 					power_notification = true;
 				}
-			}
-			else
-			{
+			} else {
 				MoveControl_script.z_p = false;
 				sty_SZP.normal.background = sty_SZP_u;
 			}
 			
-			if(GUI.RepeatButton(new Rect(Axis_x/1000f*width, (Axis_y+left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonXP))
-			{
-				if(ScreenPower)
-				{
+			if (GUI.RepeatButton (new Rect (Axis_x / 1000f * width, (Axis_y + left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonXP)) {
+				if (ScreenPower) {
 					sty_SXP.normal.background = sty_SXP_d;
-					if(ProgJOG)
-					{
-						if(RapidMoveFlag)
-						{
+					if (ProgJOG) {
+						if (RapidMoveFlag) {
 							MoveControl_script.speed_to_move = 0.16667F;//内容--JOG模式下，快常速为10m/min=(10/60)m/s,因此spee-to-move=10/60,姓名--刘旋，时间--2013-4-8
 							MoveControl_script.move_rate = 1f;//内容--JOG模式下，实际进给速率倍率的修改，恒为1，姓名--刘旋，时间--2013-4-11
-							switch(RapidSpeedMode)//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
-								{
-							    case 0://模式0（即;F0状态）
-										MoveControl_script.speed_to_move=0.0005f*MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
-									    break;
-								case 1://模式0（即;F25状态）
-									    MoveControl_script.speed_to_move=0.25f*MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
-									    break;
-								case 2://模式0（即;F50状态）
-										MoveControl_script.speed_to_move=0.5f*MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
-									    break;
-								case 3://模式0（即;F100状态）
-									    MoveControl_script.speed_to_move=1f*MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
-									    break;	
+							switch (RapidSpeedMode) {//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
+							case 0://模式0（即;F0状态）
+								MoveControl_script.speed_to_move = 0.0005f * MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
+								break;
+							case 1://模式0（即;F25状态）
+								MoveControl_script.speed_to_move = 0.25f * MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
+								break;
+							case 2://模式0（即;F50状态）
+								MoveControl_script.speed_to_move = 0.5f * MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
+								break;
+							case 3://模式0（即;F100状态）
+								MoveControl_script.speed_to_move = 1f * MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
+								break;	
 										
-								}//增加内容到此  2013-4-9
-						}
-						else
-						{
+							}//增加内容到此  2013-4-9
+						} else {
 							MoveControl_script.speed_to_move = 0.08333F;//内容--JOG模式下，慢常速为5m/min=(5/60)m/s,因此spee-to-move=5/60,姓名--刘旋，时间--2013-4-8
 							MoveControl_script.move_rate = move_rate;
 						}
 						//碰撞
-						if(!MoveControl_script.collision_xp)
-						{
-							if(MoveControl_script.MachineZero.z - MoveControl_script.X_part.localPosition.z <= 0)
-							{
+						if (!MoveControl_script.collision_xp) {
+							if (MoveControl_script.MachineZero.z - MoveControl_script.X_part.localPosition.z <= 0) {
 								MoveControl_script.x_p = false;
 								//MoveControl_script.move_flag=false;
-							}
-							else
-							{
+							} else {
 								MoveControl_script.x_p = true;
 								beModifed = true;
 							}
 						}
 						
 					}
-				}
-				else
-				{
+				} else {
 					power_notification = true;
 				}
-			}
-			else
-			{
+			} else {
 				MoveControl_script.x_p = false;
 				sty_SXP.normal.background = sty_SXP_u;
 			}
 			
-			if(GUI.RepeatButton(new Rect((Axis_x+left_x)/1000f*width, (Axis_y+2*left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonYP))
-			{
-				if(ScreenPower)
-				{
+			if (GUI.RepeatButton (new Rect ((Axis_x + left_x) / 1000f * width, (Axis_y + 2 * left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonYP)) {
+				if (ScreenPower) {
 					sty_SYP.normal.background = sty_SYP_d;
-					if(ProgJOG)
-					{
-						if(RapidMoveFlag)
-						{
+					if (ProgJOG) {
+						if (RapidMoveFlag) {
 							MoveControl_script.speed_to_move = 0.16667F;//内容--JOG模式下，快常速为10m/min=(10/60)m/s,因此spee-to-move=10/60,姓名--刘旋，时间--2013-4-8
 							MoveControl_script.move_rate = 1f;//内容--JOG模式下，实际进给速率倍率的修改，恒为1，姓名--刘旋，时间--2013-4-11
-							switch(RapidSpeedMode)//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
-								{
-							    case 0://模式0（即;F0状态）
-										MoveControl_script.speed_to_move=0.0005f*MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
-									    break;
-								case 1://模式0（即;F25状态）
-									    MoveControl_script.speed_to_move=0.25f*MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
-									    break;
-								case 2://模式0（即;F50状态）
-										MoveControl_script.speed_to_move=0.5f*MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
-									    break;
-								case 3://模式0（即;F100状态）
-									    MoveControl_script.speed_to_move=1f*MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
-									    break;	
+							switch (RapidSpeedMode) {//内容--快常速四种状态作用于实际速度，姓名--刘旋，时间--2013-4-9
+							case 0://模式0（即;F0状态）
+								MoveControl_script.speed_to_move = 0.0005f * MoveControl_script.speed_to_move;//F0模式下，为停止，即：实际速度为0
+								break;
+							case 1://模式0（即;F25状态）
+								MoveControl_script.speed_to_move = 0.25f * MoveControl_script.speed_to_move;//F25模式下，实际速度为快常速的25%
+								break;
+							case 2://模式0（即;F50状态）
+								MoveControl_script.speed_to_move = 0.5f * MoveControl_script.speed_to_move;//F50模式下，实际速度为快常速的50%
+								break;
+							case 3://模式0（即;F100状态）
+								MoveControl_script.speed_to_move = 1f * MoveControl_script.speed_to_move;//F100模式下，实际速度等于快常速
+								break;	
 										
-								}//增加内容到此  2013-4-9
-						}
-						else
-						{
+							}//增加内容到此  2013-4-9
+						} else {
 							MoveControl_script.speed_to_move = 0.08333F;//内容--JOG模式下，慢常速为5m/min=(5/60)m/s,因此spee-to-move=5/60,姓名--刘旋，时间--2013-4-8						
 							MoveControl_script.move_rate = move_rate;
 						}
 						//碰撞
-						if(!MoveControl_script.collision_yp)
-						{
-							if(MoveControl_script.MachineZero.x - MoveControl_script.Y_part.localPosition.x <= 0)
+						if (!MoveControl_script.collision_yp) {
+							if (MoveControl_script.MachineZero.x - MoveControl_script.Y_part.localPosition.x <= 0)
 								MoveControl_script.y_p = false;
-							else
-							{
+							else {
 								MoveControl_script.y_p = true;
 								beModifed = true;
 							}
 						}
 						
 					}
-				}
-				else
-				{
+				} else {
 					power_notification = true;
 				}
-			}
-			else
-			{
+			} else {
 				MoveControl_script.y_p = false;
 				sty_SYP.normal.background = sty_SYP_u;
 			}
@@ -3479,252 +3640,203 @@ public class ControlPanel : MonoBehaviour {
 		}
 	}
 	
-	void SpindleControl () {
+	void SpindleControl ()
+	{
 		
-		if (GUI.Button(new Rect(Rapid_x/1000f*width, Rapid_y/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "",sty_ButtonF0))//内容--修改F0按钮的图片显示，姓名--刘旋，时间2013-4-8            
-		{
-			if(ScreenPower)
-			{
-				if(ProgJOG)//内容--JOG模式下，实现F0按钮的功能，姓名--刘旋，时间--2013-4-9
-				{
-					if(RapidMoveFlag)//内容，在快速模式下，F0的功能，姓名--刘旋，时间--2013-4-11
-					{
-						F0_flag=true;
-						F25_flag=false;
-						F50_flag=false;
-						F100_flag=false;
+		if (GUI.Button (new Rect (Rapid_x / 1000f * width, Rapid_y / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonF0)) {//内容--修改F0按钮的图片显示，姓名--刘旋，时间2013-4-8
+			if (ScreenPower) {
+				if (ProgJOG) {//内容--JOG模式下，实现F0按钮的功能，姓名--刘旋，时间--2013-4-9
+					if (RapidMoveFlag) {//内容，在快速模式下，F0的功能，姓名--刘旋，时间--2013-4-11
+						F0_flag = true;
+						F25_flag = false;
+						F50_flag = false;
+						F100_flag = false;
 						sty_SF0.normal.background = sty_SF0_d;
 						sty_SF25.normal.background = sty_SF25_u;
 						sty_SF50.normal.background = sty_SF50_u;
 						sty_SF100.normal.background = sty_SF100_u;
-						sty_ButtonF0.active.background=t2d_f0_on_d;
-						sty_ButtonF0.normal.background=t2d_f0_on_u; 
-						sty_ButtonF25.active.background=t2d_f25_off_d;
-						sty_ButtonF25.normal.background=t2d_f25_off_u;
-						sty_ButtonF50.active.background=t2d_f50_off_d;
-						sty_ButtonF50.normal.background=t2d_f50_off_u;
-						sty_ButtonF100.active.background=t2d_f100_off_d;
-						sty_ButtonF100.normal.background=t2d_f100_off_u;
-						RapidSpeedMode=0;//快常速模式状态为0
-						PlayerPrefs.SetInt("F_SpeedMode", 0);    
+						sty_ButtonF0.active.background = t2d_f0_on_d;
+						sty_ButtonF0.normal.background = t2d_f0_on_u; 
+						sty_ButtonF25.active.background = t2d_f25_off_d;
+						sty_ButtonF25.normal.background = t2d_f25_off_u;
+						sty_ButtonF50.active.background = t2d_f50_off_d;
+						sty_ButtonF50.normal.background = t2d_f50_off_u;
+						sty_ButtonF100.active.background = t2d_f100_off_d;
+						sty_ButtonF100.normal.background = t2d_f100_off_u;
+						RapidSpeedMode = 0;//快常速模式状态为0
+						PlayerPrefs.SetInt ("F_SpeedMode", 0);    
 					
-					}
-					else//内容--慢速模式下，F0按钮的功能。姓名--刘旋，时间--2013-4-9
-					{
+					} else {//内容--慢速模式下，F0按钮的功能。姓名--刘旋，时间--2013-4-9
 						
-				    }
-			    }//增加内容到此  2013-4-9
+					}
+				}//增加内容到此  2013-4-9
 			}
 		}
 		
-		if (GUI.Button(new Rect((Rapid_x+left_x)/1000f*width, Rapid_y/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "",sty_ButtonF25))//内容--修改25%按钮的图片显示，姓名--刘旋，时间2013-4-8            
-		{
-			if(ScreenPower)
-			{
-				if(ProgJOG)//内容--JOG模式下，实现F25按钮的功能，姓名--刘旋，时间--2013-4-9
-				{
-					if(RapidMoveFlag)//内容，在快速模式下，F25的功能，姓名--刘旋，时间--2013-4-11
-					{
-						F0_flag=false;
-					    F25_flag=true;
-						F50_flag=false;
-						F100_flag=false;
+		if (GUI.Button (new Rect ((Rapid_x + left_x) / 1000f * width, Rapid_y / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonF25)) {//内容--修改25%按钮的图片显示，姓名--刘旋，时间2013-4-8
+			if (ScreenPower) {
+				if (ProgJOG) {//内容--JOG模式下，实现F25按钮的功能，姓名--刘旋，时间--2013-4-9
+					if (RapidMoveFlag) {//内容，在快速模式下，F25的功能，姓名--刘旋，时间--2013-4-11
+						F0_flag = false;
+						F25_flag = true;
+						F50_flag = false;
+						F100_flag = false;
 						sty_SF0.normal.background = sty_SF0_u;
 						sty_SF25.normal.background = sty_SF25_d;
 						sty_SF50.normal.background = sty_SF50_u;
 						sty_SF100.normal.background = sty_SF100_u;
-						sty_ButtonF25.active.background=t2d_f25_on_d;
-						sty_ButtonF25.normal.background=t2d_f25_on_u;						    
-						sty_ButtonF0.active.background=t2d_f0_off_d;
-						sty_ButtonF0.normal.background=t2d_f0_off_u;
-						sty_ButtonF50.active.background=t2d_f50_off_d;
-						sty_ButtonF50.normal.background=t2d_f50_off_u;
-						sty_ButtonF100.active.background=t2d_f100_off_d;
-						sty_ButtonF100.normal.background=t2d_f100_off_u;
-						RapidSpeedMode=1;//快常速模式状态为1
-						PlayerPrefs.SetInt("F_SpeedMode", 1);
+						sty_ButtonF25.active.background = t2d_f25_on_d;
+						sty_ButtonF25.normal.background = t2d_f25_on_u;						    
+						sty_ButtonF0.active.background = t2d_f0_off_d;
+						sty_ButtonF0.normal.background = t2d_f0_off_u;
+						sty_ButtonF50.active.background = t2d_f50_off_d;
+						sty_ButtonF50.normal.background = t2d_f50_off_u;
+						sty_ButtonF100.active.background = t2d_f100_off_d;
+						sty_ButtonF100.normal.background = t2d_f100_off_u;
+						RapidSpeedMode = 1;//快常速模式状态为1
+						PlayerPrefs.SetInt ("F_SpeedMode", 1);
 					
-					}
-					else//内容--慢速模式下，F25按钮的功能。姓名--刘旋，时间--2013-4-9
-					{
+					} else {//内容--慢速模式下，F25按钮的功能。姓名--刘旋，时间--2013-4-9
 						
-				    }
-			    }//增加内容到此  2013-4-9
+					}
+				}//增加内容到此  2013-4-9
 			}
 		}
 		
-		if (GUI.Button(new Rect((Rapid_x+2*left_x)/1000f*width, Rapid_y/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "",sty_ButtonF50))//内容--修改50%按钮的图片显示，姓名--刘旋，时间2013-4-8            
-		{
-			if(ScreenPower)
-			{
-				if(ProgJOG)//内容--JOG模式下，实现F50按钮的功能，姓名--刘旋，时间--2013-4-9
-				{
-					if(RapidMoveFlag)//内容，在快速模式下，F50的功能，姓名--刘旋，时间--2013-4-11
-					{
-						F0_flag=false;
-						F25_flag=false;
-						F50_flag=true;
-						F100_flag=false;
+		if (GUI.Button (new Rect ((Rapid_x + 2 * left_x) / 1000f * width, Rapid_y / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonF50)) {//内容--修改50%按钮的图片显示，姓名--刘旋，时间2013-4-8
+			if (ScreenPower) {
+				if (ProgJOG) {//内容--JOG模式下，实现F50按钮的功能，姓名--刘旋，时间--2013-4-9
+					if (RapidMoveFlag) {//内容，在快速模式下，F50的功能，姓名--刘旋，时间--2013-4-11
+						F0_flag = false;
+						F25_flag = false;
+						F50_flag = true;
+						F100_flag = false;
 						sty_SF0.normal.background = sty_SF0_u;
 						sty_SF25.normal.background = sty_SF25_u;
 						sty_SF50.normal.background = sty_SF50_d;
 						sty_SF100.normal.background = sty_SF100_u;
-						sty_ButtonF50.active.background=t2d_f50_on_d;
-						sty_ButtonF50.normal.background=t2d_f50_on_u;
-						sty_ButtonF0.active.background=t2d_f0_off_d;
-						sty_ButtonF0.normal.background=t2d_f0_off_u;
-						sty_ButtonF25.active.background=t2d_f25_off_d;
-						sty_ButtonF25.normal.background=t2d_f25_off_u;
-						sty_ButtonF100.active.background=t2d_f100_off_d;
-						sty_ButtonF100.normal.background=t2d_f100_off_u;
-						RapidSpeedMode=2;//快常速模式状态为2
-						PlayerPrefs.SetInt("F_SpeedMode", 2);
+						sty_ButtonF50.active.background = t2d_f50_on_d;
+						sty_ButtonF50.normal.background = t2d_f50_on_u;
+						sty_ButtonF0.active.background = t2d_f0_off_d;
+						sty_ButtonF0.normal.background = t2d_f0_off_u;
+						sty_ButtonF25.active.background = t2d_f25_off_d;
+						sty_ButtonF25.normal.background = t2d_f25_off_u;
+						sty_ButtonF100.active.background = t2d_f100_off_d;
+						sty_ButtonF100.normal.background = t2d_f100_off_u;
+						RapidSpeedMode = 2;//快常速模式状态为2
+						PlayerPrefs.SetInt ("F_SpeedMode", 2);
 				
 						
+					} else {//内容--慢速模式下，F50按钮的功能。姓名--刘旋，时间--2013-4-9
 					}
-					else//内容--慢速模式下，F50按钮的功能。姓名--刘旋，时间--2013-4-9
-					{
-				    }
-			    }//增加内容到此  2013-4-9
+				}//增加内容到此  2013-4-9
 			}
 		}
 		
-		if (GUI.Button(new Rect((Rapid_x+3*left_x)/1000f*width, Rapid_y/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "",sty_ButtonF100))//内容--修改100%按钮的图片显示，姓名--刘旋，时间2013-4-8            
-		{
-			if(ScreenPower)
-			{
-				if(ProgJOG)//内容--JOG模式下，实现F100按钮的功能，姓名--刘旋，时间--2013-4-9
-				{
-					if(RapidMoveFlag)//内容，在快速模式下，F100的功能，姓名--刘旋，时间--2013-4-11
-					{
-						F0_flag=false;
-						F25_flag=false;
-						F50_flag=false;
-						F100_flag=true;
+		if (GUI.Button (new Rect ((Rapid_x + 3 * left_x) / 1000f * width, Rapid_y / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonF100)) {//内容--修改100%按钮的图片显示，姓名--刘旋，时间2013-4-8
+			if (ScreenPower) {
+				if (ProgJOG) {//内容--JOG模式下，实现F100按钮的功能，姓名--刘旋，时间--2013-4-9
+					if (RapidMoveFlag) {//内容，在快速模式下，F100的功能，姓名--刘旋，时间--2013-4-11
+						F0_flag = false;
+						F25_flag = false;
+						F50_flag = false;
+						F100_flag = true;
 						sty_SF0.normal.background = sty_SF0_u;
 						sty_SF25.normal.background = sty_SF25_u;
 						sty_SF50.normal.background = sty_SF50_u;
 						sty_SF100.normal.background = sty_SF100_d;
-						sty_ButtonF100.active.background=t2d_f100_on_d;
-						sty_ButtonF100.normal.background=t2d_f100_on_u;						    
-						sty_ButtonF0.active.background=t2d_f0_off_d;
-						sty_ButtonF0.normal.background=t2d_f0_off_u;
-						sty_ButtonF25.active.background=t2d_f25_off_d;
-						sty_ButtonF25.normal.background=t2d_f25_off_u;
-						sty_ButtonF50.active.background=t2d_f50_off_d;
-						sty_ButtonF50.normal.background=t2d_f50_off_u;	
-						RapidSpeedMode=3;//快常速模式状态为3
-						PlayerPrefs.SetInt("F_SpeedMode", 3);
+						sty_ButtonF100.active.background = t2d_f100_on_d;
+						sty_ButtonF100.normal.background = t2d_f100_on_u;						    
+						sty_ButtonF0.active.background = t2d_f0_off_d;
+						sty_ButtonF0.normal.background = t2d_f0_off_u;
+						sty_ButtonF25.active.background = t2d_f25_off_d;
+						sty_ButtonF25.normal.background = t2d_f25_off_u;
+						sty_ButtonF50.active.background = t2d_f50_off_d;
+						sty_ButtonF50.normal.background = t2d_f50_off_u;	
+						RapidSpeedMode = 3;//快常速模式状态为3
+						PlayerPrefs.SetInt ("F_SpeedMode", 3);
 						
+					} else {//内容--慢速模式下，F100按钮的功能。姓名--刘旋，时间--2013-4-9
 					}
-					else//内容--慢速模式下，F100按钮的功能。姓名--刘旋，时间--2013-4-9
-					{
-				    }
-			    }//增加内容到此  2013-4-9
+				}//增加内容到此  2013-4-9
 			}
 		}
 		
-		if(GUI.Button(new Rect((Rapid_x)/1000f*width, (Rapid_y+left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "",EMPTY))
-		{
-			if(ScreenPower)
-			{
+		if (GUI.Button (new Rect ((Rapid_x) / 1000f * width, (Rapid_y + left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", EMPTY)) {
+			if (ScreenPower) {
 				
 			}
 		}
 		
-		if (GUI.Button(new Rect((Rapid_x+left_x)/1000f*width, (Rapid_y+left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "",Axis_DOWN))           
-		{
-			if(ScreenPower)
-			{
+		if (GUI.Button (new Rect ((Rapid_x + left_x) / 1000f * width, (Rapid_y + left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", Axis_DOWN)) {
+			if (ScreenPower) {
 				
 			}
 		}
 		
-		if (GUI.Button(new Rect((Rapid_x+2*left_x)/1000f*width, (Rapid_y+left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "",HUNDRED))
-		{
-			if(ScreenPower)
-			{
+		if (GUI.Button (new Rect ((Rapid_x + 2 * left_x) / 1000f * width, (Rapid_y + left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", HUNDRED)) {
+			if (ScreenPower) {
 				
 			}
 		}
 		
-		if (GUI.Button(new Rect((Rapid_x+3*left_x)/1000f*width, (Rapid_y+left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "",Axis_UP))
-		{
-			if(ScreenPower)
-			{
+		if (GUI.Button (new Rect ((Rapid_x + 3 * left_x) / 1000f * width, (Rapid_y + left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", Axis_UP)) {
+			if (ScreenPower) {
 				
 			}
 		}
 		
 		
 		
-		if (GUI.Button(new Rect((Rapid_x)/1000f*width, (Rapid_y+2*left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "",ORIENT))            
-		{
-			if(ScreenPower)
-			{
+		if (GUI.Button (new Rect ((Rapid_x) / 1000f * width, (Rapid_y + 2 * left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", ORIENT)) {
+			if (ScreenPower) {
 				
 			}
 		}
 		
-		if (GUI.Button(new Rect((Rapid_x+left_x)/1000f*width, (Rapid_y+2*left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonCW))             
-		{
-			if(ScreenPower)
-			{
-				if(AutoRunning_Script.CurrentModal.RotateSpeed != 0)
-				{
-					SpindleCW(AutoRunning_Script.CurrentModal.RotateSpeed);
+		if (GUI.Button (new Rect ((Rapid_x + left_x) / 1000f * width, (Rapid_y + 2 * left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonCW)) {
+			if (ScreenPower) {
+				if (AutoRunning_Script.CurrentModal.RotateSpeed != 0) {
+					SpindleCW (AutoRunning_Script.CurrentModal.RotateSpeed);
 					SpindleSpeed = (int)AutoRunning_Script.CurrentModal.RotateSpeed;
 				}
-			}
-			else
-			{
+			} else {
 				power_notification = true;
 			}
 		}
 		
-		if (GUI.Button(new Rect((Rapid_x+2*left_x)/1000f*width, (Rapid_y+2*left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonSTOP))            
-		{
-			if(ScreenPower)
-			{
-				SpindleStop();
+		if (GUI.Button (new Rect ((Rapid_x + 2 * left_x) / 1000f * width, (Rapid_y + 2 * left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonSTOP)) {
+			if (ScreenPower) {
+				SpindleStop ();
 				SpindleSpeed = 0;
-			}
-			else
-			{
+			} else {
 				power_notification = true;
 			}
 		}
 		
-		if (GUI.Button(new Rect((Rapid_x+3*left_x)/1000f*width, (Rapid_y+2*left_y)/1000f*height, btn_width/1000f*width, btn_height/1000f*height), "", sty_ButtonCCW))             
-		{
-			if(ScreenPower)
-			{
-				if(AutoRunning_Script.CurrentModal.RotateSpeed != 0)
-				{
-					SpindleCCW(AutoRunning_Script.CurrentModal.RotateSpeed);
+		if (GUI.Button (new Rect ((Rapid_x + 3 * left_x) / 1000f * width, (Rapid_y + 2 * left_y) / 1000f * height, btn_width / 1000f * width, btn_height / 1000f * height), "", sty_ButtonCCW)) {
+			if (ScreenPower) {
+				if (AutoRunning_Script.CurrentModal.RotateSpeed != 0) {
+					SpindleCCW (AutoRunning_Script.CurrentModal.RotateSpeed);
 					SpindleSpeed = (int)AutoRunning_Script.CurrentModal.RotateSpeed;
 				}
-			}
-			else
-			{
+			} else {
 				power_notification = true;
 			}
 		}
 	}
 	
-	public void SpindleCW(float speed)
+	public void SpindleCW (float speed)
 	{
-		SpindleControl_script.speed_to_rotate = speed;
-		if(SpindleControl_script.rotate_flag == false)
-		{
+		SpindleControl_script.speed_to_rotate = 3001f;
+		if (SpindleControl_script.rotate_flag == false) {
 			SpindleControl_script.audio_flag = false;
-			SpindleControl_script.SpindleSoundOff();
+			SpindleControl_script.SpindleSoundOff ();
 		}
 				
-		if(SpindleControl_script.cw_rotate_flag == false)
-		{
+		if (SpindleControl_script.cw_rotate_flag == false) {
 			SpindleControl_script.audio_flag = false;
-			SpindleControl_script.SpindleSoundOff();
+			SpindleControl_script.SpindleSoundOff ();
 		}
 		SpindleControl_script.rotate_flag = true;
 		main_axis_on = true;
@@ -3744,12 +3856,12 @@ public class ControlPanel : MonoBehaviour {
 		sty_SSTOP.normal.background = sty_SSTOP_u;
 	}
 	
-	public void SpindleStop()
+	public void SpindleStop ()
 	{
 		SpindleControl_script.rotate_flag = false;
 		SpindleControl_script.audio_flag = false;
 		main_axis_on = false;
-		SpindleControl_script.SpindleSoundOff();
+		SpindleControl_script.SpindleSoundOff ();
 				
 		sty_ButtonCW.normal.background = t2d_spCW_off_u;
 		sty_ButtonCW.active.background = t2d_spCW_off_d;
@@ -3765,18 +3877,16 @@ public class ControlPanel : MonoBehaviour {
 		sty_SSTOP.normal.background = sty_SSTOP_d;
 	}
 	
-	public void SpindleCCW(float speed)
+	public void SpindleCCW (float speed)
 	{
-		SpindleControl_script.speed_to_rotate = speed;
-		if(SpindleControl_script.rotate_flag == false)
-		{
+		SpindleControl_script.speed_to_rotate = 3001f;
+		if (SpindleControl_script.rotate_flag == false) {
 			SpindleControl_script.audio_flag = false;
-			SpindleControl_script.SpindleSoundOff();
+			SpindleControl_script.SpindleSoundOff ();
 		}
-		if(SpindleControl_script.cw_rotate_flag)
-		{
+		if (SpindleControl_script.cw_rotate_flag) {
 			SpindleControl_script.audio_flag = false;
-			SpindleControl_script.SpindleSoundOff();
+			SpindleControl_script.SpindleSoundOff ();
 		}
 		SpindleControl_script.rotate_flag = true;
 		main_axis_on = true;
@@ -3796,185 +3906,112 @@ public class ControlPanel : MonoBehaviour {
 		sty_SSTOP.normal.background = sty_SSTOP_u;
 	}
 	
-	string TimeTest (float TimeValue)
-	{	
-		if(TimeValue <= 0)
-	        return "00:00:00";
-		string LastTime = "";
-		int hour = Mathf.FloorToInt(TimeValue/3600%24);
-		if(hour/10 >=1)
-			LastTime+="" + hour;
-        	else
-			LastTime +="0" + hour;
-        	int minute = Mathf.FloorToInt(TimeValue/60%60);
-		if(minute/10 >=1)
-			LastTime+=":" + minute;
-        	else
-			LastTime +=":0" + minute;
-        	int second = Mathf.FloorToInt(TimeValue%60);
-		if(second/10 >=1)
-			LastTime+=":" + second;
-		else
-			LastTime +=":0" + second;
-        	return LastTime;	
-	}
-	
-	
-	void Update () {
-		
-	}
+
 	
 	//格式化显示数字
-	public string CooStringGet (float StrValue) 
+	public string CooStringFormat (float StrValue)
 	{
 		int intNum = 0;	
 		string DisplayStr = "";
 		intNum = (int)StrValue;
 		//整数部分转化为string
-		if(intNum < 0)
-		{
-			if(intNum > -100 && intNum <= -10)
-				DisplayStr = "   " + intNum + ".";
-			else if(intNum > -10)
+		if (intNum < 0) {
+			if (intNum > -100 && intNum <= -10)
 				DisplayStr = "    " + intNum + ".";
-			else if(intNum <= -100 && intNum > -1000)
-				DisplayStr = "  "+intNum + ".";
-			else
-				DisplayStr = " "+intNum + ".";
-		}
-		else if(intNum == 0)
-		{
-			if(StrValue < 0)
-				DisplayStr = "    -0.";
-			else		
-			    DisplayStr = "     0" + ".";
-		}
-		else
-		{
-			if(intNum < 100 && intNum >= 10)
-				DisplayStr = "    " + intNum + ".";
-			else if(intNum < 10)
+			else if (intNum > -10)
 				DisplayStr = "     " + intNum + ".";
-			else if(intNum < 1000 && intNum >= 100)	
+			else if (intNum <= -100 && intNum > -1000)
 				DisplayStr = "   " + intNum + ".";
-			else	
+			else if (intNum <= -1000 && intNum > -10000)
 				DisplayStr = "  " + intNum + ".";
-		}
-		//小数部分转化为string
-		intNum = (int)(Math.Abs(StrValue*10) % 10);
-		DisplayStr += intNum;
-		intNum = (int)(Math.Abs(StrValue*100) % 10);
-		DisplayStr += intNum;
-		intNum = (int)(Math.Abs(StrValue*1000) % 10);
-		DisplayStr += intNum;
-		return DisplayStr;	
-	}
-	
-	//格式化显示数字
-	public string CooStringFormat (float StrValue) 
-	{
-		int intNum = 0;	
-		string DisplayStr = "";
-		intNum = (int)StrValue;
-		//整数部分转化为string
-		if(intNum < 0)
-		{
-			if(intNum > -100 && intNum <= -10)
-				DisplayStr = "    " + intNum + ".";
-			else if(intNum > -10)
-				DisplayStr = "     " + intNum + ".";
-			else if(intNum <= -100 && intNum > -1000)
-				DisplayStr = "   "+intNum + ".";
-			else if(intNum <= -1000 && intNum > -10000)
-				DisplayStr = "  "+intNum + ".";
-			else if(intNum <= -10000 && intNum > -100000)
+			else if (intNum <= -10000 && intNum > -100000)
 				DisplayStr = " " + intNum + ".";
 			else
 				DisplayStr = "" + intNum + ".";
-		}
-		else if(intNum == 0)
-		{
-			if(StrValue < 0)
+		} else if (intNum == 0) {
+			if (StrValue < 0)
 				DisplayStr = "     -0.";
 			else		
-			    DisplayStr = "      0" + ".";
-		}
-		else
-		{
-			if(intNum < 100 && intNum >= 10)
+				DisplayStr = "      0" + ".";
+		} else {
+			if (intNum < 100 && intNum >= 10)
 				DisplayStr = "     " + intNum + ".";
-			else if(intNum < 10)
+			else if (intNum < 10)
 				DisplayStr = "      " + intNum + ".";
-			else if(intNum < 1000 && intNum >= 100)	
+			else if (intNum < 1000 && intNum >= 100)	
 				DisplayStr = "    " + intNum + ".";
-			else	if(intNum < 10000 && intNum >= 1000)
+			else if (intNum < 10000 && intNum >= 1000)
 				DisplayStr = "   " + intNum + ".";
-			else if(intNum < 100000 && intNum >= 10000)
+			else if (intNum < 100000 && intNum >= 10000)
 				DisplayStr = "  " + intNum + ".";
-			else if(intNum < 1000000 && intNum >= 100000)
+			else if (intNum < 1000000 && intNum >= 100000)
 				DisplayStr = " " + intNum + ".";
 			else
 				DisplayStr = "" + intNum + ".";
 		}
 		//小数部分转化为string
-		intNum = (int)(Math.Abs(StrValue*10) % 10);
+		intNum = (int)(Math.Abs (StrValue * 10) % 10);
 		DisplayStr += intNum;
-		intNum = (int)(Math.Abs(StrValue*100) % 10);
+		intNum = (int)(Math.Abs (StrValue * 100) % 10);
 		DisplayStr += intNum;
-		intNum = (int)(Math.Abs(StrValue*1000) % 10);
+		intNum = (int)(Math.Abs (StrValue * 1000) % 10);
 		DisplayStr += intNum;
 		return DisplayStr;	
 	}
 	
-	public string NumberFormat (int C_Num) 
+	//整数格式化显示
+	public string NumberFormat (int C_Num)
 	{
 		string C_Str = "";
-		if(C_Num >= 100000)
+		if (C_Num >= 100000)
 			C_Str = "" + C_Num;
-		else if(C_Num < 100000 && C_Num >= 10000)
+		else if (C_Num < 100000 && C_Num >= 10000)
 			C_Str = " " + C_Num;
-		else if(C_Num < 10000 && C_Num >= 1000)
+		else if (C_Num < 10000 && C_Num >= 1000)
 			C_Str = "  " + C_Num;
-		else if(C_Num < 1000 && C_Num >= 100)
-			C_Str = "   " + C_Num;		
-		else if(C_Num < 100 && C_Num >= 10)	
+		else if (C_Num < 1000 && C_Num >= 100)
+			C_Str = "   " + C_Num;
+		else if (C_Num < 100 && C_Num >= 10)	
 			C_Str = "    " + C_Num;
 		else	
 			C_Str = "     " + C_Num;	
 		return C_Str;	
 	}
 	
+	//刀具号格式化显示
 	public string ToolNumFormat (int T_Num)
 	{
 		string T_Str = "";
-		if(T_Num >= 1000)
+		if (T_Num >= 1000)
 			T_Str = "" + T_Num;
-		else if(T_Num < 1000 && T_Num >= 100)	
+		else if (T_Num < 1000 && T_Num >= 100)	
 			T_Str = "0" + T_Num;
-		else if(T_Num < 100 && T_Num >= 10)
+		else if (T_Num < 100 && T_Num >= 10)
 			T_Str = "00" + T_Num;
 		else	
 			T_Str = "000" + T_Num;
 		return T_Str;	
 	}
 	
+	//行号格式化显示
 	string LineNumFormat (int T_Num)
 	{
 		string T_Str = "";
-		if(T_Num >= 10000)	
+		if (T_Num >= 10000)	
 			T_Str = "" + T_Num;
-		else if(T_Num < 10000 && T_Num >= 1000)	
+		else if (T_Num < 10000 && T_Num >= 1000)	
 			T_Str = "0" + T_Num;
-		else if(T_Num < 1000 && T_Num >= 100)	
+		else if (T_Num < 1000 && T_Num >= 100)	
 			T_Str = "00" + T_Num;
-		else if(T_Num < 100 && T_Num >= 10)
+		else if (T_Num < 100 && T_Num >= 10)
 			T_Str = "000" + T_Num;
 		else
 			T_Str = "0000" + T_Num;	
 		return T_Str;	
 	}
-
-	IEnumerator ScreenCoverSet () 
+	
+	//系统启动白屏画面控制
+	IEnumerator ScreenCoverSet ()
 	{
 		yield return new WaitForSeconds(0.3f);
 		ScreenCover = false;	
@@ -3982,174 +4019,104 @@ public class ControlPanel : MonoBehaviour {
 	
 	//设定界面修改---陈振华---03.11
 	//使设定输入右对齐，顺序号停止参数
-	public string ArguStringGet(string StrValue)
+	public string ArguStringGet (string StrValue)
 	{
 		string DisplayStr = "";
-		if(StrValue.Length == 1)
-		DisplayStr = "       "+StrValue;
-		else if(StrValue.Length == 2)
-		DisplayStr = "      "+StrValue;
-		else if(StrValue.Length == 3)
-		DisplayStr = "     "+StrValue;
-		else if(StrValue.Length == 4)
-		DisplayStr = "    "+StrValue;
-		else if(StrValue.Length == 5)
-		DisplayStr = "   "+StrValue;
-		else if(StrValue.Length == 6)
-		DisplayStr = "  "+StrValue;
-		else if(StrValue.Length == 7)
-		DisplayStr = " "+StrValue;
+		if (StrValue.Length == 1)
+			DisplayStr = "       " + StrValue;
+		else if (StrValue.Length == 2)
+			DisplayStr = "      " + StrValue;
+		else if (StrValue.Length == 3)
+			DisplayStr = "     " + StrValue;
+		else if (StrValue.Length == 4)
+			DisplayStr = "    " + StrValue;
+		else if (StrValue.Length == 5)
+			DisplayStr = "   " + StrValue;
+		else if (StrValue.Length == 6)
+			DisplayStr = "  " + StrValue;
+		else if (StrValue.Length == 7)
+			DisplayStr = " " + StrValue;
 		return DisplayStr;	
 	}
 	
 	//使设定输入右对齐，IO参数
-	public string ArguStringGet_IO(string StrValue)
+	public string ArguStringGet_IO (string StrValue)
 	{
 		string DisplayStr = "";
-		if(StrValue.Length == 1)
-			DisplayStr = " "+StrValue;
-		else if(StrValue.Length == 2)
+		if (StrValue.Length == 1)
+			DisplayStr = " " + StrValue;
+		else if (StrValue.Length == 2)
 			DisplayStr = StrValue;
 		return DisplayStr;	
 	}
 	
 	//刀偏界面加入---陈振华---03.30
 	//格式化显示数字,刀偏界面
-	public string ToolStringGet (float StrValue) 
+	public string ToolStringGet (float StrValue)
 	{
 		int intNum = 0;	
 		string DisplayStr = "";
 		intNum = (int)StrValue;
 		
-		if(intNum < 0)
-		{
-			if(intNum > -100 && intNum <= -10)
+		if (intNum < 0) {
+			if (intNum > -100 && intNum <= -10)
 				DisplayStr = "  " + intNum + ".";
-			else if(intNum > -10)
+			else if (intNum > -10)
 				DisplayStr = "   " + intNum + ".";
-			else if(intNum <= -100 && intNum > -1000)
-				DisplayStr = " "+intNum + ".";
+			else if (intNum <= -100 && intNum > -1000)
+				DisplayStr = " " + intNum + ".";
 			else
-				DisplayStr = ""+intNum + ".";
-		}
-		else if(intNum == 0)
-		{
-			if(StrValue < 0)
+				DisplayStr = "" + intNum + ".";
+		} else if (intNum == 0) {
+			if (StrValue < 0)
 				DisplayStr = "   -0.";
 			else		
-			    DisplayStr = "    0" + ".";
-		}
-		else
-		{
-			if(intNum < 100 && intNum >= 10)
+				DisplayStr = "    0" + ".";
+		} else {
+			if (intNum < 100 && intNum >= 10)
 				DisplayStr = "   " + intNum + ".";
-			else if(intNum < 10)
+			else if (intNum < 10)
 				DisplayStr = "    " + intNum + ".";
-			else if(intNum < 1000 && intNum >= 100)	
+			else if (intNum < 1000 && intNum >= 100)	
 				DisplayStr = "  " + intNum + ".";
 			else	
 				DisplayStr = " " + intNum + ".";
 		}
 		
-		intNum = (int)(Math.Abs(StrValue*10) % 10);
+		intNum = (int)(Math.Abs (StrValue * 10) % 10);
 		DisplayStr += intNum;
-		intNum = (int)(Math.Abs(StrValue*100) % 10);
+		intNum = (int)(Math.Abs (StrValue * 100) % 10);
 		DisplayStr += intNum;
-		intNum = (int)(Math.Abs(StrValue*1000) % 10);
+		intNum = (int)(Math.Abs (StrValue * 1000) % 10);
 		DisplayStr += intNum;
 		return DisplayStr;	
 	}
 	
 	//刀偏界面加入---陈振华---03.30
 	//使刀偏界面的序号为3位
-	public string Tool_numberGet(int StrValue)
+	public string Tool_numberGet (int StrValue)
 	{
-		 string StringValue = StrValue.ToString();
-		 string DisplayStr = "";
-		 if(StringValue.Length == 1)
-			DisplayStr = "00"+StringValue;
-		 if(StringValue.Length == 2)
-			DisplayStr = "0"+StringValue;
-		 if(StringValue.Length == 3)
+		string StringValue = StrValue.ToString ();
+		string DisplayStr = "";
+		if (StringValue.Length == 1)
+			DisplayStr = "00" + StringValue;
+		if (StringValue.Length == 2)
+			DisplayStr = "0" + StringValue;
+		if (StringValue.Length == 3)
 			DisplayStr = StringValue;
-		  return DisplayStr;
+		return DisplayStr;
 	}
 	
-	public void WarnningMessageCreate(string warnning)
+	//警告信息创建
+	public void WarnningMessageCreate (string warnning)
 	{
 		warnning_string = warnning;
 	}
 	
-	public void WarnningClear()
+	//警告信息清空
+	public void WarnningClear ()
 	{
 		warnning_string = "";
 	}
-	
-/*
-	string SingleCodeFormat (string OriCode) 
-	{
-		string AimCode = "";
-		List<string> TempCodeSubList = new List<string>();
-		if(OriCode == "%")
-		{
-			AimCode = "%";
-			return AimCode;
-		}
-		else if(OriCode == "")
-		{
-			return ";";
-		}
-		else
-		{
-			char[] TempCharArray;
-			bool SpaceFlag = false;
-			TempCharArray = OriCode.ToCharArray();
-			for(int k = 0; k < TempCharArray.Length; k++)
-			{
-				if(TempCharArray[k] >= 'A' && TempCharArray[k] <= 'Z')
-				{
-					if(SpaceFlag)
-					{
-						TempCodeSubList.Add(AimCode);
-						AimCode = ""+TempCharArray[k];
-						SpaceFlag = false;
-					}
-					else
-					{
-						AimCode += TempCharArray[k];
-						SpaceFlag = false;
-					}	
-				}
-				else
-				{
-					AimCode += TempCharArray[k];	
-					SpaceFlag = true;
-				}	
-				if(k == TempCharArray.Length - 1)
-				{
-					TempCodeSubList.Add(AimCode);
-					AimCode = "";
-					SpaceFlag = false;
-					TempCodeSubList.Add(";");
-				}
-			}
-			AimCode = "";	
-			for(int i = 0; i < TempCodeSubList.Count; i++)
-			{
-				EDITText.text = AimCode + TempCodeSubList[i];
-				TextSize = sty_EDITTextField.CalcSize(new GUIContent(EDITText.text));
-				if(TextSize.x > 320f)
-				{
-					break;
-				}
-				else
-				{
-					AimCode	= AimCode + TempCodeSubList[i] + "  ";
-				}
-			}
-		}	
-		return AimCode.TrimEnd();
-	}
-*/	
 	
 }

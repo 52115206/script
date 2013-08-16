@@ -704,6 +704,7 @@ public class MotionInfo
 	public int RadiusCompensationInfo;
 	public int LengthCompensationInfo;
 	public int RadiusState;
+	public int Slices;
 	
 	public MotionInfo()
 	{
@@ -745,6 +746,7 @@ public class MotionInfo
 		RadiusCompensationInfo = (int)RadiusCompensationEnum.G40;
 		LengthCompensationInfo = (int)LengthCompensationEnum.G49;
 		RadiusState = (int)RadiusType.No;
+		Slices = 0;
 	}
 	
 	public void SetStartPosition(Vector3 display_pos, Vector3 virtual_pos)
@@ -840,11 +842,106 @@ public class MotionInfo
 			return true;
 	}
 	
+	public void MotionDataCopy(MotionInfo current_data)
+	{
+		index = current_data.index;
+		DisplayStart = current_data.DisplayStart;
+		VirtualStart = current_data.VirtualStart;
+		DisplayTarget = current_data.DisplayTarget;
+		VirtualTarget = current_data.VirtualTarget;
+		VirtualTarget2 = current_data.VirtualTarget2;
+		Direction = current_data.Direction;
+		Direction2 = current_data.Direction2;
+		Velocity = current_data.Velocity;
+		Rotate_Speed = current_data.Rotate_Speed;
+		SpindleSpeed = current_data.SpindleSpeed;
+		Time_Value = current_data.Time_Value;
+		Time_Value2 = current_data.Time_Value2;
+		Center_Point = current_data.Center_Point;
+		Rotate_Degree = current_data.Rotate_Degree;
+		Motion_Type = current_data.Motion_Type;
+		Current_Plane = current_data.Current_Plane;
+		Immediate_Motion = current_data.Immediate_Motion;
+		ToolChange_Motion = current_data.ToolChange_Motion;
+		Slash = current_data.Slash;
+		Tool_Number = current_data.Tool_Number;
+		D_Value = current_data.D_Value;
+		H_Value = current_data.H_Value;
+		ListCopy_MotionData(current_data.G_Display, current_data.G_Display2, current_data.G_Address, current_data.G_Address2, current_data.ModalString, current_data.Address_Value, current_data.Address_Value2, current_data.ModalIndex);
+		Remaining_Movement = new float[3]{current_data.Remaining_Movement[0], current_data.Remaining_Movement[1], current_data.Remaining_Movement[2]};
+		CooTransformation = current_data.CooTransformation;
+		CooState = new bool[]{current_data.CooState[0], current_data.CooState[1], current_data.CooState[2]};
+		M_Code = current_data.M_Code;
+		RadiusCompensationInfo = current_data.RadiusCompensationInfo;
+		LengthCompensationInfo = current_data.LengthCompensationInfo;
+		RadiusState = current_data.RadiusState;
+	}
+	
+	void ListCopy_MotionData(List<string> g_display, List<string> g_display2, List<string> g_address, List<string> g_address2, List<string> modal_string, List<float> address_value, List<float> address_value2, List<int> modal_index)
+	{
+		G_Display.Clear();
+		G_Display2.Clear();
+		G_Address.Clear();
+		G_Address2.Clear();
+		Address_Value.Clear();
+		Address_Value2.Clear();
+		ModalIndex.Clear();
+		ModalString.Clear();
+		string str_each = "";
+		for(int i = 0; i < g_display.Count; i++)
+		{
+			str_each = g_display[i];
+			G_Display.Add(str_each);
+		}
+		str_each = "";
+		for(int i = 0; i < g_display2.Count; i++)
+		{
+			str_each = g_display2[i];
+			G_Display2.Add(str_each);
+		}
+		str_each = "";
+		for(int i = 0; i < g_address.Count; i++)
+		{
+			str_each = g_address[i];
+			G_Address.Add(str_each);
+		}
+		str_each = "";
+		for(int i = 0; i < g_address2.Count; i++)
+		{
+			str_each = g_address2[i];
+			G_Address2.Add(str_each);
+		}
+		str_each = "";
+		for(int i = 0; i < modal_string.Count; i++)
+		{
+			str_each = modal_string[i];
+			ModalString.Add(str_each);
+		}
+		float fla_each = 0;
+		for(int i = 0; i < address_value.Count; i++)
+		{
+			fla_each = address_value[i];
+			Address_Value.Add(fla_each);
+		}
+		fla_each = 0;
+		for(int i = 0; i < address_value2.Count; i++)
+		{
+			fla_each = address_value2[i];
+			Address_Value2.Add(fla_each);
+		}
+		int int_each = 0;
+		for(int i = 0; i < modal_index.Count; i++)
+		{
+			int_each = modal_index[i];
+			ModalIndex.Add(int_each);
+		}
+	}
+	
 	public override string ToString ()
 	{
-		if(Motion_Type != -1)
-			return "Index: " +index+ "---;DisplayStart: "+DisplayStart.x+","+DisplayStart.y+","+DisplayStart.z+"; DisplayTarget: "+DisplayTarget.x+","+DisplayTarget.y+","+DisplayTarget.z+
-				";---VirtualStart: "+VirtualStart.x+","+VirtualStart.y+","+VirtualStart.z+"; VirtualTarget: "+VirtualTarget.x+","+VirtualTarget.y+","+VirtualTarget.z + "; CentrePoint: " + Center_Point.x + ", " + Center_Point.y + ", "+ Center_Point.z + "; Degree: " + Rotate_Degree; 
+		if(Motion_Type != -2)
+			return "Type: " + Motion_Type + "; Index: " +index+ "---;DisplayStart: "+DisplayStart.x+","+DisplayStart.y+","+DisplayStart.z+"; DisplayTarget: "+DisplayTarget.x+","+DisplayTarget.y+","+DisplayTarget.z+
+				";---VirtualStart: "+VirtualStart.x+","+VirtualStart.y+","+VirtualStart.z+"; VirtualTarget: "+VirtualTarget.x+","+VirtualTarget.y+","+VirtualTarget.z + "; CentrePoint: " + Center_Point.x + ", " + Center_Point.y + ", "+ Center_Point.z + "; Degree: " + Rotate_Degree + "; FeedRate: " + Velocity + "; Time: " + Time_Value + "; Direction: " + Direction.x + "," + Direction.y + "," + Direction.z + "; Slices: " + Slices; 
 		else
 			return "";
 	}
@@ -863,6 +960,14 @@ public class ToolChangeInfo
 		TimeValue = 0;
 		VirtualStart = new Vector3(0, 0, 0);
 		VirtualTarget = new Vector3(0, 0, 0);
+	}
+	
+	public void ToolDataCopy(ToolChangeInfo targetToolInfo)
+	{
+		Direction = targetToolInfo.Direction;
+		TimeValue = targetToolInfo.TimeValue;
+		VirtualStart = targetToolInfo.VirtualStart;
+		VirtualTarget = targetToolInfo.VirtualTarget;
 	}
 }
 
@@ -911,5 +1016,58 @@ public class LoadLengthValue
 				PlayerPrefs.SetFloat("wear_H"+index,0);
 			return return_value;
 		}
+	}
+}
+
+//计算角度值
+public class ArcCalculateDegree
+{
+	public static float CalculateDegree(Vector3 centre_point, Vector3 start_position, Vector3 end_position, bool cw, int plane_state)
+	{
+		Vector3 start_direction = start_position - centre_point;
+		Vector3 end_direction = end_position - centre_point;
+		float degree_value = 0;
+		Vector3 standard_vec = new Vector3(0,0,0);
+		//起止向量差乘
+		Vector3 cross_vec = Vector3.Cross(start_direction, end_direction);
+		if(plane_state == (int)CheckInformation.XYPlane)
+		{
+			standard_vec.x = 0;
+			standard_vec.y = 0;
+			standard_vec.z = 1f;
+		}
+		else if(plane_state == (int)CheckInformation.ZXPlane)
+		{
+			standard_vec.x = 0;
+			standard_vec.y = 1f;
+			standard_vec.z = 0;
+		}
+		else
+		{
+			standard_vec.x = 1f;
+			standard_vec.y = 0;
+			standard_vec.z = 0;
+		}
+		if(Vector3.Dot(cross_vec, standard_vec) > 0)
+		{
+			//大于180°CW---小于180°:CCW 	
+			degree_value = Mathf.Acos(Vector3.Dot(start_direction, end_direction) / (start_direction.magnitude*end_direction.magnitude)) * 180 / Mathf.PI;
+			if(cw)
+				return 360f - degree_value;
+			else
+				return degree_value;
+		}
+		else if(Vector3.Dot(cross_vec, standard_vec) < 0)
+		{
+			//小于180°:CW ---大于180°:CCW
+			degree_value = Mathf.Acos(Vector3.Dot(start_direction, end_direction) / (start_direction.magnitude*end_direction.magnitude)) * 180 / Mathf.PI;
+			if(cw)
+				return degree_value;
+			else
+				return 360f - degree_value;
+		}
+		else
+			//等于180°
+			return 180f;
 	}
 }

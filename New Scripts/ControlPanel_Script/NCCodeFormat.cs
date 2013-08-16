@@ -18,11 +18,11 @@ using System.IO;
 
 public class NCCodeFormat : MonoBehaviour {
 	
-	int codenum = 0;
-	string test_str = "";
-	string text_field = "O10";
-	List<string> codestr = new List<string>();
-	List<string> all_code_test = new List<string>();
+//	int codenum = 0;
+//	string test_str = "";
+//	string text_field = "O10";
+//	List<string> codestr = new List<string>();
+//	List<string> all_code_test = new List<string>();
 	ControlPanel Main;	
 	//文件路径
 	string document_path = "";

@@ -5,7 +5,8 @@ using System;
 public class AutoMoveModule : MonoBehaviour {
 	MoveControl MoveControlScript;
 	ControlPanel Main;
-	Vector3 MachineZeroPoint = new Vector3(-0.4093075f, -0.3187108f, 1.609089f);  //相对坐标起点
+	PathLineDraw PathLineDraw_Script;
+//	Vector3 MachineZeroPoint = new Vector3(-0.4093075f, -0.3187108f, 1.609089f);  //相对坐标起点
 	Vector3 MachineMaxPoint = new Vector3(0.3906925f, 0.1812892f, 2.119089f);  //相对坐标终点
 	
 	float start_time = 0f;      //时间控制：起始时间；
@@ -25,17 +26,11 @@ public class AutoMoveModule : MonoBehaviour {
 	float y_end_pos = 0;
 	float z_end_pos = 0;
 	float rate = 1;
-	float set_rate = 1;
 	int machine_rate = 1;
 	Transform rotate_reference;
 	float auto_deltatime;
 	float standard_time;
 	Vector3 _targetPos = new Vector3(0, 0, 0);  //目标位置点，用虚坐标表示；
-	public Vector3 TargetPos
-	{
-		get {return _targetPos;}
-		set {_targetPos.x = value.x; _targetPos.y = value.y; _targetPos.z = value.z;}
-	}
 	Vector3 _direction = new Vector3(0, 0, 0);
 	bool x_target_flag = false;  //用于是否要限制终点距离的判断
 	bool y_target_flag = false;  //用于是否要限制终点距离的判断
@@ -48,7 +43,15 @@ public class AutoMoveModule : MonoBehaviour {
 	public float cycling_time = 0;
 	public int runningH = 0;
 	public int runningM = 0;
-
+	float distance_rate = 0;
+	float distance_time = 0;
+	float increased_slice_rate = 0;
+	float basic_slice_rate = 0;
+	int Slices = 0;
+	float slice_rate = 0;
+	int current_slice = 0;
+	int current_index = -1;
+	
 	public bool display_menu = false;
 	Rect menu_rect = new Rect(0,0,0,0);
 	
@@ -62,7 +65,7 @@ public class AutoMoveModule : MonoBehaviour {
 		MoveControlScript = GameObject.Find("move_control").GetComponent<MoveControl>();
 		Main = GameObject.Find("MainScript").GetComponent<ControlPanel>();
 		//To be modified
-		MachineZeroPoint = new Vector3(-0.4093075f, -0.3187108f, 1.609089f);  //相对坐标起点
+//		MachineZeroPoint = new Vector3(-0.4093075f, -0.3187108f, 1.609089f);  //相对坐标起点
 		MachineMaxPoint = new Vector3(0.3906925f, 0.1812892f, 2.119089f);  //相对坐标终点
 		try
 		{
@@ -74,7 +77,7 @@ public class AutoMoveModule : MonoBehaviour {
 			return;
 		}
 		rotate_reference.name = "Rotate_Reference";
-		
+		PathLineDraw_Script = GameObject.Find("Main Camera").GetComponent<PathLineDraw>();
 	} 
 	
 	void OnGUI ()
@@ -211,8 +214,9 @@ public class AutoMoveModule : MonoBehaviour {
 	/// <param name='target_position'>
 	/// 目标位置，虚拟坐标.
 	/// </param>
-	public IEnumerator LineMovement(Vector3 direction, float time_value, Vector3 target_position)
+	public IEnumerator LineMovement(Vector3 direction, float time_value, Vector3 target_position, int lineIndex, int slices)
 	{
+		//Todo: 还需要index的信息，需要判断是否是一次画两条直线的情况，因为有两条直线的index可能相同，还需要此次的sub_index, 需要传入初始的start_point和end_point
 		_targetPos = target_position;
 		_direction = direction;
 		start_time = 0;
@@ -226,6 +230,9 @@ public class AutoMoveModule : MonoBehaviour {
 		rate = Main.move_rate;
 		end_time = standard_time / rate;
 		auto_deltatime = 0;
+		distance_rate = 0;
+		distance_time = 0;
+		current_index = lineIndex;
 		if(direction.x !=0)
 		{
 			Main.remaining_x = Mathf.Abs(direction.x);
@@ -260,6 +267,7 @@ public class AutoMoveModule : MonoBehaviour {
 			z_move = true;
 		}
 		yield return StartCoroutine(Timer());
+		PathLineDraw_Script.lineDrawer.RemoveCertainIndex(lineIndex, false, -2);
 		SetPositin(VirtualPos_RelativePos(target_position));   //最终位置纠正;
 		Main.remaining_x = 0;  //剩余移动量清零
 		Main.remaining_y = 0;  //剩余移动量清零
@@ -299,7 +307,7 @@ public class AutoMoveModule : MonoBehaviour {
 	/// <param name='plane_choose'>
 	/// XY、ZX、YZ平面选择.
 	/// </param>
-	public IEnumerator CircularMovement(Vector3 direction, Vector3 target_position, Vector3 target_display, Vector3 start_display, float time_value, Vector3 center_point, float rotate_speed, bool rotate_direction, int plane_choose )
+	public IEnumerator CircularMovement(Vector3 direction, Vector3 target_position, Vector3 target_display, Vector3 start_display, float time_value, Vector3 center_point, float rotate_speed, bool rotate_direction, int plane_choose, int lineIndex, int slices)
 	{
 		_direction = direction;
 		_targetPos = target_position;
@@ -333,6 +341,14 @@ public class AutoMoveModule : MonoBehaviour {
 		rate = Main.move_rate;
 		end_time = standard_time / rate;
 		auto_deltatime = 0;
+		distance_rate = 0;
+		distance_time = 0;
+		Slices = slices;
+		basic_slice_rate = 1.0f / Slices;
+		increased_slice_rate = 0;
+		slice_rate = 0;
+		current_slice = 0;
+		current_index = lineIndex;
 		SetReferencePos(start_display);
 		rotate_flag = true;
 		yield return StartCoroutine(Timer());
@@ -452,19 +468,52 @@ public class AutoMoveModule : MonoBehaviour {
 		}
 	}
 	
+	void Update()
+	{
+		
+	}
+	
+	
 	/// <summary>
 	/// 把Update换成FixedUpdate，其他都不变
 	/// </summary>
 	void FixedUpdate() 
 	{
 		//时间积累
-		if(Main.AutoRunning_flag)
+		if(Main.AutoRunning_flag || Main.MDI_RunningFlag)
+		{
 			if(pause_flag == false)
 			{
 				//有增加，中间如果改变倍率可能改变
 				delta_time += Time.deltaTime;
 				//一直在增加
 				start_time += Time.deltaTime;
+				//关于三维线条的显示控制
+				distance_time += Time.deltaTime * rate;
+				//当前时间相对于总时间的比率
+				distance_rate = distance_time / standard_time;
+				if(x_move || y_move || z_move)
+				{
+					//直线运行时，起点更新
+					PathLineDraw_Script.lineDrawer.UpdateStartPoint(current_index, distance_rate);
+				}
+				if(rotate_flag)
+				{
+					if((distance_rate - increased_slice_rate) / basic_slice_rate >= 1)
+					{
+						//圆弧线段删除
+						increased_slice_rate += basic_slice_rate;
+						current_slice++;
+						PathLineDraw_Script.lineDrawer.RemoveCertainIndex(current_index, true, current_slice);
+						slice_rate = 0;
+					}
+					else
+					{
+						//圆弧起点更新
+						slice_rate = (distance_rate - increased_slice_rate) / basic_slice_rate;
+						PathLineDraw_Script.lineDrawer.UpdateStartPoint(current_index, slice_rate);
+					}
+				}
 				//自动运行的时间控制
 				auto_deltatime += Time.deltaTime;
 				//计算剩余移动量
@@ -476,6 +525,7 @@ public class AutoMoveModule : MonoBehaviour {
 				Main.RunningTimeM = runningM + Main.CycleTimeM;
 				RunningTimeConvert(ref Main.RunningTimeH, ref Main.RunningTimeM);
 			}
+		}
 		
 		/*
 		if(x_move && pause_flag == false)

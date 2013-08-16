@@ -203,21 +203,22 @@ public class PositionModule : MonoBehaviour {
 			GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,(Main.corner_py+90f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"Z", Main.sty_SmallXYZ);
 			GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,(Main.corner_py+90f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(CooSystem_script.absolute_pos.z), Main.sty_SmallNum);
 				
-			GUI.Label(new Rect((Main.corner_px+65f)/1000f*Main.width,147f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"机械坐标", Main.sty_PosSmallWord);
-			GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,170f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"X", Main.sty_SmallXYZ);
-			GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,170f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.x), Main.sty_SmallNum);
-			GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,195f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"Y", Main.sty_SmallXYZ);
-			GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,195f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.y), Main.sty_SmallNum);
-			GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,220f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"Z", Main.sty_SmallXYZ);
-			GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,220f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.z), Main.sty_SmallNum);	
-					
-			GUI.Label(new Rect((Main.corner_px+310f)/1000f*Main.width,147f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "剩余移动量", Main.sty_PosSmallWord);
-			GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,170f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "X", Main.sty_SmallXYZ);
-			GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,170f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_x), Main.sty_SmallNum);
-			GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,195f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "Y", Main.sty_SmallXYZ);
-			GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,195f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_y), Main.sty_SmallNum);
-			GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,220f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "Z", Main.sty_SmallXYZ);
-			GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,220f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_z), Main.sty_SmallNum);
+			GUI.Label(new Rect((Main.corner_px+65f)/1000f*Main.width,(Main.corner_py + 115f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"机械坐标", Main.sty_PosSmallWord);
+		GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,(Main.corner_py + 138f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"X", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,(Main.corner_py + 138f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.x), Main.sty_SmallNum);
+		GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,(Main.corner_py + 163f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"Y", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,(Main.corner_py + 163f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.y), Main.sty_SmallNum);
+		GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,(Main.corner_py + 188f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"Z", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,(Main.corner_py + 188f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.z), Main.sty_SmallNum);
+				
+				
+		GUI.Label(new Rect((Main.corner_px+310f)/1000f*Main.width,(Main.corner_py + 115f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "剩余移动量", Main.sty_PosSmallWord);
+		GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,(Main.corner_py + 138f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "X", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,(Main.corner_py + 138f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_x), Main.sty_SmallNum);
+		GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,(Main.corner_py + 163f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "Y", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,(Main.corner_py + 163f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_y), Main.sty_SmallNum);
+		GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,(Main.corner_py + 188f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "Z", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,(Main.corner_py + 188f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_z), Main.sty_SmallNum);
 		}
 	}
 	//宋荣
@@ -303,22 +304,22 @@ public class PositionModule : MonoBehaviour {
 		GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,(Main.corner_py+90f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"Z", Main.sty_SmallXYZ);
 		GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,(Main.corner_py+90f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(CooSystem_script.absolute_pos.z), Main.sty_SmallNum);
 			
-		GUI.Label(new Rect((Main.corner_px+65f)/1000f*Main.width,147f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"机械坐标", Main.sty_PosSmallWord);
-		GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,170f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"X", Main.sty_SmallXYZ);
-		GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,170f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.x), Main.sty_SmallNum);
-		GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,195f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"Y", Main.sty_SmallXYZ);
-		GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,195f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.y), Main.sty_SmallNum);
-		GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,220f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"Z", Main.sty_SmallXYZ);
-		GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,220f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.z), Main.sty_SmallNum);
+		GUI.Label(new Rect((Main.corner_px+65f)/1000f*Main.width,(Main.corner_py + 115f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"机械坐标", Main.sty_PosSmallWord);
+		GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,(Main.corner_py + 138f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"X", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,(Main.corner_py + 138f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.x), Main.sty_SmallNum);
+		GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,(Main.corner_py + 163f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"Y", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,(Main.corner_py + 163f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.y), Main.sty_SmallNum);
+		GUI.Label(new Rect((Main.corner_px+25f)/1000f*Main.width,(Main.corner_py + 188f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"Z", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+55f)/1000f*Main.width,(Main.corner_py + 188f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(MoveControl_script.MachineCoo.z), Main.sty_SmallNum);
 				
 				
-		GUI.Label(new Rect((Main.corner_px+310f)/1000f*Main.width,147f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "剩余移动量", Main.sty_PosSmallWord);
-		GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,170f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "X", Main.sty_SmallXYZ);
-		GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,170f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_x), Main.sty_SmallNum);
-		GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,195f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "Y", Main.sty_SmallXYZ);
-		GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,195f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_y), Main.sty_SmallNum);
-		GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,220f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "Z", Main.sty_SmallXYZ);
-		GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,220f/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_z), Main.sty_SmallNum);
+		GUI.Label(new Rect((Main.corner_px+310f)/1000f*Main.width,(Main.corner_py + 115f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "剩余移动量", Main.sty_PosSmallWord);
+		GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,(Main.corner_py + 138f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "X", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,(Main.corner_py + 138f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_x), Main.sty_SmallNum);
+		GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,(Main.corner_py + 163f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "Y", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,(Main.corner_py + 163f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_y), Main.sty_SmallNum);
+		GUI.Label(new Rect((Main.corner_px+268f)/1000f*Main.width,(Main.corner_py + 188f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "Z", Main.sty_SmallXYZ);
+		GUI.Label(new Rect((Main.corner_px+298f)/1000f*Main.width,(Main.corner_py + 188f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(Main.remaining_z), Main.sty_SmallNum);
 	}
 	
 	//位置界面下方公共区域显示控制

@@ -34,42 +34,42 @@ public class door : MonoBehaviour {
 			transform.Translate(new Vector3(0,0,1f)*h*speed,Space.Self);
 		}
 		
-		if(this.name == "door_left")
-		{
-			if(transform.position.z >= 0.01470597f)
-				transform.position = new Vector3(transform.position.x , transform.position.y, 0.01470597f);
-			
-			if(transform.position.z <= -0.5059499f)
-				transform.position = new Vector3(transform.position.x , transform.position.y, -0.5059499f);
-		}
+//		if(this.name == "door_left")
+//		{
+//			if(transform.position.z >= 0.01470597f)
+//				transform.position = new Vector3(transform.position.x , transform.position.y, 0.01470597f);
+//			
+//			if(transform.position.z <= -0.5059499f)
+//				transform.position = new Vector3(transform.position.x , transform.position.y, -0.5059499f);
+//		}
+//		
+//		if(this.name == "door_right")
+//		{
+//			if(transform.position.z >= -1.091452f)
+//				transform.position = new Vector3(transform.position.x , transform.position.y, -1.091452f);
+//			
+//			if(transform.position.z <= -1.57f)
+//				transform.position = new Vector3(transform.position.x , transform.position.y, -1.57f);
+//		}
 		
-		if(this.name == "door_right")
-		{
-			if(transform.position.z >= -1.091452f)
-				transform.position = new Vector3(transform.position.x , transform.position.y, -1.091452f);
-			
-			if(transform.position.z <= -1.58747f)
-				transform.position = new Vector3(transform.position.x , transform.position.y, -1.58747f);
-		}
 		
-		//To be modified
 		if(this.name == "main protecting crust_11")
 		{
-			if(transform.localPosition.z <= -0.2983818f)
-				transform.localPosition = new Vector3(transform.localPosition.x , transform.localPosition.y, -0.2983818f);
+			if(transform.localPosition.z <= -0.3147356f)
+				transform.localPosition = new Vector3(transform.localPosition.x , transform.localPosition.y, -0.3147356f);
 			
-			if(transform.localPosition.z >= 0.187275f)
-				transform.localPosition = new Vector3(transform.localPosition.x , transform.localPosition.y, 0.187275f);
+			if(transform.localPosition.z >= 0.1851635f)
+				transform.localPosition = new Vector3(transform.localPosition.x , transform.localPosition.y, 0.1851635f);
 		}
 		
-		//To be modified
+		
 		if(this.name == "main protecting crust_12")
 		{
-			if(transform.localPosition.z <= -1.423464f)
-				transform.localPosition = new Vector3(transform.localPosition.x , transform.localPosition.y, -1.423464f);
+			if(transform.localPosition.z <= -1.422714f)
+				transform.localPosition = new Vector3(transform.localPosition.x , transform.localPosition.y, -1.422714f);
 			
-			if(transform.localPosition.z >= -0.887454f)
-				transform.localPosition = new Vector3(transform.localPosition.x , transform.localPosition.y, -0.887454f);
+			if(transform.localPosition.z >= -0.9047691f)
+				transform.localPosition = new Vector3(transform.localPosition.x , transform.localPosition.y, -0.9047691f);
 		}
 	}
 	

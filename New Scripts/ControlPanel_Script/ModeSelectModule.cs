@@ -74,7 +74,8 @@ public class ModeSelectModule : MonoBehaviour {
 		{
 			Main.ProgramNum = Main.Progname_Backup;
 			Main.MenuDisplay = "编辑";
-			if(!Main.editDisplay)Main.ExchangeVar();
+			if(!Main.editDisplay)
+				Main.ExchangeVar();
 			Main.t2d_ModeSelect = Main.t2d_ModeSelectEDIT;
 			PlayerPrefs.SetInt("ModeSelect", 1);
 			Main.ProgEDIT = true;
@@ -102,7 +103,7 @@ public class ModeSelectModule : MonoBehaviour {
 			Main.ProgJOG = false;
 			Main.ProgREF = false;
 			HandWheel_script.closeWheel();
-			Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);	
+			Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);	
 		}
 		
 		if (GUI.Button(new Rect((mode3_x+10f)/1000f*Main.width, mode3_y/1000f*Main.height, mode3_width/1000f*Main.width, mode3_height/1000f*Main.height), "", Main.sty_ButtonEmpty))            
@@ -111,29 +112,23 @@ public class ModeSelectModule : MonoBehaviour {
 			Main.MenuDisplay = "MEM";
 			Main.t2d_ModeSelect = Main.t2d_ModeSelectAUTO;
 			PlayerPrefs.SetInt("ModeSelect", 3);
-			//automode
+			//NC代码编译
 			if(!Main.ProgAUTO &&  Main.beModifed)
 			{
 				if(!Main.ProgMDI)
 				{
 					Main.AutoProgName = Main.ProgramNum;
 					Main.beModifed = false;
-//					Debug.Log(Main.CodeForAUTO.Count);
-					//Main.CodeForAUTO.Clear();
-//					Debug.Log(Main.CodeForAUTO.Count);
-//					Main.CodeForAUTO = new List<string>();
-//					Debug.Log(Main.CodeForAUTO.Count);
 					Main.CodeForAUTO = Main.CodeForAll;
-					Softkey_Script.calcSepoAuto(Main.CodeForAUTO, SystemArguments.AutoLength1);
 					Main.autoSelecedProgRow = 0;
+					if(Main.ProgAUTOFlip == 2 || Main.ProgAUTOFlip == 4)
+						Main.AutoDisplayFindRows(Main.autoSelecedProgRow, false);
+					else
+						Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
 					Main.Compile_flag = AutoRunning_Script.AutoCodeCompile(Main.CodeForAUTO, ref error_string);
 					if(!Main.Compile_flag)
 						Debug.LogError(error_string);
-//					Debug.Log(Main.CodeForAUTO.Count);
-//					Debug.Log("U Touch Me!");
 				}
-				
-				
 			}
 			Main.ProgEDIT =false;
 			Main.ProgDNC = false;
@@ -143,9 +138,12 @@ public class ModeSelectModule : MonoBehaviour {
 			Main.ProgJOG = false;
 			Main.ProgREF = false;
 			HandWheel_script.closeWheel();
-			Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
-			
+			if(Main.ProgAUTOFlip == 2 || Main.ProgAUTOFlip == 4)
+				Main.AutoDisplayFindRows(Main.autoSelecedProgRow, false);
+			else
+				Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
 		}
+		
 		if (GUI.Button(new Rect((mode4_x + 10f)/1000f*Main.width, mode4_y/1000f*Main.height, mode4_width/1000f*Main.width, mode4_height/1000f*Main.height), "", Main.sty_ButtonEmpty))             
 		{
 			Main.Progname_Backup = Main.ProgramNum;
@@ -159,6 +157,7 @@ public class ModeSelectModule : MonoBehaviour {
 				Main.CodeForAll.Add(";");
 				Main.MDIpos_flag = true;
 			}
+			Softkey_Script.calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
 			Main.t2d_ModeSelect = Main.t2d_ModeSelectMDI;
 			PlayerPrefs.SetInt("ModeSelect", 4);
 			Main.ProgEDIT = false;
@@ -170,7 +169,9 @@ public class ModeSelectModule : MonoBehaviour {
 			Main.ProgREF = false;
 			Main.editDisplay=false;
 			HandWheel_script.closeWheel();
+			Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
 		}
+		
 		if (GUI.Button(new Rect((mode5_x+10f)/1000f*Main.width, mode5_y/1000f*Main.height, mode5_width/1000f*Main.width, mode5_height/1000f*Main.height), "", Main.sty_ButtonEmpty))           
 		{
 			Main.ProgramNum = Main.Progname_Backup;
@@ -185,7 +186,7 @@ public class ModeSelectModule : MonoBehaviour {
 			Main.ProgJOG = false;
 			Main.ProgREF = false;
 			HandWheel_script.showWheel();
-			
+			Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
 		}
 //		if (GUI.Button(new Rect(317f/1000f*Main.width, 650f/1000f*Main.height, 50f/1000f*Main.width, 25f/1000f*Main.height), "", Main.sty_ButtonEmpty))            
 //		{
@@ -220,7 +221,7 @@ public class ModeSelectModule : MonoBehaviour {
 			Main.ProgJOG = true;
 			Main.ProgREF = false;
 			HandWheel_script.closeWheel();
-			
+			Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
 		}
 		if (GUI.Button(new Rect(mode7_x/1000f*Main.width, mode7_y/1000f*Main.height, mode7_width/1000f*Main.width, mode7_height/1000f*Main.height), "", Main.sty_ButtonEmpty))            
 		{
@@ -238,7 +239,7 @@ public class ModeSelectModule : MonoBehaviour {
 			Main.ProgJOG = false;
 			Main.ProgREF = true;
 			HandWheel_script.closeWheel();
-			
+			Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
 		}
 		
 		

@@ -1911,7 +1911,7 @@ public class CooSystem : MonoBehaviour {
 	void Measure_choose (int xyz_select, float value_f, int mode_flag) 
 	{
 		//Debug.Log(Main.coo_setting_1+"PPP");
-		string write_str = "";
+//		string write_str = "";
 		switch(Main.coo_setting_1)
 		{
 		case 1:
@@ -1923,7 +1923,7 @@ public class CooSystem : MonoBehaviour {
 					G00_pos.x += value_f; 
 				else
 					G00_pos.x = value_f; 
-				write_str = G00_pos.x+","+G00_pos.y+","+G00_pos.z;
+//				write_str = G00_pos.x+","+G00_pos.y+","+G00_pos.z;
 				//WriteCooFile("G00", write_str);
 				SaveCool("G00",this.G00_pos);
 			}
@@ -1935,7 +1935,7 @@ public class CooSystem : MonoBehaviour {
 					G00_pos.y += value_f; 
 				else
 					G00_pos.y = value_f; 
-				write_str = G00_pos.x+","+G00_pos.y+","+G00_pos.z;
+//				write_str = G00_pos.x+","+G00_pos.y+","+G00_pos.z;
 				//WriteCooFile("G00", write_str);
 				SaveCool("G00",this.G00_pos);
 			}
@@ -1947,7 +1947,7 @@ public class CooSystem : MonoBehaviour {
 					G00_pos.z += value_f; 
 				else
 					G00_pos.z = value_f; 
-				write_str = G00_pos.x+","+G00_pos.y+","+G00_pos.z;
+//				write_str = G00_pos.x+","+G00_pos.y+","+G00_pos.z;
 				//WriteCooFile("G00", write_str);
 				SaveCool("G00",this.G00_pos);
 			}
@@ -1963,7 +1963,7 @@ public class CooSystem : MonoBehaviour {
 					G54_pos.x += value_f; 
 				else
 					G54_pos.x = value_f; 
-				write_str = G54_pos.x+","+G54_pos.y+","+G54_pos.z;
+//				write_str = G54_pos.x+","+G54_pos.y+","+G54_pos.z;
 				//WriteCooFile("G54", write_str);
 				SaveCool("G54",this.G54_pos);
 			}
@@ -1975,7 +1975,7 @@ public class CooSystem : MonoBehaviour {
 					G54_pos.y += value_f; 
 				else
 					G54_pos.y = value_f; 
-				write_str = G54_pos.x+","+G54_pos.y+","+G54_pos.z;
+//				write_str = G54_pos.x+","+G54_pos.y+","+G54_pos.z;
 				//WriteCooFile("G54", write_str);
 				SaveCool("G54",this.G54_pos);
 			}
@@ -1987,7 +1987,7 @@ public class CooSystem : MonoBehaviour {
 					G54_pos.z += value_f; 
 				else
 					G54_pos.z = value_f; 
-				write_str = G54_pos.x+","+G54_pos.y+","+G54_pos.z;
+//				write_str = G54_pos.x+","+G54_pos.y+","+G54_pos.z;
 				//WriteCooFile("G54", write_str);
 				SaveCool("G54",this.G54_pos);
 			}
@@ -2003,7 +2003,7 @@ public class CooSystem : MonoBehaviour {
 					G55_pos.x += value_f; 
 				else
 					G55_pos.x = value_f; 
-				write_str = G55_pos.x+","+G55_pos.y+","+G55_pos.z;
+//				write_str = G55_pos.x+","+G55_pos.y+","+G55_pos.z;
 				//WriteCooFile("G55", write_str);
 				SaveCool("G55",this.G55_pos);
 			}
@@ -2015,7 +2015,7 @@ public class CooSystem : MonoBehaviour {
 					G55_pos.y += value_f; 
 				else
 					G55_pos.y = value_f; 
-				write_str = G55_pos.x+","+G55_pos.y+","+G55_pos.z;
+//				write_str = G55_pos.x+","+G55_pos.y+","+G55_pos.z;
 				//WriteCooFile("G55", write_str);
 				SaveCool("G55",this.G55_pos);
 			}
@@ -2027,7 +2027,7 @@ public class CooSystem : MonoBehaviour {
 					G55_pos.z += value_f; 
 				else
 					G55_pos.z = value_f; 
-				write_str = G55_pos.x+","+G55_pos.y+","+G55_pos.z;
+//				write_str = G55_pos.x+","+G55_pos.y+","+G55_pos.z;
 				//WriteCooFile("G55", write_str);
 				SaveCool("G55",this.G55_pos);
 			}
@@ -2043,7 +2043,7 @@ public class CooSystem : MonoBehaviour {
 					G56_pos.x += value_f; 
 				else
 					G56_pos.x = value_f; 
-				write_str = G56_pos.x+","+G56_pos.y+","+G56_pos.z;
+//				write_str = G56_pos.x+","+G56_pos.y+","+G56_pos.z;
 				//WriteCooFile("G56", write_str);
 				SaveCool("G56",this.G56_pos);
 			}
@@ -2055,7 +2055,7 @@ public class CooSystem : MonoBehaviour {
 					G56_pos.y += value_f; 
 				else
 					G56_pos.y = value_f;
-				write_str = G56_pos.x+","+G56_pos.y+","+G56_pos.z;
+//				write_str = G56_pos.x+","+G56_pos.y+","+G56_pos.z;
 				//WriteCooFile("G56", write_str);
 				SaveCool("G56",this.G56_pos);
 			}
@@ -2067,7 +2067,7 @@ public class CooSystem : MonoBehaviour {
 					G56_pos.z += value_f; 
 				else
 					G56_pos.z = value_f;
-				write_str = G56_pos.x+","+G56_pos.y+","+G56_pos.z;
+//				write_str = G56_pos.x+","+G56_pos.y+","+G56_pos.z;
 				//WriteCooFile("G56", write_str);
 				SaveCool("G56",this.G56_pos);
 			}
@@ -2083,7 +2083,7 @@ public class CooSystem : MonoBehaviour {
 					G57_pos.x += value_f; 
 				else
 					G57_pos.x = value_f;
-				write_str = G57_pos.x+","+G57_pos.y+","+G57_pos.z;
+//				write_str = G57_pos.x+","+G57_pos.y+","+G57_pos.z;
 				//WriteCooFile("G57", write_str);
 				SaveCool("G57",this.G57_pos);
 			}
@@ -2095,7 +2095,7 @@ public class CooSystem : MonoBehaviour {
 					G57_pos.y += value_f; 
 				else
 					G57_pos.y = value_f;
-				write_str = G57_pos.x+","+G57_pos.y+","+G57_pos.z;
+//				write_str = G57_pos.x+","+G57_pos.y+","+G57_pos.z;
 				//WriteCooFile("G57", write_str);
 				SaveCool("G57",this.G57_pos);
 			}
@@ -2107,7 +2107,7 @@ public class CooSystem : MonoBehaviour {
 					G57_pos.z += value_f; 
 				else
 					G57_pos.z = value_f;
-				write_str = G57_pos.x+","+G57_pos.y+","+G57_pos.z;
+//				write_str = G57_pos.x+","+G57_pos.y+","+G57_pos.z;
 				//WriteCooFile("G57", write_str);
 				SaveCool("G57",this.G57_pos);
 			}
@@ -2123,7 +2123,7 @@ public class CooSystem : MonoBehaviour {
 					G58_pos.x += value_f; 
 				else
 					G58_pos.x = value_f;
-				write_str = G58_pos.x+","+G58_pos.y+","+G58_pos.z;
+//				write_str = G58_pos.x+","+G58_pos.y+","+G58_pos.z;
 				//WriteCooFile("G58", write_str);
 				SaveCool("G58",this.G58_pos);
 			}
@@ -2135,7 +2135,7 @@ public class CooSystem : MonoBehaviour {
 					G58_pos.y += value_f; 
 				else
 					G58_pos.y = value_f;
-				write_str = G58_pos.x+","+G58_pos.y+","+G58_pos.z;
+//				write_str = G58_pos.x+","+G58_pos.y+","+G58_pos.z;
 				//WriteCooFile("G58", write_str);
 				SaveCool("G58",this.G58_pos);
 			}
@@ -2147,7 +2147,7 @@ public class CooSystem : MonoBehaviour {
 					G58_pos.z += value_f; 
 				else
 					G58_pos.z = value_f;
-				write_str = G58_pos.x+","+G58_pos.y+","+G58_pos.z;
+//				write_str = G58_pos.x+","+G58_pos.y+","+G58_pos.z;
 				//WriteCooFile("G58", write_str);
 				SaveCool("G58",this.G58_pos);
 			}
@@ -2163,7 +2163,7 @@ public class CooSystem : MonoBehaviour {
 					G59_pos.x += value_f; 
 				else
 					G59_pos.x = value_f;
-				write_str = G59_pos.x+","+G59_pos.y+","+G59_pos.z;
+//				write_str = G59_pos.x+","+G59_pos.y+","+G59_pos.z;
 				//WriteCooFile("G59", write_str);
 				SaveCool("G59",this.G59_pos);
 			}
@@ -2175,7 +2175,7 @@ public class CooSystem : MonoBehaviour {
 					G59_pos.y += value_f; 
 				else
 					G59_pos.y = value_f;
-				write_str = G59_pos.x+","+G59_pos.y+","+G59_pos.z;
+//				write_str = G59_pos.x+","+G59_pos.y+","+G59_pos.z;
 				//WriteCooFile("G59", write_str);
 				SaveCool("G59",this.G59_pos);
 			}
@@ -2187,7 +2187,7 @@ public class CooSystem : MonoBehaviour {
 					G59_pos.z += value_f; 
 				else
 					G59_pos.z = value_f;
-				write_str = G59_pos.x+","+G59_pos.y+","+G59_pos.z;
+//				write_str = G59_pos.x+","+G59_pos.y+","+G59_pos.z;
 				//WriteCooFile("G59", write_str);
 				SaveCool("G59",this.G59_pos);
 			}

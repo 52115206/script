@@ -6,8 +6,8 @@ public class OffsetSettingModule : MonoBehaviour {
 	ControlPanel Main;
 	CooSystem CooSystem_script;
 	
-	float tool_corner_x = 0;
-	float tool_corner_y = 0;
+	public float tool_corner_x = 0;
+	public float tool_corner_y = 0;
 	float tool_cell_width = 0;
 	float tool_cell_height = 0;
 		

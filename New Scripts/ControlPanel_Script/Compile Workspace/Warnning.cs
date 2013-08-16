@@ -14,6 +14,8 @@ public class Warnning : MonoBehaviour {
 	public GUIText s;
 	int height;
 	public Vector2 scrollPosition = Vector2.zero;
+//	public Vector2 scrollPosition2 = Vector2.zero;
+
 	// Use this for initialization
 	void Start () {
 //		show=true;
@@ -30,6 +32,8 @@ public class Warnning : MonoBehaviour {
 	{
 		object_tips_rect.x = left;
 		GUI.Window(5, object_tips_rect, DoMyWindow5, "");
+		
+//		GUI.Window(106, new Rect(0, 0, 600, 500), fword, "");
 		
 //		if(GUI.Button(new Rect(280, 50, 100, 30), "Increase String"))
 //		{
@@ -48,6 +52,17 @@ public class Warnning : MonoBehaviour {
 //		}
 		
 	}
+//	
+//	void fword(int WindowID)
+//	{
+//		scrollPosition2 = GUI.BeginScrollView(new Rect(10, 300, 100, 100), scrollPosition2, new Rect(0, 0, 220, 200));
+//		GUI.Button(new Rect(0, 0, 100, 20), "Top-left");
+//		GUI.Button(new Rect(120, 0, 100, 20), "Top-right");
+//		GUI.Button(new Rect(0, 180, 100, 20), "Bottom-left");
+//		GUI.Button(new Rect(120, 180, 100, 20), "Bottom-right");
+//		GUI.EndScrollView();
+//
+//	}
 	
 	void DoMyWindow5(int windowID) 
 	{
@@ -61,7 +76,7 @@ public class Warnning : MonoBehaviour {
 			motion_start = true;
 		}
 		
-		scrollPosition = GUI.BeginScrollView (new Rect (20, 20, 320, 200),scrollPosition , new Rect (0, 0, 300, 14*height+14));
+		scrollPosition = GUI.BeginScrollView (new Rect (20, 20, 320, 200), scrollPosition, new Rect (0, 0, 300, 14*height+14));
 		string	s1="";
 		int len=object_description.Length;
 		
@@ -87,7 +102,7 @@ public class Warnning : MonoBehaviour {
 			
 		}
 		
-		GUI.Label(new Rect(0, 0, 260,16*height+16), object_description);
+		GUI.Label(new Rect(0, 0, 260,16*height +16), object_description);
 		
 		GUI.EndScrollView();	
 	}

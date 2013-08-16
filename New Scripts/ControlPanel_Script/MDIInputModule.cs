@@ -292,7 +292,7 @@ public class MDIInputModule : MonoBehaviour {
 				Main.OffSetOne = false;
 				Main.OffSetTwo = true;
 			}
-			if(Main.ProgEDITCusorPos < 335f)
+			if(Main.ProgEDITCusorPos < SystemArguments.CursorLength)
 			{
 				if(Main.ProgEDITList)
 				{
@@ -479,7 +479,7 @@ public class MDIInputModule : MonoBehaviour {
 					Main.ProgEDITCusorPos = Main.corner_px + 23.5f + Main.InputTextSize.x;
 				}
 				//输入各轴预置变量值
-				else if(Main.statusBeforeOperation != 1 && Main.ProgEDITCusorPos < 335f)
+				else if(Main.statusBeforeOperation != 1 && Main.ProgEDITCusorPos < SystemArguments.CursorLength)
 				{
 					string float_str = Main.InputText.Remove(0, 1);
 					string add_str = "";
@@ -491,11 +491,11 @@ public class MDIInputModule : MonoBehaviour {
 					float_str += add_str;
 					try
 					{
-						abc =float.Parse(float_str);
+						abc = float.Parse(float_str);
 					}
 					catch
 					{
-						Debug.Log("wrong string");
+//						Debug.Log("wrong string");
 						return;
 					}
 					Main.InputText += add_str;
@@ -504,64 +504,6 @@ public class MDIInputModule : MonoBehaviour {
 					Main.ProgEDITCusorPos = Main.corner_px + 23.5f + Main.InputTextSize.x;
 				}
 			}
-			
-			
-			/*
-			if(!Main.ShiftFlag&&without_shift=="X"&&((Main.AbsoluteCoo||Main.RelativeCoo||Main.GeneralCoo)||(Main.operationBottomScrInitial&&(Main.statusBeforeOperation==2||Main.statusBeforeOperation==3))))
-			{
-				isXSelected=true;
-				Main.operationBottomScrInitial=true;
-				Main.operationBottomScrExecute=false;
-				Main.posOperationMode=true;
-				if(Main.RelativeCoo)
-					Main.statusBeforeOperation=2;
-				if(Main.AbsoluteCoo)
-					Main.statusBeforeOperation=1;
-				if(Main.GeneralCoo)
-					Main.statusBeforeOperation=3;
-				Main.RelativeCoo=false;
-				Main.AbsoluteCoo=false;
-				Main.GeneralCoo=false;
-				isYSelected=false;
-				isZSelected=false;
-			}
-			if(!Main.ShiftFlag&&without_shift=="Y"&&((Main.RelativeCoo||Main.GeneralCoo)||(Main.operationBottomScrInitial&&(Main.statusBeforeOperation==2||Main.statusBeforeOperation==3))))
-			{
-				isYSelected=true;
-				Main.operationBottomScrInitial=true;
-				Main.operationBottomScrExecute=false;
-				Main.posOperationMode=true;
-				if(Main.RelativeCoo)
-					Main.statusBeforeOperation=2;
-				if(Main.AbsoluteCoo)
-					Main.statusBeforeOperation=1;
-				if(Main.GeneralCoo)
-					Main.statusBeforeOperation=3;
-				Main.RelativeCoo=false;
-				Main.AbsoluteCoo=false;
-				Main.GeneralCoo=false;
-				isXSelected=false;
-				isZSelected=false;
-			}
-			if(!Main.ShiftFlag&&without_shift=="Z"&&((Main.RelativeCoo||Main.GeneralCoo)||(Main.operationBottomScrInitial&&(Main.statusBeforeOperation==2||Main.statusBeforeOperation==3))))
-			{
-				isZSelected=true;
-				Main.operationBottomScrInitial=true;
-				Main.operationBottomScrExecute=false;
-				Main.posOperationMode=true;
-				if(Main.RelativeCoo)
-					Main.statusBeforeOperation=2;
-				if(Main.AbsoluteCoo)
-					Main.statusBeforeOperation=1;
-				if(Main.GeneralCoo)
-					Main.statusBeforeOperation=3;
-				Main.RelativeCoo=false;
-				Main.AbsoluteCoo=false;
-				Main.GeneralCoo=false;
-				isYSelected=false;
-				isXSelected=false;
-			}
-			*/
 		}
 	    //位置界面功能完善---宋荣 ---03.09
 	}

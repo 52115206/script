@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
 using System.IO;
 
 public class EntranceScript : MonoBehaviour {
@@ -16,8 +15,8 @@ public class EntranceScript : MonoBehaviour {
 	AutoToolChangeModule AutoToolChange_Script;
 	CuttingWork CuttingWork_Script;
 	Warnning Warnning_Script;
+	SoftkeyModule Softkey_Script;
 	List<List<string>> SourceCode = new List<List<string>>();
-	List<DataStore> compile_info_list = new List<DataStore>();
 	List<MotionInfo> motion_info_list = new List<MotionInfo>();
 	List<MotionInfo> original_motion_info_list = new List<MotionInfo>();
 	List<ToolChangeInfo> tool_motion_list = new List<ToolChangeInfo>();
@@ -25,12 +24,11 @@ public class EntranceScript : MonoBehaviour {
 	public Vector3 CooZeroPoint = new Vector3(0, 0, 0); //用于程序自动执行时，更换坐标系
 	//GameObject tryCreate;
 	//ModalCode_Fanuc_M 
-	string text_field = "O2";
+//	string text_field = "O2";
 	public bool Slash_on = false;
 	int singleStepEnd = 100;
 	public int SpeedNow = 0;
 	string test_str = "";
-	Color pathColor = Color.green;
 	
 	
 	// Use this for initialization
@@ -51,10 +49,11 @@ public class EntranceScript : MonoBehaviour {
 		PathLineDraw_Script = GameObject.Find("Main Camera").GetComponent<PathLineDraw>();
 		AutoToolChange_Script = GameObject.Find("ToolChange").GetComponent<AutoToolChangeModule>();
 		Warnning_Script = gameObject.GetComponent<Warnning>();
+		Softkey_Script = gameObject.GetComponent<SoftkeyModule>();
 		CooZeroPoint = new Vector3(0, 0, 0);
 		singleStepEnd = 100;
 		CurrentModal = new ModalCode_Fanuc_M();
-		CurrentModal.RotateSpeed = 3000;
+//		CurrentModal.RotateSpeed = 3000;
 		GameObject ForCuttingWork = GameObject.Find("GameObject");
 		if(ForCuttingWork == null)
 		{
@@ -144,15 +143,29 @@ public class EntranceScript : MonoBehaviour {
 		if(compile_result == (int)ResultType.Success)
 		{
 			errorString = "";
-			CreatePathLine();
+			
+			CreatePathLine(ref PathLineDraw_Script.lineDrawer, Color.green, motion_info_list);
+			CreatePathLine(ref PathLineDraw_Script.lineOriginalDrawer, Color.red, original_motion_info_list);
+//			Debug.Log(original_motion_info_list.Count + "<||>" + motion_info_list.Count);
 //			foreach(MotionInfo motion_info in motion_info_list)
 //				Debug.Log(motion_info.ToString());
+//			for(int i = 0; i < motion_info_list.Count && i < 300; i++)
+//			{
+//				Debug.Log(motion_info_list[i].ToString());
+//				Debug.Log(original_motion_info_list[i].ToString());
+//			}
+//			for(int i = 0; i < original_motion_info_list.Count && i < 300; i++)
+//			{
+//				Debug.Log(motion_info_list[i].ToString());
+//				Debug.Log(original_motion_info_list[i].ToString());
+//			}
 			return true;
 		}
 		else if(compile_result == (int)ResultType.CompileError)
 		{
 			errorString = "代码编译错误！";
-			for(int i = 0; i < AutoFanuc_OI_M.CompileInfo.Count; i++)
+//			Debug.Log(AutoFanuc_OI_M.CompileInfo.Count);
+			for(int i = 0; i < AutoFanuc_OI_M.CompileInfo.Count && i < 300; i++)
 			{
 //				Debug.Log(AutoFanuc_OI_M.CompileInfo[i]);
 				Warnning_Script.object_description += AutoFanuc_OI_M.CompileInfo[i]+"\n";
@@ -171,18 +184,21 @@ public class EntranceScript : MonoBehaviour {
 			return false;
 		}
 	}
-	
+		
 	/// <summary>
-	/// 生成轨迹线
+	/// 生成轨迹线, TobeModified
 	/// </summary>
-	public void CreatePathLine()
+	public void CreatePathLine(ref LineInfo currentLineDrawer, Color lineColor, List<MotionInfo> motion_info_data)
 	{
-		PathLineDraw_Script.lineDrawer.Clear();
-		PathLineDraw_Script.arcDrawer.Clear();
+		currentLineDrawer.Clear();
+//		PathLineDraw_Script.lineOriginalDrawer.Clear();
 		List<ToolChangeInfo> tool_motion_line_list = new List<ToolChangeInfo>();
+		ToolChangeInfo tempToolData = new ToolChangeInfo();
 		for(int i = 0; i < tool_motion_list.Count; i++)
 		{
-			tool_motion_line_list.Add(tool_motion_list[i]);
+			tempToolData = new ToolChangeInfo();
+			tempToolData.ToolDataCopy(tool_motion_list[i]);
+			tool_motion_line_list.Add(tempToolData);
 		}
 		//将画线参考体移动到主轴指定位置
 		PathLineDraw_Script.lineRef.parent = GameObject.Find("main axle_4").transform;
@@ -191,27 +207,27 @@ public class EntranceScript : MonoBehaviour {
 		PathLineDraw_Script.lineRef.parent = GameObject.Find("workbench_1").transform;
 		//本次轨迹线的起始点
 		Vector3 orinPoint = Auto_Script.CurrentVirtualPos() / 1000;
-		for(int i = 0; i < motion_info_list.Count; i++)
+		for(int i = 0; i < motion_info_data.Count; i++)
 		{
-			if(motion_info_list[i].Motion_Type != -1 && motion_info_list[i].Motion_Type != (int)MotionType.Pause)
+			if(motion_info_data[i].Motion_Type != -1 && motion_info_data[i].Motion_Type != (int)MotionType.Pause)
 			{
 				//圆弧
-				if(motion_info_list[i].Motion_Type == (int)MotionType.Circular02 || motion_info_list[i].Motion_Type == (int)MotionType.Circular03)
+				if(motion_info_data[i].Motion_Type == (int)MotionType.Circular02 || motion_info_data[i].Motion_Type == (int)MotionType.Circular03)
 				{
-					Vector3 centre_point = motion_info_list[i].VirtualTarget - motion_info_list[i].DisplayTarget + motion_info_list[i].Center_Point;
+					Vector3 centre_point = motion_info_data[i].VirtualTarget - motion_info_data[i].DisplayTarget + motion_info_data[i].Center_Point;
 					centre_point /= 1000;
-					Vector3 start_vector = motion_info_list[i].VirtualStart / 1000 - centre_point;
-					Vector3 end_vector = motion_info_list[i].VirtualTarget / 1000 - centre_point;
+					Vector3 start_vector = motion_info_data[i].VirtualStart / 1000 - centre_point;
+					Vector3 end_vector = motion_info_data[i].VirtualTarget / 1000 - centre_point;
 					Vector3 axis_vector = Vector3.zero;
 					//半圆弧或者圆弧时关于旋转轴的处理
-					if(motion_info_list[i].Rotate_Degree % 180 == 0)
+					if(motion_info_data[i].Rotate_Degree % 180 == 0)
 					{
 						//顺时针
-						if(motion_info_list[i].Motion_Type == (int)MotionType.Circular02)
+						if(motion_info_data[i].Motion_Type == (int)MotionType.Circular02)
 						{
-							if(motion_info_list[i].Current_Plane == (int)CheckInformation.XYPlane)
+							if(motion_info_data[i].Current_Plane == (int)CheckInformation.XYPlane)
 								axis_vector = new Vector3(0, 0, -1);
-							else if(motion_info_list[i].Current_Plane == (int)CheckInformation.ZXPlane)
+							else if(motion_info_data[i].Current_Plane == (int)CheckInformation.ZXPlane)
 								axis_vector = new Vector3(0, -1, 0);
 							else
 								axis_vector = new Vector3(-1, 0, 0);
@@ -219,9 +235,9 @@ public class EntranceScript : MonoBehaviour {
 						//逆时针
 						else
 						{
-							if(motion_info_list[i].Current_Plane == (int)CheckInformation.XYPlane)
+							if(motion_info_data[i].Current_Plane == (int)CheckInformation.XYPlane)
 								axis_vector = new Vector3(0, 0, 1);
-							else if(motion_info_list[i].Current_Plane == (int)CheckInformation.ZXPlane)
+							else if(motion_info_data[i].Current_Plane == (int)CheckInformation.ZXPlane)
 								axis_vector = new Vector3(0, 1, 0);
 							else
 								axis_vector = new Vector3(1, 0, 0);
@@ -230,17 +246,18 @@ public class EntranceScript : MonoBehaviour {
 					else
 					{
 						axis_vector = Vector3.Cross(start_vector, end_vector).normalized;
-						if(motion_info_list[i].Rotate_Degree > 180f)
+						if(motion_info_data[i].Rotate_Degree > 180f)
 							axis_vector = -1 * axis_vector;
 					}
-					float radius = (motion_info_list[i].VirtualTarget / 1000 - centre_point).magnitude;
-					float angle = motion_info_list[i].Rotate_Degree * Mathf.PI / 180;
+//					float radius = (motion_info_list[i].VirtualTarget / 1000 - centre_point).magnitude;
+					float angle = motion_info_data[i].Rotate_Degree * Mathf.PI / 180;
 					//r旋转theta弧度后的向量
 					Vector3 rotate_point = new Vector3(0f, 0f, 0f);
 					//圆弧精度计算
-					float slices =(int)(SystemArguments.CirclePrecision * angle / (2 * Mathf.PI));
+					int slices =(int)(SystemArguments.CirclePrecision * angle / (2 * Mathf.PI));
 					if(slices <= 2)
 						slices = 3;
+					motion_info_data[i].Slices = slices;
 //					Debug.Log(slices + ":   angle = " + angle + ";  radius = " + radius);
 					//每次旋转的弧度数
 					float theta = angle / slices;
@@ -256,29 +273,30 @@ public class EntranceScript : MonoBehaviour {
 						secondPoint = centre_point + rotate_point;
 						if(j != 0)
 						{
-							PathLineDraw_Script.lineDrawer.Add(i, firstPoint - orinPoint, secondPoint - orinPoint, pathColor);
+							currentLineDrawer.Add(i, j, firstPoint - orinPoint, secondPoint - orinPoint, lineColor);
 						}
 						firstPoint = secondPoint;
-					}
-					
+					}     
 				}
 				//从参考点返回，两点，即两条线段
-				else if(motion_info_list[i].Motion_Type == (int)MotionType.BackFromRP || motion_info_list[i].Motion_Type == (int)MotionType.AutoReturnRP)
+				else if(motion_info_data[i].Motion_Type == (int)MotionType.BackFromRP || motion_info_data[i].Motion_Type == (int)MotionType.AutoReturnRP)
 				{
-					PathLineDraw_Script.lineDrawer.Add(i, motion_info_list[i].VirtualStart / 1000 - orinPoint, motion_info_list[i].VirtualTarget / 1000 - orinPoint, pathColor);
-					PathLineDraw_Script.lineDrawer.Add(i, motion_info_list[i].VirtualTarget / 1000 - orinPoint, motion_info_list[i].VirtualTarget2 / 1000 - orinPoint, pathColor);
+					motion_info_data[i].Slices = 2;
+					currentLineDrawer.Add(i, 1, motion_info_data[i].VirtualStart / 1000 - orinPoint, motion_info_data[i].VirtualTarget / 1000 - orinPoint, lineColor);
+					currentLineDrawer.Add(i, 2, motion_info_data[i].VirtualTarget / 1000 - orinPoint, motion_info_data[i].VirtualTarget2 / 1000 - orinPoint, lineColor);
 				}
 				//直线情况
 				else
 				{
-					PathLineDraw_Script.lineDrawer.Add(i, motion_info_list[i].VirtualStart / 1000 - orinPoint, motion_info_list[i].VirtualTarget / 1000 - orinPoint, pathColor);
+					currentLineDrawer.Add(i, -1, motion_info_data[i].VirtualStart / 1000 - orinPoint, motion_info_data[i].VirtualTarget / 1000 - orinPoint, lineColor);
 				}
 			}
 			string toolchange_str = "" + (char)ImmediateMotionType.M06;
-			if(motion_info_list[i].Immediate_Motion.Contains(toolchange_str))
+			//有换刀程序
+			if(motion_info_data[i].Immediate_Motion.Contains(toolchange_str))
 			{
 				if(tool_motion_line_list[0].TimeValue > 0)
-					PathLineDraw_Script.lineDrawer.Add(i, tool_motion_line_list[0].VirtualStart / 1000 - orinPoint, tool_motion_line_list[0].VirtualTarget / 1000 - orinPoint, pathColor);
+					currentLineDrawer.Add(motion_info_data.Count + tool_motion_line_list.Count, -1, tool_motion_line_list[0].VirtualStart / 1000 - orinPoint, tool_motion_line_list[0].VirtualTarget / 1000 - orinPoint, lineColor);
 				tool_motion_line_list.RemoveAt(0);
 			}
 		}
@@ -461,15 +479,52 @@ public class EntranceScript : MonoBehaviour {
 		Main.Current_M_value = false;
 	}
 	
+	public void MDIStop()
+	{
+		Main.MDIDisplayFindRows(0);
+		Main.CodeForMDIRuning.Clear();
+		Main.CodeForMDIRuning.Add("O0000");
+		Main.CodeForMDIRuning.Add(";");
+		if(Main.ProgMDI)
+		{
+			Main.CodeForAll.Clear();
+			Main.CodeForAll.Add("O0000");
+			Main.CodeForAll.Add(";");
+			Softkey_Script.calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
+			Main.ProgEDITCusorV = 0;
+			Main.ProgEDITCusorH = 0;
+			Main.StartRow = 0;
+			Main.EndRow = SystemArguments.EditLineNumber;
+			Main.SelectStart = 0;
+			Main.SelectEnd = 0;
+			Main.MDIpos_flag = true;
+		}
+		else
+		{
+			Main.CodeForMDI.Clear();
+			Main.CodeForMDI.Add("O0000");
+			Main.CodeForMDI.Add(";");
+			Main.MDIProgEDITCusorV = 0;
+			Main.MDIProgEDITCusorH = 0;
+			Main.MDIStartRow = 0;
+			Main.MDIEndRow = SystemArguments.EditLineNumber;
+			Main.MDISelectStart = 0;
+			Main.MDISelectEnd = 0;
+			Main.MDIpos_flag = true;
+		}
+	}
+	
 //	public void EmergencyCall()
 //	{
 //		motion_info_list.Clear();
 //	}
+	
 	public IEnumerator MotionStart()
 	{
 		CooZeroPoint = CooSystem_Script.AbsoluteZero; //获取当前绝对坐标系零点
-		Main.AutoRunning_flag = true;
-		DisplayStart();
+//		Main.AutoRunning_flag = true;
+		if(Main.AutoRunning_flag)
+			DisplayStart();
 		Main.CycleTimeH = 0;
 		Main.CycleTimeM = 0;
 		Main.CycleTimeS = 0;
@@ -480,7 +535,11 @@ public class EntranceScript : MonoBehaviour {
 		{//1level
 			Debug.Log(index + " >>> " + motion_info_list[index].index);
 			//黄色光标跳转
-			Main.autoSelecedProgRow = motion_info_list[index].index;
+//			Main.autoSelecedProgRow = motion_info_list[index].index;
+			if(Main.AutoRunning_flag)
+				Main.AutoDisplayFindRows(motion_info_list[index].index, Main.autoDisplayNormal);
+			if(Main.MDI_RunningFlag)
+				Main.MDIDisplayFindRows(motion_info_list[index].index);
 			Main.RunningSpeed = 0;
 			Main.T_Value = Main.ToolNo;
 			Main.D_value = motion_info_list[index].D_Value;
@@ -489,6 +548,7 @@ public class EntranceScript : MonoBehaviour {
 			if(motion_info_list[index].NotEmpty())
 			{//2level
 				//画面变化
+				if(Main.AutoRunning_flag)
 				{
 					//G_Display
 					ProgramModule_Script.CurrentCodeDisplay(motion_info_list[index].G_Display, motion_info_list[index].G_Address, motion_info_list[index].Address_Value, motion_info_list[index].G_Display2, motion_info_list[index].G_Address2, motion_info_list[index].Address_Value2);
@@ -553,7 +613,11 @@ public class EntranceScript : MonoBehaviour {
 							Main.SpindleStop();
 							Main.AutoRunning_flag = false;
 							Main.RunningSpeed = 0;
-							Main.autoSelecedProgRow = 0;
+							if(Main.AutoRunning_flag)
+								Main.AutoDisplayFindRows(0, Main.autoDisplayNormal);
+							if(Main.MDI_RunningFlag)
+								Main.MDIDisplayFindRows(0);
+//							Main.autoSelecedProgRow = 0;
 							break;
 						case (char)ImmediateMotionType.M98:
 						case (char)ImmediateMotionType.M99:
@@ -649,6 +713,11 @@ public class EntranceScript : MonoBehaviour {
 						case (char)ImmediateMotionType.LengthCompensationPositive:
 							
 							break;
+						case (char)ImmediateMotionType.RotateSpeed:
+							CurrentModal.RotateSpeed = motion_info_list[index].Rotate_Speed;
+							break;
+						default:
+							break;
 						}
 					}
 				}
@@ -662,29 +731,29 @@ public class EntranceScript : MonoBehaviour {
 					{
 					case (int)MotionType.DryRunning:
 //						CurrentModal.SetModalCode("G00", 0);
-						yield return StartCoroutine(Auto_Script.LineMovement(motion_info_list[index].Direction, motion_info_list[index].Time_Value, motion_info_list[index].VirtualTarget));
+						yield return StartCoroutine(Auto_Script.LineMovement(motion_info_list[index].Direction, motion_info_list[index].Time_Value, motion_info_list[index].VirtualTarget, index, 0));
 						break;
 					case (int)MotionType.MachineCooSys:
-						yield return StartCoroutine(Auto_Script.LineMovement(motion_info_list[index].Direction, motion_info_list[index].Time_Value, motion_info_list[index].VirtualTarget));
+						yield return StartCoroutine(Auto_Script.LineMovement(motion_info_list[index].Direction, motion_info_list[index].Time_Value, motion_info_list[index].VirtualTarget, index, 0));
 						break;
 					case (int)MotionType.Line:
 //						CurrentModal.SetModalCode("G01", 0);
-						yield return StartCoroutine(Auto_Script.LineMovement(motion_info_list[index].Direction, motion_info_list[index].Time_Value, motion_info_list[index].VirtualTarget));
+						yield return StartCoroutine(Auto_Script.LineMovement(motion_info_list[index].Direction, motion_info_list[index].Time_Value, motion_info_list[index].VirtualTarget, index, 0));
 						break;
 					case (int)MotionType.Circular02:
 //						CurrentModal.SetModalCode("G02", 0);
 						yield return StartCoroutine(Auto_Script.CircularMovement(motion_info_list[index].Direction, motion_info_list[index].VirtualTarget, motion_info_list[index].DisplayTarget,
-							motion_info_list[index].DisplayStart, motion_info_list[index].Time_Value, motion_info_list[index].Center_Point, motion_info_list[index].Rotate_Speed, true, motion_info_list[index].Current_Plane));
+							motion_info_list[index].DisplayStart, motion_info_list[index].Time_Value, motion_info_list[index].Center_Point, motion_info_list[index].Rotate_Speed, true, motion_info_list[index].Current_Plane, index, motion_info_list[index].Slices));
 						break;
 					case (int)MotionType.Circular03:
 //						CurrentModal.SetModalCode("G03", 0);
 						yield return StartCoroutine(Auto_Script.CircularMovement(motion_info_list[index].Direction, motion_info_list[index].VirtualTarget, motion_info_list[index].DisplayTarget,
-							motion_info_list[index].DisplayStart, motion_info_list[index].Time_Value, motion_info_list[index].Center_Point, motion_info_list[index].Rotate_Speed, false, motion_info_list[index].Current_Plane));
+							motion_info_list[index].DisplayStart, motion_info_list[index].Time_Value, motion_info_list[index].Center_Point, motion_info_list[index].Rotate_Speed, false, motion_info_list[index].Current_Plane, index, motion_info_list[index].Slices));
 						break;
 					case (int)MotionType.AutoReturnRP:
 					case (int)MotionType.BackFromRP:
-						yield return StartCoroutine(Auto_Script.LineMovement(motion_info_list[index].Direction, motion_info_list[index].Time_Value, motion_info_list[index].VirtualTarget));
-						yield return StartCoroutine(Auto_Script.LineMovement(motion_info_list[index].Direction2, motion_info_list[index].Time_Value2, motion_info_list[index].VirtualTarget2));
+						yield return StartCoroutine(Auto_Script.LineMovement(motion_info_list[index].Direction, motion_info_list[index].Time_Value, motion_info_list[index].VirtualTarget, index, 1));
+						yield return StartCoroutine(Auto_Script.LineMovement(motion_info_list[index].Direction2, motion_info_list[index].Time_Value2, motion_info_list[index].VirtualTarget2, index, 2));
 						break;
 					case (int)MotionType.Pause:
 						Auto_Script.SetPause();
@@ -707,7 +776,7 @@ public class EntranceScript : MonoBehaviour {
 					break;
 				case (char)ToolChange.M:
 					if(tool_motion_list[0].TimeValue > 0)
-						yield return StartCoroutine(Auto_Script.LineMovement(tool_motion_list[0].Direction, tool_motion_list[0].TimeValue, tool_motion_list[0].VirtualTarget));
+						yield return StartCoroutine(Auto_Script.LineMovement(tool_motion_list[0].Direction, tool_motion_list[0].TimeValue, tool_motion_list[0].VirtualTarget, motion_info_list.Count + tool_motion_list.Count, 0));
 					tool_motion_list.RemoveAt(0);
 					yield return StartCoroutine(AutoToolChange_Script.ChangeToolProcess());
 					break;
@@ -727,8 +796,14 @@ public class EntranceScript : MonoBehaviour {
 			}
 		}//1level
 		ProgramModule_Script.SetModalState(new List<int>(), new List<string>());  //模态变化的蓝色光标清空
+		if(Main.MDI_RunningFlag)
+		{
+			MDIStop();
+		}
 		Main.AutoRunning_flag = false;
 		Main.Compile_flag = false;
+		Main.MDI_RunningFlag = false;
+		Main.MDI_CompileFlag = false;
 		Main.PartsNum++; //加工零件数+1
 		DisplayEnd();
 		Main.SpindleSpeed = 0;

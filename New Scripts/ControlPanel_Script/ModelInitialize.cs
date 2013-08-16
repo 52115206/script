@@ -114,11 +114,11 @@ public class ModelInitialize : MonoBehaviour {
 		Transform temp_tran02 = GameObject.Find("main protecting crust_1").transform;
 		OuterSkin1.localPosition = temp_tran02.localPosition;
 		leftDoor = GameObject.Find("main protecting crust_11").transform;
-		leftDoor.gameObject.AddComponent("BoxCollider");
-		leftDoor.gameObject.AddComponent("door");
+		leftDoor.gameObject.AddComponent<BoxCollider>();
+		leftDoor.gameObject.AddComponent<door>();
 		rightDoor = GameObject.Find("main protecting crust_12").transform;
-		rightDoor.gameObject.AddComponent("BoxCollider");
-		rightDoor.gameObject.AddComponent("door");
+		rightDoor.gameObject.AddComponent<BoxCollider>();
+		rightDoor.gameObject.AddComponent<door>();
 		
 		try
 		{
@@ -285,8 +285,8 @@ public class ModelInitialize : MonoBehaviour {
 			return;
 		}
 		tool_obj.transform.name="ToolChange";
-		tool_obj.AddComponent("AutoToolChangeModule");
-		tool_obj.AddComponent("AudioSource");
+		tool_obj.AddComponent<AutoToolChangeModule>();
+		tool_obj.AddComponent<AudioSource>();
 		tool_obj.audio.loop = true;
 		tool_obj.audio.playOnAwake = false;
 		tool_obj.audio.clip = (AudioClip)Resources.Load("Audio/move");

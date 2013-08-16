@@ -22,6 +22,7 @@ public class ProgramModule : MonoBehaviour {
 	public List<string> G_code2=new List<string>(); //下一段G代码显示
     public List<string> G_address2=new List<string>(); //下一段地址值显示
 	public List<float> G_instructValue2=new List<float>(); //下一段值大小显示
+	
 	// Use this for initialization
 	void Start () {
 		Main = gameObject.GetComponent<ControlPanel>();
@@ -45,6 +46,8 @@ public class ProgramModule : MonoBehaviour {
 		Main.SeparatePosEnd = new List<int>();
 		Main.SeparateAutoStart = new List<int>();
 		Main.SeparateAutoEnd = new List<int>();
+		Main.SeparateMDIStart = new List<int>();
+		Main.SeparateMDIEnd = new List<int>();
 ////	Main.CodeForAll.Add(";");
 //		Main.CodeForMDI.Add("O0000");
 //		Main.CodeForMDI.Add(";");
@@ -57,11 +60,11 @@ public class ProgramModule : MonoBehaviour {
 //		//初始化G代码、地址和指令值，刘旋，2013-5-21
 //		G_code.Add("G90");G_code.Add("G30");G_code.Add("G00");G_code.Add("G54");
 //		G_address.Add("X");G_address.Add("I");G_address.Add("K");G_address.Add("R");
-//		G_instructValue.Add(-5538f);G_instructValue.Add(5962f);G_instructValue.Add(405f);//数值要求-9999-9999
+//		G_instructValue.Add(-555538f);G_instructValue.Add(5962f);G_instructValue.Add(405f);//数值要求-9999-9999
 //		
 //		G_code2.Add("G90");G_code2.Add("G30");G_code2.Add("G00");G_code2.Add("G54");
 //		G_address2.Add("X");G_address2.Add("I");G_address2.Add("K");G_address2.Add("R");
-//		G_instructValue2.Add(-5538f);G_instructValue2.Add(5962f);G_instructValue2.Add(405f);//数值要求-9999-9999
+//		G_instructValue2.Add(-555538f);G_instructValue2.Add(5962f);G_instructValue2.Add(405f);//数值要求-9999-9999
 	}
 	
 	void OnGUI()
@@ -145,7 +148,7 @@ public class ProgramModule : MonoBehaviour {
 //		GUI.Label(new Rect((Main.corner_px + 7f )/1000f*Main.width + 12f, (Main.corner_py + 55f)/1000f*Main.height, 12f, 25f/1000f*Main.height+0.8f), "", Main.sty_EDITCursor);
 //		GUI.Label(new Rect((Main.corner_px + 7f )/1000f*Main.width, (Main.corner_py + 55f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), "AB", Main.sty_Code);
 		
-		DisplayProgram(pos_y, pos_x);
+		DisplayProgram(pos_x, pos_y);
 		if(Main.ProgEDITFlip == 0)
 		{
 			Main.sty_BottomButton_1.normal.background = Main.t2d_BottomButton_d;
@@ -387,8 +390,9 @@ public class ProgramModule : MonoBehaviour {
 //			GUI.Label(new Rect((Main.corner_px + 4f)/1000f*Main.width, (Main.corner_py + 47f)/1000f*Main.height, 370f, 25f/1000f*Main.height), "", Main.TestGUIStyle);
 			if(Main.CodeForAUTO.Count > 0)
 			{
-				Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
-				AutoDisplyProgram(Main.corner_py + 47f, Main.corner_px + 7f);
+				Main.autoDisplayNormal = true;
+//				Main.AutoDisplayFindRows(Main.autoSelecedProgRow, true);
+				AutoDisplyProgram(Main.corner_px + 7f, Main.corner_py + 47f);
 			}
 		}
 		else if (Main.ProgAUTOFlip==1)
@@ -410,14 +414,15 @@ public class ProgramModule : MonoBehaviour {
 			
 			if(Main.CodeForAUTO.Count > 0)
 			{
-				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
-				AutoDisplyProgram(Main.corner_py + 47f, Main.corner_px + 7f);
+				Main.autoDisplayNormal = true;
+//				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
+				AutoDisplyProgram(Main.corner_px + 7f, Main.corner_py + 47f);
 			}
 		}
 		else if (Main.ProgAUTOFlip==2)
 		{
 			GUI.Label(new Rect((Main.corner_px + 6.5f)/1000f*Main.width,(Main.corner_py - 4f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"程序（检查）", Main.sty_Title);
-		    GUI.Label(new Rect((Main.corner_px + 0f)/1000f*Main.width,(Main.corner_py + 23f)/1000f*Main.height,500f/1000f*Main.width,105f/1000f*Main.height),"", Main.sty_AUTOCheck);
+		    GUI.Label(new Rect((Main.corner_px + 0f)/1000f*Main.width,(Main.corner_py + 23f)/1000f*Main.height,499f/1000f*Main.width,105f/1000f*Main.height),"", Main.sty_AUTOCheck);
 			GUI.Label(new Rect((Main.corner_px + 0f)/1000f*Main.width,(Main.corner_py + 128f)/1000f*Main.height,160f/1000f*Main.width,113f/1000f*Main.height),"", Main.sty_EDITList);
 			GUI.Label(new Rect((Main.corner_px + 160f)/1000f*Main.width,(Main.corner_py + 128f)/1000f*Main.height,144f/1000f*Main.width,113f/1000f*Main.height),"", Main.sty_EDITList);
 			GUI.Label(new Rect((Main.corner_px + 40f)/1000f*Main.width,(Main.corner_py + 126f)/1000f*Main.height,100f/1000f*Main.width,300f/1000f*Main.height),"绝对坐标", Main.sty_PosSmallWord);
@@ -473,8 +478,9 @@ public class ProgramModule : MonoBehaviour {
 		    GUI.Label(new Rect((Main.corner_px + 385f)/1000f*Main.width,(Main.corner_py + 348f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"（操 作）", Main.sty_BottomChooseMenu);
 			if(Main.CodeForAUTO.Count > 0)
 			{
-				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,false);
-				AutoDisplyProgram(Main.corner_py + 28f, Main.corner_px + 7f);
+				Main.autoDisplayNormal = false;
+//				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,false);
+				AutoDisplyProgram(Main.corner_px + 7f, Main.corner_py + 28f);
 			}
 		}
 		else if (Main.ProgAUTOFlip==3)
@@ -541,8 +547,9 @@ public class ProgramModule : MonoBehaviour {
 		    GUI.Label(new Rect((Main.corner_px + 385f)/1000f*Main.width,(Main.corner_py + 348f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"（操 作）", Main.sty_BottomChooseMenu);
 			if(Main.CodeForAUTO.Count > 0)
 			{
-				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,false);
-				AutoDisplyProgram(Main.corner_py + 28f, Main.corner_px + 7f);
+				Main.autoDisplayNormal = false;
+//				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,false);
+				AutoDisplyProgram(Main.corner_px + 7f, Main.corner_py + 28f);
 			}
 		}
 		else if(Main.ProgAUTOFlip==5)
@@ -561,8 +568,9 @@ public class ProgramModule : MonoBehaviour {
 			ProgramInterface();
 			if(Main.CodeForAUTO.Count > 0)
 			{
-				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
-				AutoDisplyProgram(Main.corner_py + 47f, Main.corner_px + 7f);
+				Main.autoDisplayNormal = true;
+//				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
+				AutoDisplyProgram(Main.corner_px + 7f, Main.corner_py + 47f);
 			}
 		}
 		if(Main.ProgSharedFlip==1)
@@ -582,16 +590,28 @@ public class ProgramModule : MonoBehaviour {
 			ModeEditInterface();
 			GUI.Label(new Rect((Main.corner_px + 6.5f)/1000f*Main.width,(Main.corner_py - 4f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"程序（MDI）", Main.sty_Title);
 			GUI.Label(new Rect((Main.corner_px + 134f)/1000f*Main.width,(Main.corner_py + 348f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"MDI", Main.sty_BottomChooseMenu);
-			float pos_y = Main.corner_py + 40f;
-			float pos_x = Main.corner_px + 10f; 
-			Softkey_Script.calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
-			DisplayProgram(pos_y, pos_x);
-//			Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
-//			AutoDisplyProgram(Main.corner_py + 47f);
-			if(Main.MDIpos_flag)
+//			GUI.Label(new Rect((Main.corner_px + 7f)/1000f*Main.width, (Main.corner_py + 55f)/1000f*Main.height, 345f, 25f/1000f*Main.height+0.8f), "", Main.TestGUIStyle);
+			if(Main.MDI_RunningFlag)  //MDI运行界面
 			{
-				Main.MDIpos_flag = false;
-				MDIEdit_Script.EditProgRight();	
+				float pos_y = Main.corner_py + 40f;
+				float pos_x = Main.corner_px + 10f; 
+				Main.MDIDisplayFindRows(Main.MDISelectedRow);
+				MDIDisplyProgram(pos_x, pos_y);
+			}
+			else  //MDI编辑界面
+			{
+				float pos_y = Main.corner_py + 40f;
+				float pos_x = Main.corner_px + 10f; 
+	//			Softkey_Script.calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
+				DisplayProgram(pos_x, pos_y);
+	//			Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
+	//			AutoDisplyProgram(Main.corner_py + 47f);
+				if(Main.MDIpos_flag)
+				{
+					Softkey_Script.calcSepo(Main.CodeForAll, SystemArguments.EditLength1);
+					Main.MDIpos_flag = false;
+					MDIEdit_Script.EditProgRight();	
+				}
 			}
 		}
 		if(Main.ProgMDIFlip==1)
@@ -600,8 +620,9 @@ public class ProgramModule : MonoBehaviour {
 			GUI.Label(new Rect((Main.corner_px + 134f)/1000f*Main.width,(Main.corner_py + 348f)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),"MDI", Main.sty_BottomChooseMenu);
 			if(Main.CodeForAUTO.Count > 0)
 			{
-				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
-				AutoDisplyProgram(Main.corner_py + 47f, Main.corner_px + 7f);
+				Main.autoDisplayNormal = true;
+//				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
+				AutoDisplyProgram(Main.corner_px + 7f, Main.corner_py + 47f);
 			}
 		}
 		if(Main.ProgMDIFlip==2)
@@ -623,8 +644,9 @@ public class ProgramModule : MonoBehaviour {
 			ProgramInterface();
 			if(Main.CodeForAUTO.Count > 0)
 			{
-				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
-				AutoDisplyProgram(Main.corner_py + 47f, Main.corner_px + 7f);
+				Main.autoDisplayNormal = true;
+//				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
+				AutoDisplyProgram(Main.corner_px + 7f, Main.corner_py + 47f);
 			}
 		}
 		if(Main.ProgDNCFlip==1)
@@ -644,8 +666,9 @@ public class ProgramModule : MonoBehaviour {
 			ProgramInterface();
 			if(Main.CodeForAUTO.Count > 0)
 			{
-				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
-				AutoDisplyProgram(Main.corner_py + 47f, Main.corner_px + 7f);
+				Main.autoDisplayNormal = true;
+//				Main.AutoDisplayFindRows(Main.autoSelecedProgRow,true);
+				AutoDisplyProgram(Main.corner_px + 7f, Main.corner_py + 47f);
 			}
 		}
 		if(Main.ProgHANFlip==1)
@@ -784,7 +807,7 @@ public class ProgramModule : MonoBehaviour {
 		for(int j=0;j<G_address.Count;j++)
 			GUI.Label(new Rect((Main.corner_px + 75f)/1000f*Main.width,(Main.corner_py + 52f+25f*j)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),G_address[j], Main.sty_SmallXYZ);
 		for(int m=0;m<G_instructValue.Count;m++)
-			GUI.Label(new Rect((Main.corner_px + 117f)/1000f*Main.width,(Main.corner_py + 52f +25f*m)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringGet(G_instructValue[m]), Main.sty_SmallNum);
+			GUI.Label(new Rect((Main.corner_px + 107f)/1000f*Main.width,(Main.corner_py + 52f +25f*m)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(G_instructValue[m]), Main.sty_SmallNum);
 	}
 	
 	public void G_codeDisplayNext()
@@ -794,7 +817,7 @@ public class ProgramModule : MonoBehaviour {
 		for(int j=0;j<G_address2.Count;j++)
 			GUI.Label(new Rect((Main.corner_px + 326f)/1000f*Main.width,(Main.corner_py + 52f +25f*j)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height),G_address2[j], Main.sty_SmallXYZ);
 		for(int m=0;m<G_instructValue2.Count;m++)
-			GUI.Label(new Rect((Main.corner_px + 368f)/1000f*Main.width,(Main.corner_py + 52f +25f*m)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringGet(G_instructValue2[m]), Main.sty_SmallNum);
+			GUI.Label(new Rect((Main.corner_px + 358f)/1000f*Main.width,(Main.corner_py + 52f +25f*m)/1000f*Main.height,500f/1000f*Main.width,300f/1000f*Main.height), Main.CooStringFormat(G_instructValue2[m]), Main.sty_SmallNum);
 	}
 	
 	public void CurrentCodeDisplay(List<string> g_code, List<string> g_address, List<float> address_value, List<string> g_code2, List<string> g_address2, List<float> address_value2)
@@ -1082,7 +1105,7 @@ public class ProgramModule : MonoBehaviour {
 	
 	//Todo: 将代码编辑显示相关的程序都整理出来，尽量脱离全局变量，变成一个独立的
     //输入为（显示代码块左上角的X和Y值，显示几行，单行长度）
-	void DisplayProgram(float pos_y, float position_x)
+	void DisplayProgram(float position_x, float pos_y)
     { 
 		//程序最后如果不是;则自动补;
 		if(Main.CodeForAll.Count != 0 && Main.CodeForAll[Main.CodeForAll.Count-1] != ";")
@@ -1113,7 +1136,7 @@ public class ProgramModule : MonoBehaviour {
 					//如果下一个单词也在选中范围内，且最后不为";"，则将中间的空格也置为黄色
 					if((index_str + 1) >= select_begin && (index_str + 1) <= select_end && Main.CodeForAll[index_str] != ";") 
 					{
-						GUI.Label(new Rect(pos_x/1000f*Main.width - 15f/1000f*Main.width, pos_y/1000f*Main.height, 16f/1000f*Main.width, 25f/1000f*Main.height +1f/Main.height*1000f), "", Main.sty_EDITCursor);
+						GUI.Label(new Rect(pos_x/1000f*Main.width - 16f/1000f*Main.width, pos_y/1000f*Main.height, 16f/1000f*Main.width, 25f/1000f*Main.height +1f/Main.height*1000f), "", Main.sty_EDITCursor);
 					}
 				}
 				else if(irow != Main.EndRow)
@@ -1127,7 +1150,7 @@ public class ProgramModule : MonoBehaviour {
     }
 	
 	//Todo: 将自动运行代码显示相关的程序都整理出来，尽量脱离全局变量，变成一个独立的小模块
-	public void AutoDisplyProgram(float pos_y, float position_x)
+	public void AutoDisplyProgram(float position_x, float pos_y)
 	{
 		int selectedBeginRow = Main.AutoBeginRow;
 		int selectedEndRow = Main.AutoStopRow;
@@ -1138,7 +1161,6 @@ public class ProgramModule : MonoBehaviour {
 			Main.CodeForAUTO.Add(";");
 
 		float pos_x = position_x;
-		float row_length = 360f, cur_length = 0;	
 		int index_str = 0;
 		index_str = Main.SeparateAutoStart[Main.AUTOStartRow] ;
 		Vector2 word_size = new Vector2(0,0);
@@ -1162,6 +1184,45 @@ public class ProgramModule : MonoBehaviour {
 				if(irow != Main.AUTOEndRow)
 				{
 					GUI.Label(new Rect(pos_x/1000f*Main.width, pos_y/1000f*Main.height, word_size.x+1, 25f/1000f*Main.height), Main.CodeForAUTO[index_str], Main.sty_Code);	
+					pos_x += (word_size.x + 13f)/Main.width*1000f;	  //13代表代码字符与字符之间的距离	    
+				}
+			}//列结束
+			pos_y += 24.5f;
+		}//行结束
+	}
+	
+	//Todo: 将自动运行代码显示相关的程序都整理出来，尽量脱离全局变量，变成一个独立的小模块
+	public void MDIDisplyProgram(float position_x, float pos_y)
+	{
+		int selectedBeginRow = Main.MDIBeginRow;
+		int selectedEndRow = Main.MDIStopRow;
+		//程序最后如果不是;则自动补;
+		if(Main.CodeForMDIRuning.Count == 0)
+			Main.CodeForMDIRuning.Add(";");
+		else if(Main.CodeForMDIRuning[Main.CodeForMDIRuning.Count-1] != ";")
+			Main.CodeForMDIRuning.Add(";");
+
+		float pos_x = position_x;
+		int index_str = 0;
+		index_str = Main.SeparateMDIStart[Main.MDIStartRowC] ;
+		Vector2 word_size = new Vector2(0,0);
+		int irow = 0;
+	    for(irow = Main.MDIStartRowC; index_str < Main.CodeForMDIRuning.Count && irow <= Main.MDIEndRowC; ++irow) 
+		{//行开始
+			if(irow >= Main.mdi_total_row)
+				break;
+			pos_x = position_x;
+			if(irow >= selectedBeginRow && irow <= selectedEndRow)
+			{
+				GUI.Label(new Rect((Main.corner_px + 7f)/1000f*Main.width, (pos_y)/1000f*Main.height,460f/1000f*Main.width,25f/1000f*Main.height), "", Main.sty_EDITCursor);
+			}
+			for(index_str = Main.SeparateMDIStart[irow]; index_str < Main.CodeForMDIRuning.Count && index_str < Main.SeparateMDIEnd[irow]; index_str++)
+			{//列结束
+				string each_word = Main.CodeForMDIRuning[index_str];   
+			    word_size = Main.sty_EDITTextField.CalcSize(new GUIContent(each_word));
+				if(irow != Main.MDIEndRowC)
+				{
+					GUI.Label(new Rect(pos_x/1000f*Main.width, pos_y/1000f*Main.height, word_size.x+1, 25f/1000f*Main.height), Main.CodeForMDIRuning[index_str], Main.sty_Code);	
 					pos_x += (word_size.x + 13f)/Main.width*1000f;	  //13代表代码字符与字符之间的距离	    
 				}
 			}//列结束

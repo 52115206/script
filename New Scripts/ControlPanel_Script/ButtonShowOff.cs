@@ -8,6 +8,8 @@ public class ButtonShowOff : MonoBehaviour {
 	MDIEditModule MDIEdit_Script;
 	AuxiliaryFunctionModule AuxiliaryFunction_Script;
 	MachineFunctionModule MachineFunction_Script;
+	
+	
 	// Use this for initialization
 	void Start () {
 		Main = gameObject.GetComponent<ControlPanel>();
@@ -17,6 +19,8 @@ public class ButtonShowOff : MonoBehaviour {
 		AuxiliaryFunction_Script = gameObject.GetComponent<AuxiliaryFunctionModule>();
 		MachineFunction_Script = gameObject.GetComponent<MachineFunctionModule>();
 	}
+	
+	
 	
 	public void ButtonEnlarge()
 	{
@@ -405,5 +409,159 @@ public class ButtonShowOff : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+	
+	public void KnobEnlarge()
+	{
+		Event ev = Event.current;
+		
+		//模式选择旋钮区域
+		Rect Rect_EDIT = new Rect(180,557,30,15);
+		Rect Rect_DNC = new Rect(180,535,30,15);
+		Rect Rect_AUTO = new Rect (185,511,30,15);
+		Rect Rect_MDI = new Rect (200,494,30,15);
+		Rect Rect_MPG = new Rect (237,490,30,15);
+		Rect Rect_JOG = new Rect (270,505,30,15);
+		Rect Rect_ZERO = new Rect (275,521,30,15);
+		
+		//进给速率旋钮区域
+		Rect Rect_FD0 = new Rect(355,557,16,10);
+		Rect Rect_FD10 = new Rect(352,547,16,10);
+		Rect Rect_FD20 = new Rect (353,537,16,10);
+		Rect Rect_FD30 = new Rect (354,522,16,10);
+		Rect Rect_FD40 = new Rect (357,510,16,10);
+		Rect Rect_FD50 = new Rect (365,498,16,10);
+		Rect Rect_FD60 = new Rect (378,492,16,10);
+		Rect Rect_FD70 = new Rect (393,485,12,16);
+		Rect Rect_FD80 = new Rect (407,485,12,16);
+		Rect Rect_FD90 = new Rect (420,490,10,16);
+		Rect Rect_FD100 = new Rect (432,496,18,10);
+		Rect Rect_FD110 = new Rect (440,510,18,10);
+		Rect Rect_FD120 = new Rect (445,523,18,10);
+		Rect Rect_FD130 = new Rect (447,535,18,10);
+		Rect Rect_FD140 = new Rect (444,547,18,10);
+		Rect Rect_FD150 = new Rect (440,560,22,10);
+		
+		
+		//模式选择旋钮放大
+		if (Rect_EDIT.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_EDIT;
+			GUI.Label(new Rect(152,554,55,22),"",Main.sty_enlargeknob);
+		}
+		if (Rect_DNC.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_DNC;
+			GUI.Label(new Rect(151,530,50,22),"",Main.sty_enlargeknob);
+		}
+		if (Rect_AUTO.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_AUTO;
+			GUI.Label(new Rect(154.5f,507,55,23),"",Main.sty_enlargeknob);
+		}
+		if (Rect_MDI.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_MDI;
+			GUI.Label(new Rect(179,488,50,23),"",Main.sty_enlargeknob);
+		}
+		if (Rect_MPG.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_MPG;
+			GUI.Label(new Rect(233,482,50f/1.2f,27f/1.2f),"",Main.sty_enlargeknob);
+		}
+		if (Rect_JOG.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_JOG;
+			GUI.Label(new Rect(268,502,61f/1.1f,19f/1.1f),"",Main.sty_enlargeknob);
+		}
+		if (Rect_ZERO.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_ZERO;
+			GUI.Label(new Rect(279,518,57f/1.2f,31/1.2f),"",Main.sty_enlargeknob);
+		}
+		
+		
+		//进给速率旋钮放大
+		if (Rect_FD0.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate0;
+			GUI.Label(new Rect(356,557,12,19),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD10.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate10;
+			GUI.Label(new Rect(349,546,15,17),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD20.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate20;
+			GUI.Label(new Rect(348,531,15,18),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD30.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate30;
+			GUI.Label(new Rect(348,518,16,17),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD40.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate40;
+			GUI.Label(new Rect(355,505,15,17),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD50.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate50;
+			GUI.Label(new Rect(363,493,16,16),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD60.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate60;
+			GUI.Label(new Rect(377,485,15,17),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD70.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate70;
+			GUI.Label(new Rect(392,482,14,17),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD80.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate80;
+			GUI.Label(new Rect(405,482,15,18),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD90.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate90;
+			GUI.Label(new Rect(418,487,15,16),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD100.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate100;
+			GUI.Label(new Rect(433,490,32f/1.2f,24f/1.2f),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD110.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate110;
+			GUI.Label(new Rect(444,506,22,17),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD120.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate120;
+			GUI.Label(new Rect(449,519,22,17),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD130.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate130;
+			GUI.Label(new Rect(449,531,22,17),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD140.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate140;
+			GUI.Label(new Rect(447,544,22,17),"",Main.sty_enlargeknob);
+		}
+		if (Rect_FD150.Contains(ev.mousePosition))
+		{
+			Main.sty_enlargeknob.normal.background = Main.t2d_Feedrate150;
+			GUI.Label(new Rect(444,557,29,17),"",Main.sty_enlargeknob);
+		}
+		
 	}
 }

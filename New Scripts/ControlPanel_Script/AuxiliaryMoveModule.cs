@@ -6,7 +6,7 @@ using System.IO;
 using System.Collections.Generic;
 
 public class AuxiliaryMoveModule : MonoBehaviour {
-	ControlPanel Main;
+//	ControlPanel Main;
 	MoveControl MoveControl_script;
 	
 	float x_axis_value = 0;
@@ -142,7 +142,7 @@ public class AuxiliaryMoveModule : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Main=GameObject.Find("MainScript").GetComponent<ControlPanel>();
+//		Main=GameObject.Find("MainScript").GetComponent<ControlPanel>();
 		MoveControl_script = GameObject.Find("move_control").GetComponent<MoveControl>();
 
 		//X轴防护壳位置初始化

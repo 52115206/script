@@ -89,33 +89,33 @@ public class HandWheelModule : MonoBehaviour {
     	bool  X_HandWheel=false;//手轮进给时X轴选中
 	bool  Y_HandWheel=false;//手轮进给时Y轴选中
 	bool  Z_HandWheel=false;//手轮进给时Z轴选中
-	bool  Axis4_HandWheel=false;//手轮进给时4轴选中
+//	bool  Axis4_HandWheel=false;//手轮进给时4轴选中
 	float Scale_Offset_HandWheel=0.001f;//手轮进给的单位距离
 	bool handWheelActive=false;//
 	Vector3 lastMousePos=new Vector3(0,0,0);
 	float currRotateAngle=0;//当前手轮旋转的角度；
 	float rotatedAngle=0;
-	float sumAngle=0;
-	 bool initializeLastPos=false;
+//	float sumAngle=0;
+	bool initializeLastPos=false;
 	
 	
 	// Rect handWheelRect=new Rect(320,310,125,125);//整个手轮贴图的位置		
-    	Rect handWheelAreaRect;//手轮激活贴图的位置
-	int size=100;//手轮受力范围
-    	Vector2 handWheelPoint=new Vector2(410,250);//手轮受力点
+    Rect handWheelAreaRect;//手轮激活贴图的位置
+//	int size=100;//手轮受力范围
+    Vector2 handWheelPoint=new Vector2(410,250);//手轮受力点
 	float handWheelRadius=0;
-	float minDistance=0;
-	float maxDistance=0;
+//	float minDistance=0;
+//	float maxDistance=0;
 	//public float angle=0f;//累计旋转的角度
-    	float deltaAngle=3.6f;//+1格或-1格的临界角度
-	float rotateMinAngle=2f;//旋转手轮贴图的最小角度
+    float deltaAngle=3.6f;//+1格或-1格的临界角度
+//	float rotateMinAngle=2f;//旋转手轮贴图的最小角度
 	int handWheelDirection=0;//手轮旋转方向
 	public Texture2D hand;//手轮贴图
 	public Texture2D plane;//刻度盘贴图
 	
 	public Texture2D activeArea;
-    	bool initializeAngleOffset=false;
-    	float angleOffset=0;
+    bool initializeAngleOffset=false;
+    float angleOffset=0;
 	MoveControl MoveControl_script;
 	ControlPanel Main;
 	public bool isShow;
@@ -204,7 +204,7 @@ public class HandWheelModule : MonoBehaviour {
 	
 	void LoadScriptOfAudio()
 	{
-		gameObject.AddComponent("AudioSource");
+		gameObject.AddComponent<AudioSource>();
 		gameObject.audio.playOnAwake = false;
 		gameObject.audio.clip = (AudioClip)Resources.Load("Audio/move");
 		gameObject.audio.minDistance = 30f;
@@ -218,8 +218,8 @@ public class HandWheelModule : MonoBehaviour {
 		handWheelRadius=(handWheelPoint.x-handWheelOrigin.x)*(handWheelPoint.x-handWheelOrigin.x)+(handWheelPoint.y-handWheelOrigin.y)*(handWheelPoint.y-handWheelOrigin.y);
 		handWheelRadius=Mathf.Pow (handWheelRadius,0.5f);
 		//Debug.Log(handWheelRadius);
-		minDistance=Mathf.Pow( handWheelRadius,0.5f)-15;
-		maxDistance=Mathf.Pow( handWheelRadius,0.5f)+15;
+//		minDistance=Mathf.Pow( handWheelRadius,0.5f)-15;
+//		maxDistance=Mathf.Pow( handWheelRadius,0.5f)+15;
 		MoveControl_script = GameObject.Find("move_control").GetComponent<MoveControl>();
 		
 		//MoveControl_script = Main.MoveControl_script;
@@ -379,7 +379,7 @@ public class HandWheelModule : MonoBehaviour {
 				X_HandWheel=false;
 		        Y_HandWheel=false;
 		        Z_HandWheel=false;
-		        Axis4_HandWheel=false;
+//		        Axis4_HandWheel=false;
 				//Debug.Log("????");
 				
 				//添加 BY:WH
@@ -392,7 +392,7 @@ public class HandWheelModule : MonoBehaviour {
 				X_HandWheel=true;
 		        Y_HandWheel=false;
 		        Z_HandWheel=false;
-		        Axis4_HandWheel=false;
+//		        Axis4_HandWheel=false;
 				MoveControl_script.x_n=true;
 				//添加 BY:WH
 				left_num=left_1;
@@ -404,7 +404,7 @@ public class HandWheelModule : MonoBehaviour {
 				X_HandWheel=false;
 		        Y_HandWheel=true;
 		        Z_HandWheel=false;
-		        Axis4_HandWheel=false;
+//		        Axis4_HandWheel=false;
 				//添加 BY:WH
 				left_num=mid;
 			
@@ -423,7 +423,7 @@ public class HandWheelModule : MonoBehaviour {
 				X_HandWheel=false;
 		        Y_HandWheel=false;
 		        Z_HandWheel=true;
-		        Axis4_HandWheel=false;
+//		        Axis4_HandWheel=false;
 				//添加 BY:WH
 				left_num=right_1;
 			}
@@ -434,7 +434,7 @@ public class HandWheelModule : MonoBehaviour {
 				X_HandWheel=false;
 		        Y_HandWheel=false;
 		        Z_HandWheel=false;
-		        Axis4_HandWheel=true;
+//		        Axis4_HandWheel=true;
 				//添加 BY:WH
 				left_num=right_2;
 			}
